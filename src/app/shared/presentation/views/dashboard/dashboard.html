@@ -1,1 +1,99 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+
+  <div class="risk-banner" [class]="'bg-' + riskLevel">
+    <div class="banner-content">
+      <span class="icon">@if(riskLevel==='warning'){⚠️}</span>
+      <div>
+        <h3>Precaución Moderada</h3>
+        <p>Se han reportado incidentes aislados en un radio de 2km.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-value text-blue">342</span>
+      <span class="stat-label">CIUDADANOS ACTIVOS<br>EN TU RADIO</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value text-green">28</span>
+      <span class="stat-label">ALERTAS RESUELTAS<br>ESTA SEMANA</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value text-purple">4</span>
+      <span class="stat-label">COMUNIDADES<br>CONECTADAS</span>
+    </div>
+  </div>
+
+  <div class="main-grid">
+
+    <div class="left-panel">
+      <div class="card map-card">
+        <div class="card-header">
+          <h4>Mapa de Calor Local</h4>
+          <span class="badge">Últimas 24h</span>
+        </div>
+        <div class="map-view">
+          <div class="user-dot"><div class="pulse"></div></div>
+        </div>
+      </div>
+
+      <div class="action-stack">
+        <div class="action-row">
+          <button class="btn-secondary" routerLink="/reportes">📝 Generar Reporte</button>
+          <button class="btn-secondary" routerLink="/comunidades">👥 Mis Comunidades</button>
+        </div>
+
+        <button class="btn-main btn-route" routerLink="/mapa-riesgo">
+          🗺️ TRAZAR RUTA SEGURA
+        </button>
+
+        <button class="btn-main btn-panic-dash" routerLink="/boton-panico">
+          🚨 IR AL BOTÓN DE PÁNICO
+        </button>
+      </div>
+    </div>
+
+    <div class="right-panel">
+
+      <div class="card feed-card">
+        <div class="card-header">
+          <h4>Reportes Recientes</h4>
+          <a class="link" routerLink="/reportes">Ver todos</a>
+        </div>
+        <div class="list-content">
+          @for (report of recentReports; track report.id) {
+            <div class="report-item">
+              <div class="indicator" [class]="'sev-' + report.severity"></div>
+              <div class="item-info">
+                <h5>{{ report.type }}</h5>
+                <p>{{ report.location }}</p>
+              </div>
+              <span class="time">{{ report.time }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="contacts-section">
+        <h4 class="section-title">CONTACTOS</h4>
+        <div class="contacts-list">
+          @for (contact of connectedContacts; track contact.id) {
+            <div class="contact-card" [class]="'risk-' + contact.risk">
+              <div class="avatar">{{ contact.avatar }}</div>
+              <div class="contact-info">
+                <h5>{{ contact.name }}</h5>
+                <p>A {{ contact.distance }} de ti</p>
+              </div>
+              <div class="risk-badge">
+                {{ contact.risk === 'high' ? 'Riesgo Alto' : contact.risk === 'medium' ? 'Riesgo Medio' : 'Bajo' }}
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
