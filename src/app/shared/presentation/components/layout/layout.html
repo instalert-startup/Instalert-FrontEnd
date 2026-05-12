@@ -1,1 +1,51 @@
-<p>layout works!</p>
+<mat-sidenav-container class="sidenav-container">
+
+  <mat-sidenav #drawer class="sidebar" mode="side" [opened]="true" fixedInViewport>
+
+    <div class="logo-container">
+      <div class="logo-box"></div>
+      <div class="logo-text">
+        <h2>InstAlert</h2>
+        <span>Seguridad Ciudadana</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="section-title">PRINCIPAL</div>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
+        <a mat-list-item routerLink="/boton-panico" routerLinkActive="active-link">Botón de Pánico</a>
+        <a mat-list-item routerLink="/mapa-riesgo" routerLinkActive="active-link">Mapa de riesgo</a>
+        <a mat-list-item routerLink="/reportes" routerLinkActive="active-link">Reportes</a>
+        <a mat-list-item routerLink="/comunidades" routerLinkActive="active-link">Comunidades</a>
+        <a mat-list-item routerLink="/perfil" routerLinkActive="active-link">Perfil</a>
+        <a mat-list-item routerLink="/configuracion" routerLinkActive="active-link">Configuración</a>
+      </mat-nav-list>
+    </div>
+
+    <span class="spacer"></span>
+
+    <div class="user-profile">
+      <div class="avatar">MR</div>
+      <div class="user-details">
+        <span class="name">María Rodríguez</span>
+        <span class="role">Ciudadano verificado</span>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+
+    <mat-toolbar class="top-header">
+      <span class="header-title">{{ title }}</span>
+      <span class="spacer"></span>
+      <app-language-switcher></app-language-switcher>
+    </mat-toolbar>
+
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

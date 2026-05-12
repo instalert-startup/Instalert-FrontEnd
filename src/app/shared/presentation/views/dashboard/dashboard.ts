@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-dashboard-view',
+  standalone: true,
   imports: [],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  template: `
+    <div style="color: white;">
+      <h2>Dashboard Principal</h2>
+      <p>Aquí irá el panel de control resumiendo las alertas y estadísticas.</p>
+    </div>
+  `
 })
-export class Dashboard {}
+export class DashboardViewComponent {}
