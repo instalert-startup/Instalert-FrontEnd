@@ -5,3 +5,8 @@ html, body {
   padding: 0;
   background-color: #111418;
 }
+
+.leaflet-container {
+  background: #0a0b12 !important;
+  outline: 0;
+}

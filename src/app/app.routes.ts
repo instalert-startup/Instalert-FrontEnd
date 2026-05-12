@@ -15,7 +15,7 @@ export const routes: Routes = [
   },
   {
     path: 'reportes',
-    loadComponent: () => import('./incidents/presentation/views/report-views/report-views').then(m => m.ReportsViewComponent)
+    loadComponent: () => import('./incidents/presentation/views/report-views/report-views').then(m => m.ReportesComponent)
   },
   {
     path: 'comunidades',

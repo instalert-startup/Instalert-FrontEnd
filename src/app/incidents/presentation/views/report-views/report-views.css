@@ -1,0 +1,389 @@
+/* CONTENEDOR PRINCIPAL */
+.reportes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  color: #cdd0e3;
+}
+
+/* =========================================
+   BARRA DE FILTROS
+   ========================================= */
+.filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  padding: 10px 0 20px 0;
+}
+
+.filters-container {
+  display: flex;
+  gap: 20px;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-box label {
+  font-size: 0.75rem;
+  color: #8b8d9b;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Rediseño de los Selects */
+.custom-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #0a0b12;
+  color: #cdd0e3;
+  border: 1px solid #1e2030;
+  padding: 10px 40px 10px 15px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  min-width: 180px;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%238b8d9b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px top 50%;
+  background-size: 10px auto;
+  transition: border-color 0.3s ease;
+}
+
+.custom-select select:focus {
+  outline: none;
+  border-color: #00ff88;
+}
+
+/* Rediseño del Slider */
+.range-control {
+  background-color: #0a0b12;
+  border: 1px solid #1e2030;
+  border-radius: 6px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: 39px;
+  box-sizing: border-box;
+  min-width: 220px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 4px;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00ff88;
+  cursor: pointer;
+}
+
+.range-value {
+  color: #00ff88;
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.btn-create {
+  background-color: #00ff88;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.btn-create:hover { opacity: 0.8; }
+
+/* =========================================
+   GRILLA Y SECCIONES
+   ========================================= */
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  flex: 1;
+}
+
+.map-section {
+  background-color: #1a1b23;
+  border-radius: 10px;
+  border: 1px solid #2d2e3b;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.map-render {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  background-color: #0a0b12;
+  z-index: 1;
+}
+
+.map-overlay-info {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.location-badge {
+  background-color: rgba(30, 32, 45, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  border: 1px solid #2d2e3b;
+}
+
+.critical-badge {
+  background-color: #ff3333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* =========================================
+   MARCADORES DEL MAPA (LÓGICA RADAR)
+   ========================================= */
+
+/* Forzar visibilidad y capas */
+
+.leaflet-pane, .leaflet-marker-pane, .leaflet-map-pane {
+  z-index: 999 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.leaflet-marker-pane {
+  z-index: 600 !important;
+}
+
+.leaflet-marker-icon {
+  background: transparent !important;
+  border: none !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* --- TU POSICIÓN (Celeste Neón) --- */
+.user-marker-container {
+  display: flex !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.user-dot {
+  width: 14px !important;
+  height: 14px !important;
+  background-color: #00f2ff !important;
+  border: 2px solid #fff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 20px #00f2ff, 0 0 40px rgba(0, 242, 255, 0.6) !important;
+}
+
+.custom-marker {
+  display: flex !important;
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.user-pulse {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: rgba(0, 242, 255, 0.6);
+  border-radius: 50%;
+  animation: radar-pulse 2s infinite;
+}
+
+/* --- INCIDENTES (Puntos Brillantes) --- */
+.custom-marker {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.marker-dot {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  border: 2px solid white !important;
+}
+
+.marker-dot:hover {
+  transform: scale(1.3);
+}
+
+.marker-dot.red { background-color: #ff0000 !important; box-shadow: 0 0 20px #ff0000 !important; }
+.marker-dot.orange { background-color: #ff9100 !important; box-shadow: 0 0 20px #ff9100 !important; }
+.marker-dot.green { background-color: #00ff00 !important; box-shadow: 0 0 20px #00ff00 !important; }
+
+@keyframes radar-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(5); opacity: 0; }
+}
+
+/* =========================================
+   LISTA DE TARJETAS (PANEL DERECHO)
+   ========================================= */
+.list-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-badge {
+  background-color: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.incident-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 650px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Scrollbar personalizado */
+.incident-cards::-webkit-scrollbar { width: 4px; }
+.incident-cards::-webkit-scrollbar-thumb {
+  background: #2d2e3b;
+  border-radius: 10px;
+}
+
+.card {
+  background-color: #1a1b23;
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 4px solid transparent;
+  border: 1px solid #2d2e3b;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.card:hover {
+  background-color: #21222c;
+  transform: translateX(5px);
+}
+
+.border-red { border-left: 4px solid #ff3333; }
+.border-orange { border-left: 4px solid #ffaa00; }
+.border-green { border-left: 4px solid #00ff88; }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.text-red { color: #ff3333; font-weight: 600; }
+.text-orange { color: #ffaa00; font-weight: 600; }
+.text-green { color: #00ff88; font-weight: 600; }
+.time { color: #8b8d9b; }
+
+.card .address {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  color: #ffffff;
+}
+
+.card .desc {
+  font-size: 0.8rem;
+  color: #8b8d9b;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.no-data-msg {
+  text-align: center;
+  color: #8b8d9b;
+  padding: 40px;
+  font-style: italic;
+}
+
+/* POPUPS DE LEAFLET */
+.leaflet-popup-content-wrapper {
+  background: #1a1b23 !important;
+  color: white !important;
+  border: 1px solid #2d2e3b;
+  border-radius: 8px;
+}
+
+.btn-delete {
+  background: rgba(255, 51, 51, 0.1);
+  color: #ff3333;
+  border: 1px solid #ff3333;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.2s;
+}
+
+.btn-delete:hover {
+  background: #ff3333;
+  color: white;
+}
+
+.leaflet-popup-tip { background: #1a1b23 !important; }
+
