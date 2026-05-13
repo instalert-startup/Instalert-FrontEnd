@@ -1,1 +1,112 @@
-<p>community-setup-view works!</p>
+<div class="page">
+  <aside class="sidebar">
+    <div class="logo">🛡️ <span>InstAlert</span></div>
+
+    <nav>
+      <p>PRINCIPAL</p>
+      <a>Dashboard</a>
+      <a>Botón de Pánico</a>
+      <a class="active">Mapa de riesgo</a>
+      <a>Reportes</a>
+      <a>Comunidades</a>
+      <a>Perfil</a>
+
+      <p>SISTEMA</p>
+      <a>Historial</a>
+      <a>Autoridades</a>
+      <a>Configuración</a>
+    </nav>
+
+    <div class="user">MR<br /><small>María Rodríguez</small></div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <h2>Mapa de Zonas de Riesgo</h2>
+      <span>ES | EN</span>
+    </header>
+
+    <section class="toolbar">
+      <input placeholder="Buscar zona, dirección o lugar en Lima..." />
+      <button>Filtros</button>
+      <button>Actualizar</button>
+    </section>
+
+    <section class="body">
+      <div class="map-wrapper">
+        <div id="risk-map"></div>
+
+        <div class="modal" *ngIf="supportSent">
+          <div class="bell">🔔</div>
+          <h2>Solicitud de ayuda enviada</h2>
+          <p>
+            Tu solicitud fue enviada a usuarios cercanos.
+            Te notificaremos cuando alguien pueda ayudarte.
+          </p>
+          <button class="primary">Ver estado de mi solicitud</button>
+          <button class="secondary" (click)="cancelRequest()">Cancelar solicitud</button>
+        </div>
+
+        <div class="legend">
+          <h4>NIVELES DE RIESGO</h4>
+          <p><span class="dot red-dot"></span> Alto — Peligroso</p>
+          <p><span class="dot yellow-dot"></span> Medio — Precaución</p>
+          <p><span class="dot green-dot"></span> Bajo — Seguro</p>
+          <p><span class="dot blue"></span> Ubicación del contacto</p>
+          <p><span class="dot green"></span> Usuario en emergencia</p>
+        </div>
+        <div class="contact-location">
+          📍
+          <strong>Tu ubicación</strong>
+        </div>
+
+        <div class="emergency-user-location">
+          🚨
+          <strong>María Rodríguez</strong>
+        </div>
+      </div>
+
+      <aside class="support-panel">
+        <h3>SOLICITAR APOYO</h3>
+
+        <div class="status-card" *ngIf="supportSent">
+          <h4>✅ Tu solicitud fue enviada</h4>
+          <p>Los usuarios cercanos recibieron tu alerta y serán notificados.</p>
+          <div class="steps">
+            <span class="done">Enviada</span>
+            <span>En camino</span>
+            <span>Completada</span>
+          </div>
+        </div>
+
+        <h3>USUARIOS CERCANOS</h3>
+
+        <div class="nearby-user" *ngFor="let user of nearbyUsers">
+          <div>
+            <strong>{{ user.name }}</strong>
+            <p>{{ user.distance }}</p>
+          </div>
+
+          <span [class.available]="user.available" [class.unavailable]="!user.available">
+            {{ user.available ? 'Disponible' : 'No disponible' }}
+          </span>
+        </div>
+
+        <div class="security-card">
+          🛡️
+          <p>
+            <strong>Tu seguridad es lo primero</strong><br />
+            Comparte tu ubicación solo con usuarios cercanos.
+          </p>
+        </div>
+
+        <button class="request-button" (click)="sendSupportRequest()">
+          🔔 Solicitar ayuda a comunidad cercana
+        </button>
+        <div class="error-alert" *ngIf="errorMessage">
+        ⚠️ {{ errorMessage }}
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>

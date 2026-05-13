@@ -1,0 +1,135 @@
+<div class="page">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">🛡️</div>
+      <div>
+        <strong>InstAlert</strong>
+        <span>Seguridad Ciudadana</span>
+      </div>
+    </div>
+
+    <nav>
+      <p>PRINCIPAL</p>
+      <a>Dashboard</a>
+      <a>Botón de Pánico</a>
+      <a>Mapa de riesgo</a>
+      <a>Reportes</a>
+      <a>Comunidades</a>
+      <a>Contactos</a>
+
+      <p>SISTEMA</p>
+      <a>Historial</a>
+      <a>Autoridades</a>
+      <a class="active">Configuración</a>
+      <a>Perfil</a>
+    </nav>
+
+    <div class="bottom-user">
+      <div class="avatar-small">MR</div>
+      <div>
+        <strong>María Rodríguez</strong>
+        <span>Ciudadano verificado</span>
+      </div>
+    </div>
+
+    <button class="logout">Cerrar sesión</button>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <h2>Configuración de perfil</h2>
+      <span>ES | EN</span>
+    </header>
+
+    <section class="container">
+      <div class="success-alert" *ngIf="showSuccessMessage">
+        <div>
+          <strong>✅ Perfil actualizado correctamente</strong>
+          <p>Los cambios se guardaron exitosamente.</p>
+        </div>
+        <button (click)="closeSuccessMessage()">×</button>
+      </div>
+
+      <section class="card personal-card">
+        <h3>Información personal</h3>
+        <p>Actualiza tus datos personales.</p>
+
+        <div class="personal-grid">
+          <div class="photo-section">
+            <div class="avatar-large">MR</div>
+            <button>Cambiar foto</button>
+            <small>JPG, PNG. Máx 2MB</small>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              Nombres
+              <input [(ngModel)]="firstName" />
+            </label>
+
+            <label>
+              Apellidos
+              <input [(ngModel)]="lastName" />
+            </label>
+
+            <label>
+              Teléfono
+              <input [(ngModel)]="phone" />
+            </label>
+
+            <label>
+              Correo electrónico
+              <input [(ngModel)]="email" />
+            </label>
+
+            <label>
+              Fecha de nacimiento
+              <input [(ngModel)]="birthDate" />
+            </label>
+
+            <label>
+              Género
+              <select [(ngModel)]="gender">
+                <option>Femenino</option>
+                <option>Masculino</option>
+                <option>Otro</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Seguridad</h3>
+        <p>Gestiona tu contraseña.</p>
+
+        <div class="security-row">
+          <div class="password-box">
+            <strong>Contraseña</strong>
+            <span>************</span>
+          </div>
+
+          <button class="outline-button">🔒 Cambiar contraseña</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Preferencias</h3>
+        <p>Personaliza tu experiencia en la aplicación.</p>
+
+        <label class="language-row">
+          <strong>Idioma</strong>
+          <select [(ngModel)]="language">
+            <option>Español</option>
+            <option>English</option>
+          </select>
+        </label>
+      </section>
+
+      <div class="actions">
+        <button class="cancel" (click)="cancel()">Cancelar</button>
+        <button class="save" (click)="saveChanges()">💾 Guardar cambios</button>
+      </div>
+    </section>
+  </main>
+</div>
