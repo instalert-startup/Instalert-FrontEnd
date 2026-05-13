@@ -1,0 +1,391 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  background: #090f1c;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 230px;
+  background: #111827;
+  border-right: 1px solid #263143;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 35px;
+}
+
+nav p {
+  color: #7d8797;
+  font-size: 12px;
+  margin-top: 25px;
+}
+
+nav a {
+  display: block;
+  color: #b8c0cc;
+  padding: 10px;
+  font-size: 14px;
+}
+
+nav a.active {
+  color: #ff4055;
+  border-left: 3px solid #ff4055;
+}
+
+.user {
+  position: absolute;
+  bottom: 25px;
+  font-size: 13px;
+}
+
+.content {
+  flex: 1;
+}
+
+.topbar {
+  height: 58px;
+  padding: 0 24px;
+  border-bottom: 1px solid #263143;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr 180px 180px;
+  gap: 14px;
+  padding: 16px 24px;
+}
+
+.toolbar input,
+.toolbar button {
+  background: #111827;
+  color: white;
+  border: 1px solid #2a364a;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 18px;
+  padding: 0 24px 24px;
+}
+
+.map {
+  position: relative;
+  height: 760px;
+  background: linear-gradient(135deg, #12213a, #0b1324);
+  border: 1px solid #263143;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#22314d 8px, transparent 8px),
+    linear-gradient(90deg, #22314d 8px, transparent 8px);
+  background-size: 260px 220px;
+  opacity: 0.45;
+}
+
+.location {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+  color: #57a0ff;
+  z-index: 2;
+}
+
+.map-wrapper {
+  position: relative;
+  height: 760px;
+  border: 1px solid #263143;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#risk-map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.risk {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.35;
+  border: 1px dashed;
+}
+
+.risk.red {
+  width: 330px;
+  height: 230px;
+  left: 115px;
+  top: 220px;
+  background: #ff4055;
+  border-color: #ff4055;
+}
+
+.risk.yellow {
+  width: 250px;
+  height: 250px;
+  right: 300px;
+  top: 80px;
+  background: #ffbd2e;
+  border-color: #ffbd2e;
+}
+
+.risk.green {
+  width: 240px;
+  height: 240px;
+  right: 250px;
+  bottom: 130px;
+  background: #00c875;
+  border-color: #00c875;
+}
+
+.marker {
+  position: absolute;
+  z-index: 3;
+}
+
+.marker-user {
+  left: 450px;
+  top: 390px;
+  color: #2f8cff;
+  font-size: 28px;
+}
+
+.marker-alert {
+  background: #ff4055;
+  color: white;
+  padding: 7px 10px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.marker-alert.one {
+  left: 210px;
+  top: 300px;
+}
+
+.marker-alert.two {
+  right: 400px;
+  top: 250px;
+}
+
+.modal {
+  position: absolute;
+  z-index: 999;
+  width: 390px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #141b26;
+  border: 1px solid #ff4055;
+  border-radius: 18px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255, 64, 85, 0.25);
+}
+
+.bell {
+  font-size: 42px;
+  margin-bottom: 18px;
+}
+
+.modal p {
+  color: #b8c0cc;
+}
+
+.primary,
+.secondary {
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.primary {
+  background: #ff4055;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.secondary {
+  background: transparent;
+  color: #b8c0cc;
+  border: 1px solid #38465c;
+}
+
+.legend {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  background: #141b26;
+  border: 1px solid #263143;
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 2;
+}
+
+.legend h4 {
+  font-size: 12px;
+  color: #7d8797;
+}
+
+.dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.red-dot { background: #ff4055; }
+.yellow-dot { background: #ffbd2e; }
+.green-dot { background: #00c875; }
+.blue-dot { background: #2f8cff; }
+
+.support-panel {
+  background: #0c121d;
+}
+
+.support-panel h3 {
+  font-size: 13px;
+  color: #7d8797;
+}
+
+.status-card,
+.nearby-user,
+.security-card {
+  background: #141b26;
+  border: 1px solid #263143;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.status-card h4 {
+  color: #00c875;
+}
+
+.status-card p,
+.nearby-user p,
+.security-card p {
+  color: #b8c0cc;
+  font-size: 13px;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #7d8797;
+}
+
+.steps .done {
+  color: #00c875;
+}
+
+.nearby-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.available {
+  background: #153e75;
+  color: #57a0ff;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.unavailable {
+  background: #374151;
+  color: #c0c4cc;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.request-button {
+  width: 100%;
+  padding: 18px;
+  background: #ff4055;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.error-alert {
+  margin-top: 14px;
+  background: rgba(255, 64, 85, 0.12);
+  border: 1px solid #ff4055;
+  color: #ff8a96;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.contact-location {
+  position: absolute;
+  left: 180px;
+  top: 390px;
+  width: 150px;
+  height: 150px;
+  background: rgba(47, 140, 255, 0.18);
+  border: 1px solid #2f8cff;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #2f8cff;
+  font-size: 26px;
+  z-index: 3;
+}
+
+.contact-location strong {
+  font-size: 15px;
+}
+
+.emergency-user-location {
+  position: absolute;
+  left: 420px;
+  top: 260px;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 64, 85, 0.18);
+  border: 1px solid #ff4055;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ff4055;
+  font-size: 26px;
+  z-index: 4;
+}
+
+.emergency-user-location strong {
+  font-size: 15px;
+  color: #ffffff;
+}
+.green {
+  background: #22c55e;
+}

@@ -1,0 +1,19 @@
+<div class="register-page">
+  <div class="brand">
+    <span class="shield">!</span>
+    <h1>InstAlert</h1>
+  </div>
+
+  <section class="register-card">
+    <h2>Registrar Usuario</h2>
+
+    <input [(ngModel)]="name" type="text" placeholder="Nombre" />
+    <input [(ngModel)]="lastName" type="text" placeholder="Apellido" />
+    <input [(ngModel)]="email" type="email" placeholder="Correo" />
+    <input [(ngModel)]="birthDate" type="text" placeholder="Fecha de nacimiento" />
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button (click)="register()">Registrarse</button>
+  </section>
+</div>

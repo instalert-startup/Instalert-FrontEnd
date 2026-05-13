@@ -1,0 +1,19 @@
+<div class="login-page">
+  <div class="brand">
+    <span class="shield">!</span>
+    <h1>InstAlert</h1>
+  </div>
+
+  <section class="login-card">
+    <h2>Iniciar sesión</h2>
+
+    <input [(ngModel)]="email" type="email" placeholder="correo" />
+    <input [(ngModel)]="password" type="password" placeholder="contraseña" />
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button (click)="login()">Iniciar</button>
+
+    <a>Olvidé contraseña</a>
+  </section>
+</div>
