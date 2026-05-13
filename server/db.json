@@ -1,0 +1,63 @@
+{
+  "currentUser": {
+    "id": 1,
+    "name": "María Rodríguez",
+    "role": "Ciudadana verificada",
+    "currentLocation": "Miraflores, Lima",
+    "avatar": "assets/images/avatar-maria.png"
+  },
+  "incidents": [
+    {
+      "id": 101,
+      "type": "Robo a mano armada",
+      "severity": "critical",
+      "timeReported": "Hace 4 min",
+      "address": "Jr. Moquegua 240",
+      "description": "Distancia: A 320m de tu posición",
+      "status": "ACTIVA",
+      "coordinates": {
+        "lat": -12.121,
+        "lng": -77.029
+      }
+    },
+    {
+      "id": 102,
+      "type": "Persona sospechosa",
+      "severity": "warning",
+      "timeReported": "Hace 12 min",
+      "address": "Av. Ejército 140",
+      "description": "Observado merodeando edificios residenciales.",
+      "status": "EN REVISIÓN",
+      "coordinates": {
+        "lat": -12.115,
+        "lng": -77.04
+      }
+    },
+    {
+      "id": 103,
+      "type": "Zona despejada",
+      "severity": "resolved",
+      "timeReported": "Hace 28 min",
+      "address": "Plaza de Armas",
+      "description": "Intervención municipal completada con éxito.",
+      "status": "RESUELTO",
+      "coordinates": {
+        "lat": -12.046,
+        "lng": -77.03
+      }
+    },
+    {
+      "id": 104,
+      "type": "Accidente Vial",
+      "severity": "closed",
+      "timeReported": "Hace 45 min",
+      "address": "Cruce Av. Balta / Salaverry",
+      "description": "Colisión menor entre dos vehículos.",
+      "status": "CERRADO",
+      "coordinates": {
+        "lat": -12.135,
+        "lng": -77.015
+      }
+    }
+  ]
+}

@@ -15,7 +15,11 @@ export const routes: Routes = [
   },
   {
     path: 'reportes',
-    loadComponent: () => import('./incidents/presentation/views/report-views/report-views').then(m => m.ReportsViewComponent)
+    loadComponent: () => import('./incidents/presentation/views/report-views/report-views').then(m => m.ReportesComponent)
+  },
+  {
+    path: 'crear-reporte',
+    loadComponent: () => import('./incidents/presentation/views/create-report/create-report').then(m => m.CrearReporteComponent)
   },
   {
     path: 'comunidades',

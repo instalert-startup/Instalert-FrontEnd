@@ -1,0 +1,88 @@
+<div class="crear-reporte-container">
+
+  <div class="panel form-panel">
+    <h2 class="panel-title"><span class="icon-plus">⊕</span> Crear Nuevo ReporteService de Incidente</h2>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>TIPO DE INCIDENTE</label>
+        <div class="custom-select">
+          <select [(ngModel)]="nuevoReporte.tipo" name="tipo" class="dark-select">
+            <option value="Robo / Asalto">Robo / Asalto</option>
+            <option value="Persona sospechosa">Persona sospechosa</option>
+            <option value="Accidente Vial">Accidente Vial</option>
+            <option value="Emergencia Médica">Emergencia Médica</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>FECHA Y HORA</label>
+        <input type="datetime-local"
+               class="dark-input"
+               [(ngModel)]="nuevoReporte.fecha"
+               name="fecha">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>UBICACIÓN DEL INCIDENTE</label>
+      <div class="map-container-wrapper">
+        <div class="location-badge">
+          <i class="icon-pin"></i> {{ nuevoReporte.ubicacion }}
+        </div>
+
+        <div id="map-form" class="map-render"></div>
+
+        <button class="btn-outline-map" (click)="cambiarUbicacion()">
+          Cambiar Ubicación
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>DESCRIPCIÓN DETALLADA</label>
+      <textarea
+        class="dark-input"
+        rows="4"
+        [(ngModel)]="nuevoReporte.descripcion"
+        placeholder="Describe lo sucedido con el mayor detalle posible para ayudar a las autoridades y la comunidad...">
+      </textarea>
+    </div>
+  </div>
+
+  <div class="side-panel">
+
+    <div class="panel upload-panel">
+      <label class="section-label">EVIDENCIA MULTIMEDIA</label>
+
+      <div class="upload-dropzone" (click)="fileInput.click()">
+        <input type="file" #fileInput (change)="onFileSelected($event)" hidden accept="image/*">
+        <div class="icon-cloud">☁️</div>
+        <p>Haga clic para subir una foto</p>
+        <p class="upload-hint">JPG, PNG hasta 20MB</p>
+      </div>
+
+      @if (previewUrl) {
+        <div class="thumbnails-container">
+          <img [src]="previewUrl" class="thumb-img-preview">
+          <div class="thumb-overlay">✓</div>
+        </div>
+      }
+    </div>
+
+    <button class="btn-publish" (click)="publicarReporte()">
+      ⊳ Publicar ReporteService
+    </button>
+
+    <button class="btn-cancel" routerLink="/reportes">
+      ⊗ Cancelar
+    </button>
+
+    <div class="info-box">
+      <span class="icon-info">ⓘ</span>
+      <p>Tu reporte será compartido anónimamente con los vecinos cercanos en un radio de 500m.</p>
+    </div>
+
+  </div>
+</div>
