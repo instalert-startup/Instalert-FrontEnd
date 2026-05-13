@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
@@ -19,9 +19,9 @@ export class CrearReporteComponent implements OnInit {
     tipo: '',
     ubicacion: '',
     descripcion: '',
-    lat: -12.1222, // Valor inicial (Miraflores)
+    lat: -12.1222,
     lng: -77.0298,
-    fecha: '', // <--- AGREGA ESTA LÍNEA PARA QUITAR EL ERROR
+    fecha: '',
     estado: 'red',
     statusText: 'ACTIVA',
   };

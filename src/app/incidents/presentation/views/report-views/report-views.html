@@ -44,8 +44,9 @@
       </div>
     </div>
 
-    <button class="btn-create" routerLink="/crear-reporte">
-      <span>+</span> {{ 'REPORTES.CREAR_REPORTE'}}
+    <!-- BOTÓN CORREGIDO: Llama a la función de TS y traduce el texto -->
+    <button class="btn-create" (click)="irACrearReporte()">
+      <span>+</span> {{ 'REPORTES.CREAR_REPORTE' | translate }}
     </button>
   </div>
 

@@ -1,14 +1,14 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterLink } from '@angular/router';
+import { Router} from '@angular/router'; // <-- AÑADIMOS Router AQUÍ
 import { ReporteService } from '../../../../shared/services/reporte.service';
 import * as L from 'leaflet';
 
 @Component({
   selector: 'app-reportes',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterLink],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './report-views.html',
   styleUrls: ['./report-views.css'],
 })
@@ -20,6 +20,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   constructor(
     private reporteService: ReporteService,
     private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
   ngOnInit() {}
@@ -54,7 +55,6 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         const listaProcesada: any[] = [];
 
         data.forEach((inc: any) => {
-          // Filtro estricto por ID
           if (!idsVistos.has(inc.id)) {
             idsVistos.add(inc.id);
 
@@ -70,13 +70,11 @@ export class ReportesComponent implements OnInit, AfterViewInit {
               estado: this.mapearEstadoCSS(inc.severity || inc.estado),
               hexColor: this.obtenerHexColor(inc.severity || inc.estado),
               coords: [lat, lng],
-              // Solo se pueden eliminar los que NO sean los 4 originales
               esEliminable: inc.id > 104,
             });
           }
         });
 
-        // REEMPLAZO: Vaciamos y llenamos en un solo paso
         this.incidentes = [...listaProcesada];
 
         this.addMarkers();
@@ -144,7 +142,6 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     this.map.panTo(miPosicion);
   }
 
-  // Agrega este método a tu clase ReportesComponent
   eliminarIncidente(id: any) {
     if (confirm('¿Deseas eliminar este reporte personal?')) {
       this.reporteService.eliminarReporte(id).subscribe({
@@ -160,6 +157,9 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   onRadioChange(event: any) {
     this.radioValue = parseFloat((event.target as HTMLInputElement).value);
   }
+  irACrearReporte() {
+    this.router.navigate(['/crear-reporte']);
+  }
+
+
 }
-
-

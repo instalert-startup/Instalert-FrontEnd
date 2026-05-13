@@ -18,6 +18,10 @@ export const routes: Routes = [
     loadComponent: () => import('./incidents/presentation/views/report-views/report-views').then(m => m.ReportesComponent)
   },
   {
+    path: 'crear-reporte',
+    loadComponent: () => import('./incidents/presentation/views/create-report/create-report').then(m => m.CrearReporteComponent)
+  },
+  {
     path: 'comunidades',
     loadComponent: () => import('./communities/presentation/views/community-setup-view/community-setup-view').then(m => m.CommunitySetupViewComponent)
   },
