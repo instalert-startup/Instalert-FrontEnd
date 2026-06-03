@@ -41,7 +41,10 @@
       "address": "Jr. Moquegua 240",
       "description": "Dos sujetos armados asaltaron a transeúnte.",
       "status": "ACTIVA",
-      "coordinates": { "lat": -12.121, "lng": -77.029 }
+      "coordinates": {
+        "lat": -12.121,
+        "lng": -77.029
+      }
     },
     {
       "id": 102,
@@ -52,7 +55,10 @@
       "address": "Av. Ejército 140",
       "description": "Observado merodeando edificios residenciales.",
       "status": "EN REVISIÓN",
-      "coordinates": { "lat": -12.115, "lng": -77.04 }
+      "coordinates": {
+        "lat": -12.115,
+        "lng": -77.04
+      }
     },
     {
       "id": 103,
@@ -63,7 +69,10 @@
       "address": "Plaza de Armas",
       "description": "Intervención municipal completada con éxito.",
       "status": "RESUELTO",
-      "coordinates": { "lat": -12.046, "lng": -77.03 }
+      "coordinates": {
+        "lat": -12.046,
+        "lng": -77.03
+      }
     },
     {
       "id": 104,
@@ -74,7 +83,10 @@
       "address": "Cruce Av. Balta / Salaverry",
       "description": "Colisión menor entre dos vehículos.",
       "status": "CERRADO",
-      "coordinates": { "lat": -12.135, "lng": -77.015 }
+      "coordinates": {
+        "lat": -12.135,
+        "lng": -77.015
+      }
     },
     {
       "id": 105,
@@ -85,7 +97,10 @@
       "address": "Parque Kennedy, Miraflores",
       "description": "Grafitis en monumentos del parque.",
       "status": "EN REVISIÓN",
-      "coordinates": { "lat": -12.118, "lng": -77.033 }
+      "coordinates": {
+        "lat": -12.118,
+        "lng": -77.033
+      }
     },
     {
       "id": 106,
@@ -96,7 +111,10 @@
       "address": "Av. Larco 740",
       "description": "Vehículo robado mientras el propietario estaba en el supermercado.",
       "status": "ACTIVA",
-      "coordinates": { "lat": -12.122, "lng": -77.031 }
+      "coordinates": {
+        "lat": -12.122,
+        "lng": -77.031
+      }
     },
     {
       "id": 107,
@@ -107,7 +125,10 @@
       "address": "Jr. de la Unión 450",
       "description": "Grupo de personas en altercado físico.",
       "status": "RESUELTO",
-      "coordinates": { "lat": -12.048, "lng": -77.032 }
+      "coordinates": {
+        "lat": -12.048,
+        "lng": -77.032
+      }
     },
     {
       "id": 108,
@@ -118,7 +139,10 @@
       "address": "Av. República de Panamá 3600",
       "description": "Zona sin alumbrado público hace tres días.",
       "status": "EN REVISIÓN",
-      "coordinates": { "lat": -12.107, "lng": -77.017 }
+      "coordinates": {
+        "lat": -12.107,
+        "lng": -77.017
+      }
     }
   ],
   "emergencies": [
@@ -151,6 +175,14 @@
       "status": "Cancelada",
       "statusClass": "badge-canceled",
       "createdAt": "2026-05-18T22:47:00.000Z"
+    },
+    {
+      "id": 1780464785043,
+      "type": "Botón de pánico (Emergencia)",
+      "location": "Av. Francisco Masias 251",
+      "time": "12:33 AM",
+      "status": "Cancelada",
+      "statusClass": "badge-canceled"
     }
   ],
   "risk-zones": [
@@ -159,35 +191,50 @@
       "name": "Centro de Lima",
       "level": "high",
       "incidentCount": 12,
-      "coordinates": { "lat": -12.046, "lng": -77.03 }
+      "coordinates": {
+        "lat": -12.046,
+        "lng": -77.03
+      }
     },
     {
       "id": 2,
       "name": "Miraflores",
       "level": "medium",
       "incidentCount": 5,
-      "coordinates": { "lat": -12.12, "lng": -77.03 }
+      "coordinates": {
+        "lat": -12.12,
+        "lng": -77.03
+      }
     },
     {
       "id": 3,
       "name": "San Isidro",
       "level": "low",
       "incidentCount": 2,
-      "coordinates": { "lat": -12.097, "lng": -77.036 }
+      "coordinates": {
+        "lat": -12.097,
+        "lng": -77.036
+      }
     },
     {
       "id": 4,
       "name": "La Victoria",
       "level": "high",
       "incidentCount": 18,
-      "coordinates": { "lat": -12.065, "lng": -77.017 }
+      "coordinates": {
+        "lat": -12.065,
+        "lng": -77.017
+      }
     },
     {
       "id": 5,
       "name": "Surco",
       "level": "low",
       "incidentCount": 3,
-      "coordinates": { "lat": -12.15, "lng": -77.0 }
+      "coordinates": {
+        "lat": -12.15,
+        "lng": -77
+      }
     }
   ],
   "trusted-contacts": [
