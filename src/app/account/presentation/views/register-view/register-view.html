@@ -12,8 +12,9 @@
     <input [(ngModel)]="email" type="email" placeholder="Correo" />
     <input [(ngModel)]="birthDate" type="text" placeholder="Fecha de nacimiento" />
 
-    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
-
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
     <button (click)="register()">Registrarse</button>
   </section>
 </div>
