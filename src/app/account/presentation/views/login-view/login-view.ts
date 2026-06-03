@@ -24,7 +24,7 @@ export class LoginView {
   constructor() {
     effect(() => {
       if (this.userStore.user()) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/app/dashboard']);
       }
     });
   }

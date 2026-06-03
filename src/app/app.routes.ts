@@ -7,7 +7,7 @@ export const routes: Routes = [
       import('./account/presentation/views/login-view/login-view').then((m) => m.LoginView),
   },
   {
-    path: '',
+    path: 'app',
     loadComponent: () =>
       import('./shared/presentation/components/layout/layout').then((m) => m.Layout),
     children: [
@@ -63,5 +63,6 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' },
 ];
