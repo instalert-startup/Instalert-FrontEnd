@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  serverBaseUrl: 'http://localhost:3000',
+  serverBaseUrl: 'https://instalert-api-zdxk.onrender.com',
   apiBasePath: '/api/v1',
   usersEndpointPath: '/users',
   incidentsEndpointPath: '/incidents',
