@@ -10,7 +10,7 @@
     <input [(ngModel)]="email" type="email" placeholder="correo" />
     <input [(ngModel)]="password" type="password" placeholder="contraseña" />
 
-    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <p class="error" *ngIf="error()">{{ error() }}</p>
 
     <button (click)="login()">Iniciar</button>
 
