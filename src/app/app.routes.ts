@@ -26,6 +26,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'comunidades',
+        loadComponent: () =>
+          import('./communities/presentation/views/community-alerts-view/community-alerts-view').then(
+            (m) => m.CommunityAlertsView,
+          ),
+      },
+      {
         path: 'mapa-riesgo',
         loadComponent: () =>
           import('./incidents/presentation/views/risk-map-view/risk-map-view').then(
