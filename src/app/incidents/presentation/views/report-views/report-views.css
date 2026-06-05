@@ -384,6 +384,91 @@
   background: #ff3333;
   color: white;
 }
+/* =========================================
+   FILTROS DE NIVEL DE RIESGO
+   ========================================= */
+.risk-filter-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #0a0b12;
+  border: 1px solid #1e2030;
+  border-radius: 6px;
+  padding: 4px;
+  height: 39px;
+  box-sizing: border-box;
+}
+
+.risk-filter-buttons button {
+  background: transparent;
+  color: #8b8d9b;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.risk-filter-buttons button:hover {
+  color: #ffffff;
+  background-color: #1a1b23;
+}
+
+.risk-filter-buttons button.active {
+  background-color: #00ff88;
+  color: #000000;
+}
+.dot.blue {
+  background-color: #00f2ff;
+}
 
 .leaflet-popup-tip { background: #1a1b23 !important; }
 
+/* =========================================
+   ESTADÍSTICAS DE RIESGO
+   ========================================= */
+
+.risk-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.risk-stat-card {
+  background-color: #1a1b23;
+  border: 1px solid #2d2e3b;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.risk-stat-card span {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.risk-stat-card small {
+  color: #8b8d9b;
+  font-size: 0.75rem;
+}
+
+.risk-stat-card.high span {
+  color: #ff3333;
+}
+
+.risk-stat-card.medium span {
+  color: #ffaa00;
+}
+
+.risk-stat-card.low span {
+  color: #00ff88;
+}
+
+.risk-stat-card.total span {
+  color: #00f2ff;
+}

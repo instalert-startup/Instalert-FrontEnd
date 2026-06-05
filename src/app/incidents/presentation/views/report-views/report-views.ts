@@ -22,6 +22,22 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   incidentesFiltrados: any[] = [];
   riskZones: any[] = [];
 
+  get highRiskZonesCount(): number {
+    return this.riskZones.filter((zone) => zone.level === 'high').length;
+  }
+
+  get mediumRiskZonesCount(): number {
+    return this.riskZones.filter((zone) => zone.level === 'medium').length;
+  }
+
+  get lowRiskZonesCount(): number {
+    return this.riskZones.filter((zone) => zone.level === 'low').length;
+  }
+
+  get totalRiskZoneIncidents(): number {
+    return this.riskZones.reduce((total, zone) => total + (zone.incidentCount || 0), 0);
+  }
+
   constructor(
     private reporteService: ReporteService,
     private cdr: ChangeDetectorRef,

@@ -93,6 +93,28 @@
         <span class="total-badge">{{ incidentesFiltrados.length }} {{ 'REPORTES.TOTALES' | translate }}</span>
       </div>
 
+      <div class="risk-stats">
+        <div class="risk-stat-card high">
+          <span>{{ highRiskZonesCount }}</span>
+          <small>Zonas alto riesgo</small>
+        </div>
+
+        <div class="risk-stat-card medium">
+          <span>{{ mediumRiskZonesCount }}</span>
+          <small>Zonas riesgo medio</small>
+        </div>
+
+        <div class="risk-stat-card low">
+          <span>{{ lowRiskZonesCount }}</span>
+          <small>Zonas bajo riesgo</small>
+        </div>
+
+        <div class="risk-stat-card total">
+          <span>{{ totalRiskZoneIncidents }}</span>
+          <small>Incidentes en zonas</small>
+        </div>
+      </div>
+
       <div class="incident-cards">
         <div *ngFor="let item of incidentesFiltrados" class="card" [ngClass]="'border-' + item.estado">
           <div class="card-top">
