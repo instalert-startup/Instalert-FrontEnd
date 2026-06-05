@@ -35,13 +35,15 @@ export class CrearReporteComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.nuevoReporte.ubicacion = `Lat: ${this.nuevoReporte.lat.toFixed(4)}, Lng: ${this.nuevoReporte.lng.toFixed(4)}`;
+
     this.initMap();
   }
 
   private initMap() {
     this.map = L.map('map-form').setView([this.nuevoReporte.lat, this.nuevoReporte.lng], 15);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '© OpenStreetMap contributors',
     }).addTo(this.map);
 
@@ -79,15 +81,18 @@ export class CrearReporteComponent implements OnInit {
 
   // 3. Función de publicación corregida (Sin arreglos [], solo objetos {})
   publicarReporte() {
-    // Si el usuario no eligió fecha, le ponemos la de ahora
     if (!this.nuevoReporte.fecha) {
       this.nuevoReporte.fecha = new Date().toISOString();
+    }
+
+    if (!this.nuevoReporte.ubicacion) {
+      this.nuevoReporte.ubicacion = `Lat: ${this.nuevoReporte.lat.toFixed(4)}, Lng: ${this.nuevoReporte.lng.toFixed(4)}`;
     }
 
     const reporteFinal = {
       type: this.nuevoReporte.tipo,
       severity: 'critical',
-      timeReported: 'Ahora', // O puedes usar this.nuevoReporte.fecha
+      timeReported: 'Ahora',
       address: this.nuevoReporte.ubicacion,
       description: this.nuevoReporte.descripcion,
       status: 'ACTIVA',
@@ -95,7 +100,7 @@ export class CrearReporteComponent implements OnInit {
         lat: this.nuevoReporte.lat,
         lng: this.nuevoReporte.lng,
       },
-      fecha: this.nuevoReporte.fecha, // Para mantener compatibilidad con tus datos nuevos
+      fecha: this.nuevoReporte.fecha,
     };
 
     this.reporteService.crearReporte(reporteFinal).subscribe({

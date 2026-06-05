@@ -145,18 +145,18 @@
       }
     },
     {
-      "type": "Robo / Asalto",
+      "type": "Emergencia Médica",
       "severity": "critical",
       "timeReported": "Ahora",
-      "address": "",
-      "description": "Robo a mano armada",
+      "address": "Lat: -11.5554, Lng: -76.8384",
+      "description": "Accidente de transporte",
       "status": "ACTIVA",
       "coordinates": {
-        "lat": -12.1222,
-        "lng": -77.0298
+        "lat": -11.55538032232177,
+        "lng": -76.8384064611783
       },
-      "fecha": "2026-06-01T21:00",
-      "id": 109
+      "fecha": "2026-06-05T12:14:20.825Z",
+      "id": 110
     }
   ],
   "emergencies": [
