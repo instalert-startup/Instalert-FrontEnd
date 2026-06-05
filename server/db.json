@@ -143,6 +143,20 @@
         "lat": -12.107,
         "lng": -77.017
       }
+    },
+    {
+      "type": "Robo / Asalto",
+      "severity": "critical",
+      "timeReported": "Ahora",
+      "address": "",
+      "description": "Robo a mano armada",
+      "status": "ACTIVA",
+      "coordinates": {
+        "lat": -12.1222,
+        "lng": -77.0298
+      },
+      "fecha": "2026-06-01T21:00",
+      "id": 109
     }
   ],
   "emergencies": [

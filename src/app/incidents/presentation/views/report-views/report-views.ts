@@ -63,7 +63,9 @@ export class ReportesComponent implements OnInit, AfterViewInit {
       zoomControl: false,
     });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(this.map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(this.map);
 
     setTimeout(() => {
       this.map.invalidateSize();

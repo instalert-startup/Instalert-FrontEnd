@@ -101,7 +101,7 @@ export class CrearReporteComponent implements OnInit {
     this.reporteService.crearReporte(reporteFinal).subscribe({
       next: () => {
         alert('¡Reporte creado con éxito!');
-        this.router.navigate(['/reportes']);
+        this.router.navigate(['/app/reportes']);
       },
     });
   }
