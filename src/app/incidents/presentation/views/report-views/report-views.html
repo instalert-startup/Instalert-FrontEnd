@@ -1,5 +1,4 @@
 <div class="reportes-container">
-
   <div class="filters-bar">
     <div class="filters-container">
       <div class="filter-box">
@@ -29,6 +28,24 @@
       </div>
 
       <div class="filter-box">
+        <label>Nivel de riesgo</label>
+        <div class="risk-filter-buttons">
+          <button type="button" [class.active]="selectedRiskLevel === 'all'" (click)="cambiarFiltroRiesgo('all')">
+            Todos
+          </button>
+          <button type="button" [class.active]="selectedRiskLevel === 'high'" (click)="cambiarFiltroRiesgo('high')">
+            Alto
+          </button>
+          <button type="button" [class.active]="selectedRiskLevel === 'medium'" (click)="cambiarFiltroRiesgo('medium')">
+            Medio
+          </button>
+          <button type="button" [class.active]="selectedRiskLevel === 'low'" (click)="cambiarFiltroRiesgo('low')">
+            Bajo
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-box">
         <label>{{ 'REPORTES.RADIO_UBICACION' | translate }}</label>
         <div class="range-control">
           <input
@@ -44,7 +61,6 @@
       </div>
     </div>
 
-    <!-- BOTÓN CORREGIDO: Llama a la función de TS y traduce el texto -->
     <button class="btn-create" (click)="irACrearReporte()">
       <span>+</span> {{ 'REPORTES.CREAR_REPORTE' | translate }}
     </button>
@@ -56,35 +72,36 @@
         <div class="location-badge">
           <i class="icon-pin"></i> Miraflores, Lima
         </div>
-        <div class="critical-badge" *ngIf="incidentes.length > 0">
-          ● {{ incidentes.length }} INCIDENTES EN ZONA
+        <div class="critical-badge" *ngIf="incidentesFiltrados.length > 0">
+          ● {{ incidentesFiltrados.length }} INCIDENTES EN ZONA
         </div>
       </div>
 
       <div id="map-radar" class="map-render"></div>
 
       <div class="map-legend">
-        <span><span class="dot red"></span> Crítico</span>
-        <span><span class="dot orange"></span> Advertencia</span>
-        <span><span class="dot green"></span> Resuelto</span>
+        <span><span class="dot red"></span> Alto</span>
+        <span><span class="dot orange"></span> Medio</span>
+        <span><span class="dot green"></span> Bajo</span>
+        <span><span class="dot blue"></span> Tu ubicación</span>
       </div>
     </div>
 
     <div class="list-section">
       <div class="list-header">
         <h3>{{ 'REPORTES.INCIDENTES_ZONA' | translate }}</h3>
-        <span class="total-badge">{{ incidentes.length }} {{ 'REPORTES.TOTALES' | translate }}</span>
+        <span class="total-badge">{{ incidentesFiltrados.length }} {{ 'REPORTES.TOTALES' | translate }}</span>
       </div>
 
       <div class="incident-cards">
-        <div *ngFor="let item of incidentes" class="card" [ngClass]="'border-' + item.estado">
-
+        <div *ngFor="let item of incidentesFiltrados" class="card" [ngClass]="'border-' + item.estado">
           <div class="card-top">
             <span [ngClass]="'text-' + item.estado">{{ item.tipo }}</span>
 
-            <button *ngIf="item.esEliminable"
-                    (click)="eliminarIncidente(item.id)"
-                    class="btn-delete">
+            <button
+              *ngIf="item.esEliminable"
+              (click)="eliminarIncidente(item.id)"
+              class="btn-delete">
               Eliminar
             </button>
 
@@ -92,19 +109,17 @@
           </div>
 
           <p class="address">{{ item.direccion }}</p>
-
           <p class="desc" *ngIf="item.description">{{ item.description }}</p>
 
           <div class="card-bottom">
             <div class="icons" *ngIf="item.estado === 'red'">🔴 🛡️</div>
             <div class="icons" *ngIf="item.verificado">✅ Verificado</div>
-
             <span [ngClass]="'status text-' + item.estado">{{ item.statusText }}</span>
           </div>
         </div>
 
-        <div *ngIf="incidentes.length === 0" class="no-data-msg">
-          Buscando incidentes en el servidor...
+        <div *ngIf="incidentesFiltrados.length === 0" class="no-data-msg">
+          No se encontraron incidentes para este filtro.
         </div>
       </div>
     </div>
