@@ -196,12 +196,12 @@ export class ReportesComponent implements OnInit, AfterViewInit {
 
   private obtenerRadioZonaRiesgo(level: string): number {
     const mapa: any = {
-      high: 450,
-      medium: 320,
-      low: 220,
+      high: 1400,
+      medium: 1000,
+      low: 700,
     };
 
-    return mapa[level] || 300;
+    return mapa[level] || 700;
   }
 
   private addMarkers() {
@@ -219,8 +219,9 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         radius: zone.radio,
         fillColor: zone.hexColor,
         color: zone.hexColor,
-        weight: 1,
-        fillOpacity: 0.22,
+        weight: 2,
+        opacity: 0.6,
+        fillOpacity: 0.10,
       })
         .addTo(this.map)
         .bindPopup(`<b>${zone.name}</b><br>${zone.incidentCount} incidentes`);
