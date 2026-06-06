@@ -79,7 +79,8 @@
       </div>
 
       <div class="incident-cards">
-        <div *ngFor="let item of incidentesFiltrados" class="card" [ngClass]="'border-' + item.estado">
+        <div
+          *ngFor="let item of incidentesFiltrados"class="card"[ngClass]="'border-' + item.estado"(click)="seleccionarIncidente(item)">
           <div class="card-top">
             <span [ngClass]="'text-' + item.estado">{{ item.tipo }}</span>
 

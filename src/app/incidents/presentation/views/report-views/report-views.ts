@@ -258,6 +258,15 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     this.map.panTo(miPosicion);
   }
 
+  seleccionarIncidente(incidente: any) {
+    if (!this.map || !incidente.coords) return;
+
+    this.map.flyTo([incidente.coords[0], incidente.coords[1]], 16, {
+      animate: true,
+      duration: 0.8,
+    });
+  }
+
   eliminarIncidente(id: any) {
     if (confirm('¿Deseas eliminar este reporte personal?')) {
       this.reporteService.eliminarReporte(id).subscribe({
