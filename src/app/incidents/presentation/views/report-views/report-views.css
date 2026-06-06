@@ -34,10 +34,11 @@
 }
 
 .filter-box label {
-  font-size: 0.75rem;
-  color: #8b8d9b;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
 }
 
 /* Rediseño de los Selects */

@@ -23,5 +23,5 @@ import {LanguageSwitcher} from '../language-switcher/language-switcher';
  */
 export class Layout {
 
-  title = 'Botón de pánico';
+  title = '';
 }
