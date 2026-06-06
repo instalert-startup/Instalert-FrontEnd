@@ -58,8 +58,8 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     }
 
     this.map = L.map('map-radar', {
-      center: [-12.1222, -77.0298],
-      zoom: 13,
+      center: [-12.105, -77.035],
+      zoom: 14,
       zoomControl: false,
     });
 

@@ -157,6 +157,20 @@
       },
       "fecha": "2026-06-05T12:14:20.825Z",
       "id": 110
+    },
+    {
+      "type": "Accidente Vial",
+      "severity": "critical",
+      "timeReported": "Ahora",
+      "address": "Lat: -12.1222, Lng: -77.0058",
+      "description": "Accidente de transito. Atropello.",
+      "status": "ACTIVA",
+      "coordinates": {
+        "lat": -12.122243230013998,
+        "lng": -77.00579525628888
+      },
+      "fecha": "2026-06-06T03:27:39.732Z",
+      "id": 111
     }
   ],
   "emergencies": [
