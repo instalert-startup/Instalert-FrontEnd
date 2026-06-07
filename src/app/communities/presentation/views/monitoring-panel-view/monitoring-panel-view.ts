@@ -45,7 +45,7 @@ export class MonitoringPanelView implements OnInit {
   private filterActiveConversation(allMessages: ChatMessage[]) {
     if (!this.selectedContact || !this.currentUser) return;
 
-    // Filtra solo los mensajes compartidos entre el usuario logueado y el contacto seleccionado
+
     this.activeConversation = allMessages.filter(
       (msg) =>
         (msg.senderId === this.currentUser.id && msg.receiverId === this.selectedContact!.id) ||
