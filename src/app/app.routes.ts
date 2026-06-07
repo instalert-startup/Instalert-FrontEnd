@@ -28,8 +28,8 @@ export const routes: Routes = [
       {
         path: 'comunidades',
         loadComponent: () =>
-          import('./communities/presentation/views/community-alerts-view/community-alerts-view').then(
-            (m) => m.CommunityAlertsView,
+          import('./communities/presentation/views/monitoring-panel-view/monitoring-panel-view').then(
+            (m) => m.MonitoringPanelView,
           ),
       },
       {
