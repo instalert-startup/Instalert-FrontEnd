@@ -5,10 +5,12 @@ import { ContactManagementStore } from '../../../application/contact-management.
 import { TrustedContact, ChatMessage } from '../../../domain/trusted-contact.entity';
 import { Observable } from 'rxjs';
 
+import { CommunityAlertsView } from '../community-alerts-view/community-alerts-view';
+
 @Component({
   selector: 'app-monitoring-panel-view',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CommunityAlertsView],
   templateUrl: './monitoring-panel-view.html',
   styleUrls: ['./monitoring-panel-view.css'],
 })
@@ -20,6 +22,7 @@ export class MonitoringPanelView implements OnInit {
   selectedContact: TrustedContact | null = null;
   activeConversation: ChatMessage[] = [];
   newMessageText: string = '';
+  vistaActual: 'chat' | 'alertas' = 'chat';
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('instalert_user') || '{}');
@@ -44,7 +47,6 @@ export class MonitoringPanelView implements OnInit {
 
   private filterActiveConversation(allMessages: ChatMessage[]) {
     if (!this.selectedContact || !this.currentUser) return;
-
 
     this.activeConversation = allMessages.filter(
       (msg) =>

@@ -179,3 +179,32 @@
   color: #414a4f;
   margin-bottom: 10px;
 }
+
+.comunidades-menu {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.comunidades-menu button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #f0f2f5;
+  color: #667781;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.comunidades-menu button:hover {
+  background-color: #e3e3e3;
+}
+
+.comunidades-menu button.activo {
+  background-color: #00a884;
+  color: white;
+}
