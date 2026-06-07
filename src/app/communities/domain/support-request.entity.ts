@@ -1,9 +1,10 @@
 export interface SupportRequest {
   id: number;
   userId: number;
-  type: string;
+  userName: string;
+  type: 'Robo' | 'Sospechoso' | 'Médica' | 'Incendio';
   description: string;
   location: string;
-  status: string;
-  createdAt: string;
+  timestamp: string;
+  status: 'Activa' | 'Atendida';
 }
