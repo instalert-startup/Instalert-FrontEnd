@@ -1,1 +1,62 @@
-<p>monitoring-panel-view works!</p>
+<div class="whatsapp-layout">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="user-profile">
+        <strong>Sesión activa:</strong> <span>{{ currentUser?.name }}</span>
+      </div>
+    </div>
+    <div class="contact-list">
+      @for (user of contacts$ | async; track user.id) {
+        <div class="contact-item"
+             [class.active]="selectedContact?.id === user.id"
+             (click)="selectContact(user)">
+          <div class="avatar">{{ user.name.charAt(0) }}</div>
+          <div class="contact-info">
+            <span class="contact-name">{{ user.name }}</span>
+            <span class="contact-role">{{ user.role }} - {{ user.currentLocation }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="chat-area">
+    @if (selectedContact) {
+      <div class="chat-header">
+        <div class="avatar">{{ selectedContact.name.charAt(0) }}</div>
+        <div class="chat-header-info">
+          <h4>{{ selectedContact.name }}</h4>
+          <small>Línea segura de comunicación</small>
+        </div>
+      </div>
+
+      <div class="chat-history">
+        @for (msg of activeConversation; track msg.id) {
+          <div class="message-wrapper"
+               [class.my-message]="msg.senderId === currentUser.id"
+               [class.their-message]="msg.senderId !== currentUser.id">
+            <div class="message-bubble">
+              <p>{{ msg.content }}</p>
+              <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text"
+               [(ngModel)]="newMessageText"
+               placeholder="Escribe un mensaje..."
+               (keyup.enter)="sendMessage()">
+        <button (click)="sendMessage()">Enviar</button>
+      </div>
+    } @else {
+      <div class="no-chat-selected">
+        <div class="empty-state-content">
+          <h2>InstAlert Communities</h2>
+          <p>Selecciona un miembro de la lista para leer o enviar mensajes en tiempo real.</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
