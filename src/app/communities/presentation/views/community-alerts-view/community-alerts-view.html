@@ -1,6 +1,6 @@
 <div class="alerts-container">
   <div class="create-alert-card">
-    <h3>🚨 Reportar un Incidente</h3>
+    <h3>{{ 'ALERTAS.TITULO' | translate }}</h3>
 
     <div class="form-group">
       <select [(ngModel)]="newAlertType">
@@ -12,20 +12,20 @@
     </div>
 
     <div class="form-group">
-      <input type="text" [(ngModel)]="newAlertLocation" placeholder="¿Dónde está ocurriendo? (Ej. Av. Arequipa cuadra 4)">
+      <input type="text" [(ngModel)]="newAlertLocation" [placeholder]="'ALERTAS.DONDE' | translate">
     </div>
 
     <div class="form-group">
-      <textarea [(ngModel)]="newAlertDescription" placeholder="Describe brevemente la situación..." rows="3"></textarea>
+      <textarea [(ngModel)]="newAlertDescription" [placeholder]="'ALERTAS.DESC' | translate" rows="3"></textarea>
     </div>
 
-    <button class="btn-danger" (click)="publishAlert()">Emitir Alerta a la Comunidad</button>
+    <button class="btn-danger" (click)="publishAlert()">{{ 'ALERTAS.BTN_EMITIR' | translate }}</button>
   </div>
 
   <div class="alerts-feed">
     <div class="feed-header">
-      <h3>Muro de Alertas Comunitarias</h3>
-      <span class="badge">{{ supportStore.activeAlertsCount() }} Activas</span>
+      <h3>{{ 'ALERTAS.TITULO_MURO' | translate }}</h3>
+      <span class="badge">{{ supportStore.activeAlertsCount() }} {{ 'ALERTAS.ACTIVAS' | translate }}</span>
     </div>
 
     @for (alert of supportStore.alerts(); track alert.id) {
@@ -38,16 +38,14 @@
         <p class="alert-desc">{{ alert.description }}</p>
 
         <div class="alert-footer">
-          <small>Reportado por: {{ alert.userName }}</small>
+          <small>{{ 'ALERTAS.REPORTADO_POR' | translate }} {{ alert.userName }}</small>
           @if (alert.status === 'Activa') {
-            <button class="btn-outline" (click)="attendAlert(alert.id)">Marcar como Atendida</button>
+            <button class="btn-outline" (click)="attendAlert(alert.id)">✅ Marcar Atendida</button>
           } @else {
-            <span class="status-badge">✅ Atendida</span>
+            <span class="status-badge">✅ {{ 'ALERTAS.ATENDIDA' | translate }}</span>
           }
         </div>
       </div>
-    } @empty {
-      <div class="empty-state">No hay incidentes reportados en tu zona.</div>
     }
   </div>
 </div>

@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommunitySupportStore } from '../../../application/community-support.store';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-community-alerts-view',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './community-alerts-view.html',
   styleUrls: ['./community-alerts-view.css'],
 })
@@ -14,7 +15,6 @@ export class CommunityAlertsView implements OnInit {
   public supportStore = inject(CommunitySupportStore);
 
   currentUser: any = null;
-
 
   newAlertType: 'Robo' | 'Sospechoso' | 'Médica' | 'Incendio' = 'Sospechoso';
   newAlertLocation: string = '';
@@ -37,7 +37,6 @@ export class CommunityAlertsView implements OnInit {
       location: this.newAlertLocation,
       description: this.newAlertDescription,
     });
-
 
     this.newAlertLocation = '';
     this.newAlertDescription = '';
