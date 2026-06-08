@@ -94,7 +94,6 @@
   flex-direction: column;
 }
 
-
 .message-wrapper {
   display: flex;
   margin-bottom: 8px;
@@ -136,22 +135,18 @@
   margin-top: 4px;
 }
 
-
 .chat-input-area {
-  padding: 10px 15px;
-  background: #f0f2f5;
   display: flex;
-  gap: 12px;
   align-items: center;
+  padding: 15px;
+  background-color: #f0f2f5;
+  border-radius: 0 0 8px 8px;
 }
+
 .chat-input-area input {
   flex: 1;
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  font-size: 0.95em;
 }
+
 .chat-input-area button {
   background: #00a884;
   color: white;
@@ -207,4 +202,27 @@
 .comunidades-menu button.activo {
   background-color: #00a884;
   color: white;
+}
+
+.btn-location {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 10px;
+  margin-right: 5px;
+  transition: transform 0.2s;
+}
+
+.btn-location:hover {
+  transform: scale(1.2);
+}
+
+
+.sender-name {
+  display: block;
+  font-size: 0.75em;
+  font-weight: bold;
+  color: #029e7c;
+  margin-bottom: 3px;
 }

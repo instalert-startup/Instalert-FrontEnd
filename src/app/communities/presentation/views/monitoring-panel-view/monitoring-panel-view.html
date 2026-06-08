@@ -1,9 +1,18 @@
 <div class="comunidades-menu">
   <button (click)="vistaActual = 'chat'" [class.activo]="vistaActual === 'chat'">
-    💬 Chat Seguro
+    {{ 'MENU_COMUNIDADES.CHAT' | translate }}
   </button>
   <button (click)="vistaActual = 'alertas'" [class.activo]="vistaActual === 'alertas'">
-    🚨 Muro de Alertas
+    {{ 'MENU_COMUNIDADES.ALERTAS' | translate }}
+  </button>
+  <button (click)="vistaActual = 'configurar'" [class.activo]="vistaActual === 'configurar'">
+    {{ 'MENU_COMUNIDADES.CREAR' | translate }}
+  </button>
+  <button (click)="vistaActual = 'invitacion'" [class.activo]="vistaActual === 'invitacion'">
+    {{ 'MENU_COMUNIDADES.SIMULAR' | translate }}
+  </button>
+  <button (click)="vistaActual = 'gps'" [class.activo]="vistaActual === 'gps'">
+    {{ 'MENU_COMUNIDADES.GPS' | translate }}
   </button>
 </div>
 
@@ -20,7 +29,9 @@
           <div class="contact-item"
                [class.active]="selectedContact?.id === user.id"
                (click)="selectContact(user)">
-            <div class="avatar">{{ user.name.charAt(0) }}</div>
+            <div class="avatar">
+              {{ user.role === 'Grupo Vecinal' ? '👥' : user.name.charAt(0) }}
+            </div>
             <div class="contact-info">
               <span class="contact-name">{{ user.name }}</span>
               <span class="contact-role">{{ user.role }} - {{ user.currentLocation }}</span>
@@ -33,7 +44,9 @@
     <div class="chat-area">
       @if (selectedContact) {
         <div class="chat-header">
-          <div class="avatar">{{ selectedContact.name.charAt(0) }}</div>
+          <div class="avatar">
+            {{ selectedContact.role === 'Grupo Vecinal' ? '👥' : selectedContact.name.charAt(0) }}
+          </div>
           <div class="chat-header-info">
             <h4>{{ selectedContact.name }}</h4>
             <small>Línea segura de comunicación</small>
@@ -46,6 +59,11 @@
                  [class.my-message]="msg.senderId === currentUser.id"
                  [class.their-message]="msg.senderId !== currentUser.id">
               <div class="message-bubble">
+
+                @if (selectedContact.role === 'Grupo Vecinal' && msg.senderId !== currentUser.id) {
+                  <span class="sender-name">{{ getSenderName(msg.senderId) }}</span>
+                }
+
                 <p>{{ msg.content }}</p>
                 <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
               </div>
@@ -54,6 +72,8 @@
         </div>
 
         <div class="chat-input-area">
+          <button class="btn-location" (click)="compartirUbicacion()" title="Compartir mi ubicación">📍</button>
+
           <input type="text"
                  [(ngModel)]="newMessageText"
                  placeholder="Escribe un mensaje..."
@@ -71,6 +91,15 @@
     </div>
   </div>
 }
-@else {
+@else if (vistaActual === 'alertas') {
   <app-community-alerts-view></app-community-alerts-view>
+}
+@else if (vistaActual === 'configurar') {
+  <app-community-setup-view></app-community-setup-view>
+}
+@else if (vistaActual === 'invitacion') {
+  <app-invitation-response-view></app-invitation-response-view>
+}
+@else if (vistaActual === 'gps') {
+  <app-gps-tracking-view></app-gps-tracking-view>
 }
