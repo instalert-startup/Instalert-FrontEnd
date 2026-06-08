@@ -1,0 +1,53 @@
+{
+  "MENU_COMUNIDADES": {
+    "CHAT": "💬 Secure Chat",
+    "ALERTAS": "🚨 Alert Wall",
+    "CREAR": "⚙️ Create Community",
+    "SIMULAR": "📩 Simulate Invite",
+    "GPS": "📍 GPS Tracking"
+  },
+  "ALERTAS": {
+    "TITULO": "🚨 Report an Incident",
+    "DONDE": "Where is it happening? (e.g. 4th block of Arequipa Ave)",
+    "DESC": "Briefly describe the situation...",
+    "BTN_EMITIR": "Broadcast Alert to Community",
+    "TITULO_MURO": "Community Alert Wall",
+    "ACTIVAS": "Active",
+    "ATENDIDA": "Resolved",
+    "REPORTADO_POR": "Reported by:"
+  },
+  "CREAR_COMUNIDAD": {
+    "TITULO": "🛡️ Create New Safe Community",
+    "SUBTITULO": "Form a trusted group with your neighbors or family to stay alert.",
+    "NOMBRE": "Community Name",
+    "PH_NOMBRE": "e.g. Neighbors 5th Block - San Isidro",
+    "DESC": "Description or Rules (Optional)",
+    "PH_DESC": "e.g. Exclusive group to report emergencies on our street...",
+    "PRIVADA": "Private Community",
+    "DESC_PRIVADA": "Only citizens who receive your invitation link can join.",
+    "BTN_CREAR": "Create Community",
+    "MIS_COMUNIDADES": "My Managed Communities",
+    "BADGE_PRIVADA": "🔒 Private",
+    "BADGE_PUBLICA": "🌐 Public",
+    "CREADA": "Created on:",
+    "BTN_INVITAR": "🔗 Generate Invitation Link"
+  },
+  "INVITACION": {
+    "TITULO": "You've been invited!",
+    "MENSAJE1": "Hello",
+    "MENSAJE2": ", you've been invited to join a neighborhood security network on InstAlert:",
+    "RECHAZAR": "Decline",
+    "ACEPTAR": "Accept Invitation",
+    "EXITO": "✅ Action completed",
+    "EXITO_MSG": "The response has been recorded. You can now return to your main panel."
+  },
+  "GPS": {
+    "TITULO": "📍 'Walk Me Home' Mode",
+    "SUBTITULO": "Share your location in real-time with your trusted network on InstAlert.",
+    "ACTIVAR": "Activate Secure GPS",
+    "INICIADA": "Live broadcast started",
+    "USUARIO": "User:",
+    "ACTUALIZANDO": "Updating via WebSocket...",
+    "DETENER": "Stop and Notify Arrival"
+  }
+}
