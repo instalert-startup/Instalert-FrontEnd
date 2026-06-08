@@ -19,11 +19,17 @@ export class ContactManagementStore {
     this.loadMessagesFromStorage();
   }
 
-  // Carga los usuarios y filtra para excluir al usuario que inició sesión
   loadContacts(currentUserId: number) {
     this.communityApi.getUsers().subscribe((users) => {
+
       const filtered = users.filter((u) => u.id !== currentUserId);
-      this.contactsSubject.next(filtered);
+
+
+      const keyGruposUsuario = `instalert_grupos_${currentUserId}`;
+      const misGrupos = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
+
+
+      this.contactsSubject.next([...filtered, ...misGrupos]);
     });
   }
 
@@ -46,5 +52,33 @@ export class ContactManagementStore {
     this.messagesSubject.next(updatedMessages);
 
     localStorage.setItem('instalert_chat_db', JSON.stringify(updatedMessages));
+  }
+
+  addCommunityChat(community: any) {
+    const currentContacts = this.contactsSubject.value;
+
+
+    if (currentContacts.find((c) => c.id === community.id)) return;
+
+    const newGroupChat = {
+      id: Number(community.id),
+      name: `🛡️ ${community.nombre}`,
+      role: 'Grupo Vecinal',
+      currentLocation: community.privada ? 'Privado' : 'Público',
+    } as TrustedContact;
+
+
+    const updatedContacts = [...currentContacts, newGroupChat];
+    this.contactsSubject.next(updatedContacts);
+
+
+    const currentUser = JSON.parse(localStorage.getItem('instalert_user') || '{}');
+    if (currentUser.id) {
+      const keyGruposUsuario = `instalert_grupos_${currentUser.id}`;
+      const misGruposGuardados = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
+
+      misGruposGuardados.push(newGroupChat);
+      localStorage.setItem(keyGruposUsuario, JSON.stringify(misGruposGuardados));
+    }
   }
 }
