@@ -261,10 +261,20 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   seleccionarIncidente(incidente: any) {
     if (!this.map || !incidente.coords) return;
 
-    this.map.flyTo([incidente.coords[0], incidente.coords[1]], 16, {
+    const lat = incidente.coords[0];
+    const lng = incidente.coords[1];
+
+    this.map.flyTo([lat, lng], 16, {
       animate: true,
       duration: 0.8,
     });
+
+    setTimeout(() => {
+      L.popup()
+        .setLatLng([lat, lng])
+        .setContent(`<b>${incidente.tipo}</b><br>${incidente.statusText}`)
+        .openOn(this.map);
+    }, 900);
   }
 
   eliminarIncidente(id: any) {
