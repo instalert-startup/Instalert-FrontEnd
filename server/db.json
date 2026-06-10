@@ -148,29 +148,29 @@
       "type": "Emergencia Médica",
       "severity": "critical",
       "timeReported": "Ahora",
-      "address": "Lat: -11.5554, Lng: -76.8384",
-      "description": "Accidente de transporte",
+      "address": "Ciclovia Comandante Espinar, Miraflores",
+      "description": "URGENCY",
       "status": "ACTIVA",
       "coordinates": {
-        "lat": -11.55538032232177,
-        "lng": -76.8384064611783
+        "lat": -12.118173233326445,
+        "lng": -77.03699003980736
       },
-      "fecha": "2026-06-05T12:14:20.825Z",
-      "id": 110
+      "fecha": "2026-06-10T21:01:45.177Z",
+      "id": 112
     },
     {
-      "type": "Accidente Vial",
+      "type": "Robo / Asalto",
       "severity": "critical",
       "timeReported": "Ahora",
-      "address": "Lat: -12.1222, Lng: -77.0058",
-      "description": "Accidente de transito. Atropello.",
+      "address": "Avenida José Pardo 879, Miraflores",
+      "description": "ROBO MANO ARMADA",
       "status": "ACTIVA",
       "coordinates": {
-        "lat": -12.122243230013998,
-        "lng": -77.00579525628888
+        "lat": -12.119054371895526,
+        "lng": -77.0385347608619
       },
-      "fecha": "2026-06-06T03:27:39.732Z",
-      "id": 111
+      "fecha": "2026-06-10T21:02:40.248Z",
+      "id": 113
     }
   ],
   "emergencies": [

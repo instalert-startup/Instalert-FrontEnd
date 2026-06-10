@@ -23,19 +23,19 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   riskZones: any[] = [];
 
   get highRiskZonesCount(): number {
-    return this.riskZones.filter((zone) => zone.level === 'high').length;
+    return this.incidentes.filter((inc) => inc.nivelRiesgo === 'high').length;
   }
 
   get mediumRiskZonesCount(): number {
-    return this.riskZones.filter((zone) => zone.level === 'medium').length;
+    return this.incidentes.filter((inc) => inc.nivelRiesgo === 'medium').length;
   }
 
   get lowRiskZonesCount(): number {
-    return this.riskZones.filter((zone) => zone.level === 'low').length;
+    return this.incidentes.filter((inc) => inc.nivelRiesgo === 'low').length;
   }
 
   get totalRiskZoneIncidents(): number {
-    return this.riskZones.reduce((total, zone) => total + (zone.incidentCount || 0), 0);
+    return this.incidentes.length;
   }
 
   constructor(
@@ -223,7 +223,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         color: zone.hexColor,
         weight: 2,
         opacity: 0.6,
-        fillOpacity: 0.10,
+        fillOpacity: 0.1,
       })
         .addTo(this.map)
         .bindPopup(`<b>${zone.name}</b><br>${zone.incidentCount} incidentes`);

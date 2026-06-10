@@ -44,7 +44,7 @@ export class CrearReporteComponent implements OnInit {
   private initMap() {
     this.map = L.map('map-form').setView([this.nuevoReporte.lat, this.nuevoReporte.lng], 15);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '© OpenStreetMap contributors',
     }).addTo(this.map);
 
@@ -80,15 +80,19 @@ export class CrearReporteComponent implements OnInit {
     }
   }
 
-  // 3. Función de publicación corregida (Sin arreglos [], solo objetos {})
-  publicarReporte() {
+  // 3. Función de publicación corregida
+
+  async publicarReporte() {
     if (!this.nuevoReporte.fecha) {
       this.nuevoReporte.fecha = new Date().toISOString();
     }
 
-    if (!this.nuevoReporte.ubicacion) {
-      this.nuevoReporte.ubicacion = `Lat: ${this.nuevoReporte.lat.toFixed(4)}, Lng: ${this.nuevoReporte.lng.toFixed(4)}`;
-    }
+    const direccion = await this.obtenerDireccionDesdeCoordenadas(
+      this.nuevoReporte.lat,
+      this.nuevoReporte.lng,
+    );
+
+    this.nuevoReporte.ubicacion = direccion;
 
     const reporteFinal = {
       type: this.nuevoReporte.tipo,
@@ -110,5 +114,34 @@ export class CrearReporteComponent implements OnInit {
         this.router.navigate(['/app/reportes']);
       },
     });
+  }
+
+  private async obtenerDireccionDesdeCoordenadas(lat: number, lng: number): Promise<string> {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
+      );
+
+      const data = await response.json();
+
+      const address = data.address || {};
+
+      const calle = address.road || address.pedestrian || address.footway || '';
+
+      const numero = address.house_number || '';
+
+      const distrito = address.suburb || address.neighbourhood || address.city_district || '';
+
+      const direccionFormateada = [`${calle} ${numero}`.trim(), distrito]
+        .filter(Boolean)
+        .join(', ');
+
+      return (
+        direccionFormateada || data.display_name || `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`
+      );
+    } catch (error) {
+      console.error('Error al obtener dirección:', error);
+      return `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+    }
   }
 }
