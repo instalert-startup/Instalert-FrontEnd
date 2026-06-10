@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { ReporteService } from '../../../../shared/services/reporte.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 import * as L from 'leaflet';
 
 @Component({
   selector: 'app-crear-reporte',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './create-report.html',
   styleUrls: ['./create-report.css'],
 })

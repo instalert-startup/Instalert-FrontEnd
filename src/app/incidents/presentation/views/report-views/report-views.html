@@ -2,19 +2,19 @@
   <div class="filters-bar">
     <div class="filters-container">
       <div class="filter-box">
-        <label>Nivel de riesgo</label>
+        <label>{{ 'REPORTES.NIVEL_RIESGO' | translate }}</label>
         <div class="risk-filter-buttons">
           <button type="button" [class.active]="selectedRiskLevel === 'all'" (click)="cambiarFiltroRiesgo('all')">
-            Todos
+            {{ 'REPORTES.TODOS' | translate }}
           </button>
           <button type="button" [class.active]="selectedRiskLevel === 'high'" (click)="cambiarFiltroRiesgo('high')">
-            Alto
+            {{ 'REPORTES.ALTO' | translate }}
           </button>
           <button type="button" [class.active]="selectedRiskLevel === 'medium'" (click)="cambiarFiltroRiesgo('medium')">
-            Medio
+            {{ 'REPORTES.MEDIO' | translate }}
           </button>
           <button type="button" [class.active]="selectedRiskLevel === 'low'" (click)="cambiarFiltroRiesgo('low')">
-            Bajo
+            {{ 'REPORTES.BAJO' | translate }}
           </button>
         </div>
       </div>
@@ -29,52 +29,52 @@
             <i class="icon-pin"></i> Miraflores, Lima
           </div>
           <div class="critical-badge" *ngIf="incidentesFiltrados.length > 0">
-            ● {{ incidentesFiltrados.length }} INCIDENTES EN ZONA
+            ● {{ incidentesFiltrados.length }} {{ 'REPORTES.INCIDENTES_EN_ZONA' | translate }}
           </div>
         </div>
 
         <div id="map-radar" class="map-render"></div>
 
         <div class="map-legend">
-          <span><span class="dot red"></span> Alto</span>
-          <span><span class="dot orange"></span> Medio</span>
-          <span><span class="dot green"></span> Bajo</span>
-          <span><span class="dot blue"></span> Tu ubicación</span>
+          <span><span class="dot red"></span> {{ 'REPORTES.ALTO' | translate }}</span>
+          <span><span class="dot orange"></span> {{ 'REPORTES.MEDIO' | translate }}</span>
+          <span><span class="dot green"></span> {{ 'REPORTES.BAJO' | translate }}</span>
+          <span><span class="dot blue"></span> {{ 'REPORTES.TU_UBICACION' | translate }}</span>
         </div>
       </div>
 
       <div class="map-actions">
         <button class="btn-create" (click)="irACrearReporte()">
-          <span>+</span> CREAR REPORTE
+          <span>+</span> {{ 'REPORTES.CREAR_REPORTE' | translate }}
         </button>
       </div>
     </div>
 
     <div class="list-section">
       <div class="list-header">
-        <h3>INCIDENTES ZONA</h3>
+        <h3>{{ 'REPORTES.INCIDENTES_ZONA' | translate }}</h3>
         <span class="total-badge">{{ incidentesFiltrados.length }} {{ 'REPORTES.TOTALES' | translate }}</span>
       </div>
 
       <div class="risk-stats">
         <div class="risk-stat-card high">
           <span>{{ highRiskZonesCount }}</span>
-          <small>Zonas alto riesgo</small>
+          <small>{{ 'REPORTES.ZONAS_ALTO_RIESGO' | translate }}</small>
         </div>
 
         <div class="risk-stat-card medium">
           <span>{{ mediumRiskZonesCount }}</span>
-          <small>Zonas riesgo medio</small>
+          <small>{{ 'REPORTES.ZONAS_RIESGO_MEDIO' | translate }}</small>
         </div>
 
         <div class="risk-stat-card low">
           <span>{{ lowRiskZonesCount }}</span>
-          <small>Zonas bajo riesgo</small>
+          <small>{{ 'REPORTES.ZONAS_BAJO_RIESGO' | translate }}</small>
         </div>
 
         <div class="risk-stat-card total">
           <span>{{ totalRiskZoneIncidents }}</span>
-          <small>Incidentes en zonas</small>
+          <small>{{ 'REPORTES.INCIDENTES_EN_ZONAS' | translate }}</small>
         </div>
       </div>
 
@@ -88,7 +88,7 @@
               *ngIf="item.esEliminable"
               (click)="eliminarIncidente(item.id)"
               class="btn-delete">
-              Eliminar
+              {{ 'REPORTES.ELIMINAR' | translate }}
             </button>
 
             <span class="time">{{ item.tiempo }}</span>
@@ -99,13 +99,31 @@
 
           <div class="card-bottom">
             <div class="icons" *ngIf="item.estado === 'red'">🔴 🛡️</div>
-            <div class="icons" *ngIf="item.verificado">✅ Verificado</div>
-            <span [ngClass]="'status text-' + item.estado">{{ item.statusText }}</span>
+            <div class="icons" *ngIf="item.verificado">✅ {{ 'REPORTES.VERIFICADO' | translate }}</div>
+            <span [ngClass]="'status text-' + item.estado">
+              @switch (item.statusText) {
+                @case ('ACTIVA') {
+                  {{ 'REPORTES.ESTADO_ACTIVA' | translate }}
+                }
+                @case ('EN REVISIÓN') {
+                  {{ 'REPORTES.ESTADO_EN_REVISION' | translate }}
+                }
+                @case ('RESUELTO') {
+                  {{ 'REPORTES.ESTADO_RESUELTO' | translate }}
+                }
+                @case ('CERRADO') {
+                  {{ 'REPORTES.ESTADO_CERRADO' | translate }}
+                }
+                @default {
+                  {{ item.statusText }}
+                }
+              }
+            </span>
           </div>
         </div>
 
         <div *ngIf="incidentesFiltrados.length === 0" class="no-data-msg">
-          No se encontraron incidentes para este filtro.
+          {{ 'REPORTES.SIN_RESULTADOS' | translate }}
         </div>
       </div>
     </div>
