@@ -1,19 +1,15 @@
 <div class="gps-container">
-
   <div class="map-panel">
-    <div class="map-badge">Lima, PE</div>
-
+    <div class="map-badge">Moquegua, PE</div>
     <div class="map-grid">
       <div></div><div></div><div></div><div></div>
       <div></div><div></div><div></div><div></div>
       <div></div><div></div><div></div><div></div>
     </div>
-
     <div class="blue-dot-container">
       <div class="blue-dot-pulse"></div>
       <div class="blue-dot"></div>
     </div>
-
     <div class="floating-card">
       <div class="card-header">
         <span class="status-dot"></span>
@@ -21,59 +17,49 @@
       </div>
       <h3 class="card-title">Ubicacion detectada correctamente</h3>
       <div class="card-details">
-        <span>Lat: -17.1936 | Lon: -70.9345</span>
-        <span>Precision: ±8 metros | Altitud: 1410m</span>
+        @if (!isLoading() && latitude() !== undefined) {
+          <span>Lat: {{ latitude() }} | Lon: {{ longitude() }}</span>
+          <span>Precision: ±{{ accuracy() }} metros</span>
+        } @else {
+          <span>Obteniendo coordenadas...</span>
+        }
       </div>
     </div>
   </div>
-
   <div class="details-panel">
     <h4 class="section-subtitle">DETALLES DE GEOLOCALIZACION</h4>
-
     <div class="data-list">
       <div class="data-row">
         <span class="data-label">Latitud</span>
-        <span class="data-value">-17.1936°S</span>
+        <span class="data-value">{{ latitude() !== undefined ? latitude() + '°S' : '--' }}</span>
       </div>
       <div class="data-row">
         <span class="data-label">Longitud</span>
-        <span class="data-value">-70.9345°O</span>
+        <span class="data-value">{{ longitude() !== undefined ? longitude() + '°O' : '--' }}</span>
       </div>
       <div class="data-row">
         <span class="data-label">Precision</span>
-        <span class="data-value">±8 metros</span>
-      </div>
-      <div class="data-row">
-        <span class="data-label">Altitud</span>
-        <span class="data-value">1410 msnm</span>
-      </div>
-      <div class="data-row">
-        <span class="data-label">Velocidad GPS</span>
-        <span class="data-value">Fija (0 km/h)</span>
+        <span class="data-value">{{ accuracy() !== undefined ? '±' + accuracy() + ' metros' : '--' }}</span>
       </div>
     </div>
-
     <div class="precision-indicator">
       <div class="progress-track">
         <div class="progress-fill"></div>
       </div>
-      <span class="precision-text"><span class="text-green">Precision: 95%</span> — Excelente</span>
+      <span class="precision-text"><span class="text-green">Precision: Alta</span> — Excelente</span>
     </div>
-
     <div class="address-box">
       <h4 class="section-subtitle">DIRECCION DETECTADA</h4>
-      <h3 class="address-title">Av. Francisco Masias 251, Lince</h3>
-      <span class="address-subtitle">Lima, Perú</span>
+      <h3 class="address-title">Obteniendo dirección...</h3>
+      <span class="address-subtitle">Moquegua, Perú</span>
     </div>
-
     <div class="actions">
-      <button class="btn-primary" (click)="confirmLocation()">
+      <button class="btn-primary" (click)="confirmLocation()" [disabled]="isLoading() || latitude() === undefined">
         ✓ Usar esta ubicacion para la alerta
       </button>
-      <button class="btn-secondary">
+      <button class="btn-secondary" (click)="refreshLocation()" [disabled]="isLoading()">
         ↻ Actualizar ubicacion
       </button>
     </div>
   </div>
-
 </div>

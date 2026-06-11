@@ -1,9 +1,15 @@
 @if (store.permissionState() === 'granted' && !store.locationConfirmed()) {
-  <app-gps-confirmation (onConfirm)="handleLocationConfirmed()"></app-gps-confirmation>
+  <app-gps-confirmation
+    [latitude]="store.currentLocation()?.latitude"
+    [longitude]="store.currentLocation()?.longitude"
+    [accuracy]="store.currentLocation()?.accuracy"
+    [isLoading]="isFetchingLocation"
+    (onConfirm)="handleLocationConfirmed()"
+    (onRequestLocation)="fetchLocation()">
+  </app-gps-confirmation>
 }
 
 @if (store.permissionState() === 'granted' && store.locationConfirmed()) {
-
   @if (store.dashboardState() === 'idle') {
     <div class="dashboard-layout">
       <div class="left-column">
@@ -14,8 +20,8 @@
         <app-panic-button (alertConfirmed)="handleAlertDispatch()"></app-panic-button>
 
         <div class="location-card">
-          <h3>Lima, Perú</h3>
-          <div class="loc-details">Lat: -17.1936 | Lon: -70.9345 | Precisión: ±8m</div>
+          <h3>Moquegua, Perú</h3>
+          <div class="loc-details">Lat: {{ store.currentLocation()?.latitude }} | Lon: {{ store.currentLocation()?.longitude }} | Precision: ±{{ store.currentLocation()?.accuracy }}m</div>
           <div class="loc-badge">GPS capturado automáticamente</div>
         </div>
 
@@ -40,33 +46,14 @@
 
         <div class="history-section">
           <div class="section-header">VISTA PREVIA — HISTORIAL</div>
-          <table class="history-table">
-            <thead>
-            <tr>
-              <th>Tipo de Incidente</th>
-              <th>Ubicación</th>
-              <th>Hora</th>
-              <th>Estado</th>
-            </tr>
-            </thead>
-            <tbody>
-              @for (item of store.alertHistory(); track item.id) {
-                <tr>
-                  <td>{{ item.type }}</td>
-                  <td>{{ item.location }}</td>
-                  <td>{{ item.time }}</td>
-                  <td><span class="badge" [class]="item.statusClass">{{ item.status }}</span></td>
-                </tr>
-              }
-            </tbody>
-          </table>
+          <app-alert-history-list [alerts]="store.alertHistory()"></app-alert-history-list>
         </div>
       </div>
 
       <div class="right-column">
         <div class="radar-panel">
           <div class="radar-header">
-            <span class="radar-badge dark">Lima, PE</span>
+            <span class="radar-badge dark">Moquegua, PE</span>
             <span class="radar-badge alert">⚠️ 2 alertas cercanas</span>
           </div>
 
@@ -155,26 +142,7 @@
         <div class="right-column">
           <div class="history-section history-full">
             <div class="section-header">VISTA PREVIA — HISTORIAL</div>
-            <table class="history-table">
-              <thead>
-              <tr>
-                <th>Tipo de Incidente</th>
-                <th>Ubicación</th>
-                <th>Hora</th>
-                <th>Estado</th>
-              </tr>
-              </thead>
-              <tbody>
-                @for (item of store.alertHistory(); track item.id) {
-                  <tr>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.location }}</td>
-                    <td>{{ item.time }}</td>
-                    <td><span class="badge" [class]="item.statusClass">{{ item.status }}</span></td>
-                  </tr>
-                }
-              </tbody>
-            </table>
+            <app-alert-history-list [alerts]="store.alertHistory()"></app-alert-history-list>
           </div>
         </div>
       </div>
