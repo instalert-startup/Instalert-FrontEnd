@@ -1,23 +1,23 @@
 <div class="crear-reporte-container">
 
   <div class="panel form-panel">
-    <h2 class="panel-title"><span class="icon-plus">⊕</span> Crear Nuevo ReporteService de Incidente</h2>
+    <h2 class="panel-title"><span class="icon-plus">⊕</span>{{ 'REPORTES.CREAR_NUEVO_REPORTE' | translate }}</h2>
 
     <div class="form-row">
       <div class="form-group">
-        <label>TIPO DE INCIDENTE</label>
+        <label>{{ 'REPORTES.TIPO_INCIDENTE' | translate }}</label>
         <div class="custom-select">
           <select [(ngModel)]="nuevoReporte.tipo" name="tipo" class="dark-select">
-            <option value="Robo / Asalto">Robo / Asalto</option>
-            <option value="Persona sospechosa">Persona sospechosa</option>
-            <option value="Accidente Vial">Accidente Vial</option>
-            <option value="Emergencia Médica">Emergencia Médica</option>
+            <option value="Robo / Asalto">{{ 'REPORTES.TIPO_ROBO_ASALTO' | translate }}</option>
+            <option value="Persona sospechosa">{{ 'REPORTES.TIPO_PERSONA_SOSPECHOSA' | translate }}</option>
+            <option value="Accidente Vial">{{ 'REPORTES.TIPO_ACCIDENTE_VIAL' | translate }}</option>
+            <option value="Emergencia Médica">{{ 'REPORTES.TIPO_EMERGENCIA_MEDICA' | translate }}</option>
           </select>
         </div>
       </div>
 
       <div class="form-group">
-        <label>FECHA Y HORA</label>
+        <label>{{ 'REPORTES.FECHA_HORA' | translate }}</label>
         <input type="datetime-local"
                class="dark-input"
                [(ngModel)]="nuevoReporte.fecha"
@@ -26,7 +26,7 @@
     </div>
 
     <div class="form-group">
-      <label>UBICACIÓN DEL INCIDENTE</label>
+      <label>{{ 'REPORTES.UBICACION_INCIDENTE' | translate }}</label>
       <div class="map-container-wrapper">
         <div class="location-badge">
           <i class="icon-pin"></i> {{ nuevoReporte.ubicacion }}
@@ -35,18 +35,18 @@
         <div id="map-form" class="map-render"></div>
 
         <button class="btn-outline-map" (click)="cambiarUbicacion()">
-          Cambiar Ubicación
+          {{ 'REPORTES.CAMBIAR_UBICACION' | translate }}
         </button>
       </div>
     </div>
 
     <div class="form-group">
-      <label>DESCRIPCIÓN DETALLADA</label>
+      <label>{{ 'REPORTES.DESCRIPCION_DETALLADA' | translate }}</label>
       <textarea
         class="dark-input"
         rows="4"
         [(ngModel)]="nuevoReporte.descripcion"
-        placeholder="Describe lo sucedido con el mayor detalle posible para ayudar a las autoridades y la comunidad...">
+        [placeholder]="'REPORTES.DESCRIPCION_PLACEHOLDER' | translate">
       </textarea>
     </div>
   </div>
@@ -54,13 +54,17 @@
   <div class="side-panel">
 
     <div class="panel upload-panel">
-      <label class="section-label">EVIDENCIA MULTIMEDIA</label>
+      <label class="section-label">
+        {{ 'REPORTES.EVIDENCIA_MULTIMEDIA' | translate }}
+      </label>
 
       <div class="upload-dropzone" (click)="fileInput.click()">
         <input type="file" #fileInput (change)="onFileSelected($event)" hidden accept="image/*">
         <div class="icon-cloud">☁️</div>
-        <p>Haga clic para subir una foto</p>
-        <p class="upload-hint">JPG, PNG hasta 20MB</p>
+        <p>{{ 'REPORTES.SUBIR_FOTO' | translate }}</p>
+        <p class="upload-hint">
+          {{ 'REPORTES.FORMATO_FOTO' | translate }}
+        </p>
       </div>
 
       @if (previewUrl) {
@@ -72,16 +76,18 @@
     </div>
 
     <button class="btn-publish" (click)="publicarReporte()">
-      ⊳ Publicar ReporteService
+      ⊳ {{ 'REPORTES.PUBLICAR_REPORTE' | translate }}
     </button>
 
-    <button class="btn-cancel" routerLink="/reportes">
-      ⊗ Cancelar
+    <button class="btn-cancel" routerLink="/app/reportes">
+      ⊗ {{ 'REPORTES.CANCELAR' | translate }}
     </button>
 
     <div class="info-box">
       <span class="icon-info">ⓘ</span>
-      <p>Tu reporte será compartido anónimamente con los vecinos cercanos en un radio de 500m.</p>
+      <p>
+        {{ 'REPORTES.INFO_REPORTE_ANONIMO' | translate }}
+      </p>
     </div>
 
   </div>

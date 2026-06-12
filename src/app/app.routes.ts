@@ -34,10 +34,8 @@ export const routes: Routes = [
       },
       {
         path: 'mapa-riesgo',
-        loadComponent: () =>
-          import('./incidents/presentation/views/risk-map-view/risk-map-view').then(
-            (m) => m.RiskMapViewComponent,
-          ),
+        redirectTo: 'reportes',
+        pathMatch: 'full',
       },
       {
         path: 'reportes',

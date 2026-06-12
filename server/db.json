@@ -143,6 +143,34 @@
         "lat": -12.107,
         "lng": -77.017
       }
+    },
+    {
+      "type": "Emergencia Médica",
+      "severity": "critical",
+      "timeReported": "Ahora",
+      "address": "Ciclovia Comandante Espinar, Miraflores",
+      "description": "URGENCY",
+      "status": "ACTIVA",
+      "coordinates": {
+        "lat": -12.118173233326445,
+        "lng": -77.03699003980736
+      },
+      "fecha": "2026-06-10T21:01:45.177Z",
+      "id": 112
+    },
+    {
+      "type": "Robo / Asalto",
+      "severity": "critical",
+      "timeReported": "Ahora",
+      "address": "Avenida José Pardo 879, Miraflores",
+      "description": "ROBO MANO ARMADA",
+      "status": "ACTIVA",
+      "coordinates": {
+        "lat": -12.119054371895526,
+        "lng": -77.0385347608619
+      },
+      "fecha": "2026-06-10T21:02:40.248Z",
+      "id": 113
     }
   ],
   "emergencies": [

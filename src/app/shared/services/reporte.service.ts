@@ -6,22 +6,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ReporteService {
-  // Esta es la dirección donde corre tu json-server
-  private apiUrl = 'http://localhost:3001/incidents';
+  private incidentsUrl = 'http://localhost:3000/incidents';
+  private riskZonesUrl = 'http://localhost:3000/risk-zones';
 
   constructor(private http: HttpClient) {}
 
-  // Obtener la lista de incidentes para el mapa y la lista
   getReportes(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.incidentsUrl);
   }
 
-  // Guardar un nuevo incidente desde el formulario
+  getRiskZones(): Observable<any[]> {
+    return this.http.get<any[]>(this.riskZonesUrl);
+  }
+
   crearReporte(reporte: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, reporte);
+    return this.http.post<any>(this.incidentsUrl, reporte);
   }
 
   eliminarReporte(id: string | number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete(`${this.incidentsUrl}/${id}`);
   }
 }
