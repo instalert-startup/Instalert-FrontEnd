@@ -3,6 +3,7 @@
     [latitude]="store.currentLocation()?.latitude"
     [longitude]="store.currentLocation()?.longitude"
     [accuracy]="store.currentLocation()?.accuracy"
+    [address]="store.currentLocation()?.address"
     [isLoading]="isFetchingLocation"
     (onConfirm)="handleLocationConfirmed()"
     (onRequestLocation)="fetchLocation()">
@@ -17,7 +18,10 @@
           Sistema activo — Todo en calma
         </div>
 
-        <app-panic-button (alertConfirmed)="handleAlertDispatch()"></app-panic-button>
+        <app-panic-button
+          [location]="store.currentLocation()"
+          (alertConfirmed)="handleAlertDispatch()">
+        </app-panic-button>
 
         <div class="location-card">
           <h3>Moquegua, Perú</h3>
@@ -54,23 +58,18 @@
         <div class="radar-panel">
           <div class="radar-header">
             <span class="radar-badge dark">Moquegua, PE</span>
-            <span class="radar-badge alert">⚠️ 2 alertas cercanas</span>
+            <span class="radar-badge alert">⚠️ Mapa en tiempo real</span>
           </div>
 
-          <div class="radar-map">
-            <div class="map-grid-bg"></div>
-            <div class="radar-circle"></div>
-            <div class="map-dot user-dot">
-              <div class="pulse"></div>
-            </div>
-            <div class="map-dot alert-dot red" style="top: 35%; left: 30%;">!</div>
-            <div class="map-dot alert-dot yellow" style="top: 25%; left: 65%;">!</div>
+          <div class="radar-map" style="padding: 0; height: 350px; overflow: hidden; border-radius: 0 0 12px 12px;">
+            <app-emergency-map
+              [userLocation]="store.currentLocation()"
+              [alerts]="store.alertHistory()">
+            </app-emergency-map>
           </div>
 
           <div class="radar-footer">
             <span><div class="legend-dot bg-blue"></div> Tú</span>
-            <span><div class="legend-dot bg-red"></div> Alerta crítica</span>
-            <span><div class="legend-dot bg-yellow"></div> Advertencia</span>
           </div>
         </div>
 

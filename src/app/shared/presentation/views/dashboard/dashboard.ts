@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { PanicButtonStore } from '../../../../emergencies/application/panic-button.store';
+import { PanicButtonStore } from '../../../../emergencies/application/state/panic-button.store';
 
 @Component({
   selector: 'app-dashboard-view',

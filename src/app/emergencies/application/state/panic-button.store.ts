@@ -14,8 +14,14 @@ export class PanicButtonStore {
   private geolocationAdapter = inject(BrowserGeolocationAdapter);
   private httpAdapter = inject(EmergencyHttpAdapter);
 
-  readonly permissionState = signal<PermissionState>('pending');
-  readonly locationConfirmed = signal<boolean>(false);
+  private readonly PERM_KEY = 'instalert_location_permission';
+  private readonly LOC_KEY = 'instalert_location_confirmed';
+
+  readonly permissionState = signal<PermissionState>(
+    (localStorage.getItem(this.PERM_KEY) as PermissionState) || 'pending',
+  );
+  readonly locationConfirmed = signal<boolean>(localStorage.getItem(this.LOC_KEY) === 'true');
+
   readonly dashboardState = signal<DashboardState>('idle');
   readonly alertHistory = signal<AlertHistory[]>([]);
   readonly lastCanceledTime = signal<string>('');
@@ -32,7 +38,9 @@ export class PanicButtonStore {
   }
 
   setPermission(granted: boolean) {
-    this.permissionState.set(granted ? 'granted' : 'denied');
+    const state = granted ? 'granted' : 'denied';
+    this.permissionState.set(state);
+    localStorage.setItem(this.PERM_KEY, state);
   }
 
   async requestLocation() {
@@ -47,6 +55,7 @@ export class PanicButtonStore {
   confirmLocation() {
     if (this.currentLocation()) {
       this.locationConfirmed.set(true);
+      localStorage.setItem(this.LOC_KEY, 'true');
     }
   }
 
@@ -55,6 +64,7 @@ export class PanicButtonStore {
     const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const newEmergency: Partial<AlertHistory> = {
+      id: Date.now(),
       userId: 1,
       type: 'Botón de pánico (Emergencia)',
       location: this.currentLocation() ? this.currentLocation()!.format() : 'Ubicación desconocida',
@@ -68,10 +78,12 @@ export class PanicButtonStore {
       const savedEmergency = await firstValueFrom(this.httpAdapter.saveEmergency(newEmergency));
       this.activeAlertId.set(savedEmergency.id);
       this.alertHistory.update((history) => [savedEmergency, ...history]);
-      this.dashboardState.set('active');
     } catch (error) {
-      this.dashboardState.set('active');
+      this.activeAlertId.set(newEmergency.id as number);
+      this.alertHistory.update((history) => [newEmergency as AlertHistory, ...history]);
     }
+
+    this.dashboardState.set('active');
   }
 
   async cancelAlert() {

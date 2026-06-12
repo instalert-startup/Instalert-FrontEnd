@@ -11,6 +11,9 @@ export class GpsConfirmationComponent {
   latitude = input<number | undefined>();
   longitude = input<number | undefined>();
   accuracy = input<number | undefined>();
+
+  address = input<string | undefined>();
+
   isLoading = input<boolean>(false);
 
   onConfirm = output<void>();
