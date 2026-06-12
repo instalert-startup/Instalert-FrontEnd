@@ -90,5 +90,15 @@
     "TIPO_PERSONA_SOSPECHOSA": "Persona sospechosa",
     "TIPO_ACCIDENTE_VIAL": "Accidente Vial",
     "TIPO_EMERGENCIA_MEDICA": "Emergencia Médica"
+  },
+  "SIDEBAR": {
+    "SUBTITLE": "Seguridad Ciudadana",
+    "MAIN": "PRINCIPAL",
+    "PANIC_BUTTON": "Botón de Pánico",
+    "REPORTS": "Reportes",
+    "COMMUNITIES": "Comunidades",
+    "PROFILE": "Perfil",
+    "SETTINGS": "Configuración",
+    "VERIFIED_CITIZEN": "Ciudadano verificado"
   }
 }

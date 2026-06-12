@@ -6,20 +6,20 @@
       <div class="logo-box"></div>
       <div class="logo-text">
         <h2>InstAlert</h2>
-        <span>Seguridad Ciudadana</span>
+        <span>{{ 'SIDEBAR.SUBTITLE' | translate }}</span>
       </div>
     </div>
 
     <div class="nav-section">
-      <div class="section-title">PRINCIPAL</div>
+      <div class="section-title">{{ 'SIDEBAR.MAIN' | translate }}</div>
       <mat-nav-list>
         <a mat-list-item routerLink="/app/dashboard">Dashboard</a>
-        <a mat-list-item routerLink="/app/boton-panico">Botón de Pánico</a>
+        <a mat-list-item routerLink="/app/boton-panico">{{ 'SIDEBAR.PANIC_BUTTON' | translate }}</a>
 
-        <a mat-list-item routerLink="/app/reportes">Reportes</a>
-        <a mat-list-item routerLink="/app/comunidades" routerLinkActive="active-link">Comunidades</a>
-        <a mat-list-item routerLink="/app/perfil">Perfil</a>
-        <a mat-list-item routerLink="/app/configuracion">Configuración</a>
+        <a mat-list-item routerLink="/app/reportes">{{ 'SIDEBAR.REPORTS' | translate }}</a>
+        <a mat-list-item routerLink="/app/comunidades" routerLinkActive="active-link">{{ 'SIDEBAR.COMMUNITIES' | translate }}</a>
+        <a mat-list-item routerLink="/app/perfil">{{ 'SIDEBAR.PROFILE' | translate }}</a>
+        <a mat-list-item routerLink="/app/configuracion">{{ 'SIDEBAR.SETTINGS' | translate }}</a>
 
       </mat-nav-list>
     </div>
@@ -30,7 +30,7 @@
       <div class="avatar">MR</div>
       <div class="user-details">
         <span class="name">María Rodríguez</span>
-        <span class="role">Ciudadano verificado</span>
+        <span class="role">{{ 'SIDEBAR.VERIFIED_CITIZEN' | translate }}</span>
       </div>
     </div>
   </mat-sidenav>
