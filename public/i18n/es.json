@@ -89,7 +89,13 @@
     "TIPO_ROBO_ASALTO": "Robo / Asalto",
     "TIPO_PERSONA_SOSPECHOSA": "Persona sospechosa",
     "TIPO_ACCIDENTE_VIAL": "Accidente Vial",
-    "TIPO_EMERGENCIA_MEDICA": "Emergencia Médica"
+    "TIPO_EMERGENCIA_MEDICA": "Emergencia Médica",
+    "SELECCIONAR_NIVEL_RIESGO": "Selecciona nivel de riesgo",
+    "NIVEL_RIESGO": "Nivel de riesgo",
+    "RIESGO_BAJO": "Bajo",
+    "RIESGO_MEDIO": "Medio",
+    "RIESGO_ALTO": "Alto",
+    "SELECCIONAR_TIPO_INCIDENTE": "Seleccionar tipo de incidente"
   },
   "SIDEBAR": {
     "SUBTITLE": "Seguridad Ciudadana",

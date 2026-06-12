@@ -23,6 +23,7 @@ export class CrearReporteComponent implements OnInit {
     lat: -12.1222,
     lng: -77.0298,
     fecha: '',
+    severity: '',
     estado: 'red',
     statusText: 'ACTIVA',
   };
@@ -96,7 +97,7 @@ export class CrearReporteComponent implements OnInit {
 
     const reporteFinal = {
       type: this.nuevoReporte.tipo,
-      severity: 'critical',
+      severity: this.nuevoReporte.severity,
       timeReported: 'Ahora',
       address: this.nuevoReporte.ubicacion,
       description: this.nuevoReporte.descripcion,

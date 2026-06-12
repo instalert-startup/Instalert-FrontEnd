@@ -89,7 +89,13 @@
     "TIPO_ROBO_ASALTO": "Robbery / Assault",
     "TIPO_PERSONA_SOSPECHOSA": "Suspicious person",
     "TIPO_ACCIDENTE_VIAL": "Traffic accident",
-    "TIPO_EMERGENCIA_MEDICA": "Medical emergency"
+    "TIPO_EMERGENCIA_MEDICA": "Medical emergency",
+    "SELECCIONAR_NIVEL_RIESGO": "Select risk level",
+    "NIVEL_RIESGO": "Risk level",
+    "RIESGO_BAJO": "Low",
+    "RIESGO_MEDIO": "Medium",
+    "RIESGO_ALTO": "High",
+    "SELECCIONAR_TIPO_INCIDENTE": "Select incident type"
   },
   "SIDEBAR": {
     "SUBTITLE": "Citizen Security",
