@@ -66,8 +66,16 @@ export class CrearReporteComponent implements OnInit {
     });
   }
 
-  cambiarUbicacion() {
-    this.map.setView([-12.122, -77.028], 15);
+  async cambiarUbicacion() {
+    const center = this.map.getCenter();
+
+    this.nuevoReporte.lat = center.lat;
+    this.nuevoReporte.lng = center.lng;
+
+    this.nuevoReporte.ubicacion = await this.obtenerDireccionDesdeCoordenadas(
+      center.lat,
+      center.lng,
+    );
   }
 
   onFileSelected(event: any) {

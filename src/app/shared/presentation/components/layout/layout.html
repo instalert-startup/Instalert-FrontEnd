@@ -21,7 +21,14 @@
           {{ 'SIDEBAR.PANIC_BUTTON' | translate }}
         </a>
 
-        <a mat-list-item routerLink="/app/reportes" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/app/reportes"
+          [ngClass]="{
+            'active-link':
+              router.url.startsWith('/app/reportes') ||
+              router.url.startsWith('/app/crear-reporte')
+          }">
           {{ 'SIDEBAR.REPORTS' | translate }}
         </a>
 

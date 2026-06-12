@@ -5,6 +5,8 @@ import {MatListModule} from '@angular/material/list';
 import {RouterModule} from '@angular/router';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
@@ -15,6 +17,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     RouterModule,
     LanguageSwitcher,
     TranslatePipe,
+    NgClass,
   ],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
@@ -24,5 +27,7 @@ import { TranslatePipe } from '@ngx-translate/core';
  * It contains the sidebar, header, and router outlet.
  */
 export class Layout {
-  title = '';
+  title = 'Botón de pánico';
+
+  constructor(public router: Router) {}
 }
