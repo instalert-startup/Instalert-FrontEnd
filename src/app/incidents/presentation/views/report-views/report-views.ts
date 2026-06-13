@@ -143,48 +143,44 @@ export class ReportesComponent implements OnInit, AfterViewInit {
 
   private mapearNivelRiesgo(valor: string): string {
     const mapa: any = {
+      high: 'high',
       critical: 'high',
       red: 'high',
+
+      medium: 'medium',
       warning: 'medium',
       orange: 'medium',
+
+      low: 'low',
       resolved: 'low',
       info: 'low',
       closed: 'low',
       green: 'low',
     };
 
-    return mapa[valor] || 'high';
+    return mapa[valor?.toLowerCase()] || 'high';
   }
 
   private mapearEstadoCSS(valor: string): string {
     const mapa: any = {
+      high: 'red',
       critical: 'red',
       red: 'red',
+
+      medium: 'orange',
       warning: 'orange',
       orange: 'orange',
+
+      low: 'green',
       resolved: 'green',
       info: 'green',
       closed: 'green',
       green: 'green',
     };
 
-    return mapa[valor] || 'red';
+    return mapa[valor?.toLowerCase()] || 'red';
   }
 
-  private obtenerHexColor(valor: string): string {
-    const mapa: any = {
-      critical: '#ff3333',
-      red: '#ff3333',
-      warning: '#ffaa00',
-      orange: '#ffaa00',
-      resolved: '#00ff88',
-      info: '#00ff88',
-      closed: '#00ff88',
-      green: '#00ff88',
-    };
-
-    return mapa[valor] || '#ff3333';
-  }
 
   private obtenerColorZonaRiesgo(level: string): string {
     const mapa: any = {
@@ -295,5 +291,25 @@ export class ReportesComponent implements OnInit, AfterViewInit {
 
   irACrearReporte() {
     this.router.navigate(['/app/crear-reporte']);
+  }
+
+  private obtenerHexColor(valor: string): string {
+    const mapa: any = {
+      high: '#ff3333',
+      critical: '#ff3333',
+      red: '#ff3333',
+
+      medium: '#ffaa00',
+      warning: '#ffaa00',
+      orange: '#ffaa00',
+
+      low: '#00ff88',
+      resolved: '#00ff88',
+      info: '#00ff88',
+      closed: '#00ff88',
+      green: '#00ff88',
+    };
+
+    return mapa[valor?.toLowerCase()] || '#ff3333';
   }
 }

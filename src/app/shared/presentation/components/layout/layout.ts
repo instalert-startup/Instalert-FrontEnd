@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatListModule} from '@angular/material/list';
-import {RouterModule} from '@angular/router';
-import { LanguageSwitcher } from '../language-switcher/language-switcher';
+import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 @Component({
   selector: 'app-layout',
@@ -15,6 +16,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     RouterModule,
     LanguageSwitcher,
     TranslatePipe,
+    NgClass,
   ],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
@@ -25,4 +27,6 @@ import { TranslatePipe } from '@ngx-translate/core';
  */
 export class Layout {
   title = '';
+
+  constructor(public router: Router) {}
 }

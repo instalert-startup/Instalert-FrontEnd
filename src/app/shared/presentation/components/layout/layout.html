@@ -12,6 +12,7 @@
 
     <div class="nav-section">
       <div class="section-title">{{ 'SIDEBAR.MAIN' | translate }}</div>
+
       <mat-nav-list>
         <a mat-list-item routerLink="/app/dashboard" routerLinkActive="active-link">
           Dashboard
@@ -21,7 +22,14 @@
           {{ 'SIDEBAR.PANIC_BUTTON' | translate }}
         </a>
 
-        <a mat-list-item routerLink="/app/reportes" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/app/reportes"
+          [ngClass]="{
+            'active-link':
+              router.url.startsWith('/app/reportes') ||
+              router.url.startsWith('/app/crear-reporte')
+          }">
           {{ 'SIDEBAR.REPORTS' | translate }}
         </a>
 
@@ -36,7 +44,6 @@
         <a mat-list-item routerLink="/app/configuracion" routerLinkActive="active-link">
           {{ 'SIDEBAR.SETTINGS' | translate }}
         </a>
-
       </mat-nav-list>
     </div>
 
@@ -49,6 +56,7 @@
         <span class="role">{{ 'SIDEBAR.VERIFIED_CITIZEN' | translate }}</span>
       </div>
     </div>
+
   </mat-sidenav>
 
   <mat-sidenav-content class="main-content">
