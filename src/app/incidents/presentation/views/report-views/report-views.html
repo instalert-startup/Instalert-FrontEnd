@@ -26,12 +26,16 @@
       <div class="map-section">
         <div class="map-overlay-info">
           <div class="location-badge">
-            <i class="icon-pin"></i> Miraflores, Lima
+            <i class="icon-pin"></i> {{ 'REPORTES.TU_UBICACION' | translate }}
           </div>
           <div class="critical-badge" *ngIf="incidentesFiltrados.length > 0">
             ● {{ incidentesFiltrados.length }} {{ 'REPORTES.INCIDENTES_EN_ZONA' | translate }}
           </div>
         </div>
+
+        <button class="btn-outline-map location-btn" type="button" (click)="centrarUbicacionActual()">
+          {{ 'REPORTES.CENTRAR_UBICACION' | translate }}
+        </button>
 
         <div id="map-radar" class="map-render"></div>
 

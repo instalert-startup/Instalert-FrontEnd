@@ -525,3 +525,38 @@
   justify-content: flex-end;
   margin-top: 12px;
 }
+
+
+.map-section {
+  position: relative;
+}
+
+.location-btn {
+  position: absolute !important;
+  right: 12px !important;
+  bottom: 60px !important;
+  z-index: 9999 !important;
+}
+
+.btn-outline-map {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 500;
+
+  padding: 8px 14px;
+
+  border: 1px solid #00ff88;
+  border-radius: 8px;
+
+  background: rgba(0, 0, 0, 0.85);
+  color: #00ff88;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.35);
+  transition: all 0.2s ease;
+}

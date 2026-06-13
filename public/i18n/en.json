@@ -95,7 +95,8 @@
     "RIESGO_BAJO": "Low",
     "RIESGO_MEDIO": "Medium",
     "RIESGO_ALTO": "High",
-    "SELECCIONAR_TIPO_INCIDENTE": "Select incident type"
+    "SELECCIONAR_TIPO_INCIDENTE": "Select incident type",
+    "CENTRAR_UBICACION": "Center my location"
   },
   "SIDEBAR": {
     "SUBTITLE": "Citizen Security",

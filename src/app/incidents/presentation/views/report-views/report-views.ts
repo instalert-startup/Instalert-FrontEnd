@@ -318,6 +318,10 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/app/crear-reporte']);
   }
 
+  centrarUbicacionActual() {
+    this.obtenerUbicacionActual();
+  }
+
   private obtenerHexColor(valor: string): string {
     const mapa: any = {
       high: '#ff3333',

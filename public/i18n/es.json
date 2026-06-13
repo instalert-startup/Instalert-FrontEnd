@@ -95,7 +95,8 @@
     "RIESGO_BAJO": "Bajo",
     "RIESGO_MEDIO": "Medio",
     "RIESGO_ALTO": "Alto",
-    "SELECCIONAR_TIPO_INCIDENTE": "Seleccionar tipo de incidente"
+    "SELECCIONAR_TIPO_INCIDENTE": "Seleccionar tipo de incidente",
+    "CENTRAR_UBICACION": "Centrar mi ubicación"
   },
   "SIDEBAR": {
     "SUBTITLE": "Seguridad Ciudadana",

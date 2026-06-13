@@ -62,7 +62,7 @@ export class CrearReporteComponent implements OnInit {
     });
   }
 
-  private obtenerUbicacionActual() {
+  obtenerUbicacionActual() {
     if (!navigator.geolocation) {
       console.warn('Geolocalización no soportada por este navegador.');
       return;
