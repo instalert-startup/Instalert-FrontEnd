@@ -3,6 +3,7 @@
   <main class="content">
 
     <section class="container">
+
       <div class="success-alert" *ngIf="showSuccessMessage">
         <div>
           <strong>✅ Perfil actualizado correctamente</strong>
@@ -11,14 +12,21 @@
         <button (click)="closeSuccessMessage()">×</button>
       </div>
 
+      <div class="error-alert" *ngIf="storeError()">
+        <div>
+          <strong>❌ Error al guardar</strong>
+          <p>{{ storeError() }}</p>
+        </div>
+      </div>
+
       <section class="card personal-card">
         <h3>Información personal</h3>
         <p>Actualiza tus datos personales.</p>
 
         <div class="personal-grid">
           <div class="photo-section">
-            <div class="avatar-large">MR</div>
-            <button>Cambiar foto</button>
+            <div class="avatar-large">{{ avatarInitials }}</div>
+            <button type="button">Cambiar foto</button>
             <small>JPG, PNG. Máx 2MB</small>
           </div>
 
@@ -40,20 +48,21 @@
 
             <label>
               Correo electrónico
-              <input [(ngModel)]="email" />
+              <input [(ngModel)]="email" type="email" />
             </label>
 
             <label>
               Fecha de nacimiento
-              <input [(ngModel)]="birthDate" />
+              <input [(ngModel)]="birthDate" type="date" />
             </label>
 
             <label>
               Género
               <select [(ngModel)]="gender">
-                <option>Femenino</option>
-                <option>Masculino</option>
-                <option>Otro</option>
+                <option value="">Seleccionar</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Otro">Otro</option>
               </select>
             </label>
           </div>
@@ -70,27 +79,22 @@
             <span>************</span>
           </div>
 
-          <button class="outline-button">🔒 Cambiar contraseña</button>
+          <button class="outline-button" type="button">🔒 Cambiar contraseña</button>
         </div>
       </section>
 
-      <section class="card">
-        <h3>Preferencias</h3>
-        <p>Personaliza tu experiencia en la aplicación.</p>
-
-        <label class="language-row">
-          <strong>Idioma</strong>
-          <select [(ngModel)]="language">
-            <option>Español</option>
-            <option>English</option>
-          </select>
-        </label>
-      </section>
-
       <div class="actions">
-        <button class="cancel" (click)="cancel()">Cancelar</button>
-        <button class="save" (click)="saveChanges()">💾 Guardar cambios</button>
+        <button class="cancel" type="button" (click)="cancel()">Cancelar</button>
+        <button
+          class="save"
+          type="button"
+          (click)="saveChanges()"
+          [disabled]="loading()"
+        >
+          {{ loading() ? 'Guardando...' : '💾 Guardar cambios' }}
+        </button>
       </div>
+
     </section>
   </main>
 </div>

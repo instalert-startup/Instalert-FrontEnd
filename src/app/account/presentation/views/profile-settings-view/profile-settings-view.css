@@ -141,6 +141,30 @@ nav a.active {
   cursor: pointer;
 }
 
+.error-alert {
+  background: rgba(239, 68, 68, 0.13);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  border-radius: 10px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.error-alert strong {
+  color: #f87171;
+}
+
+.error-alert p {
+  margin: 8px 0 0;
+  color: #d1d5db;
+}
+
+.save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .card {
   background: #111827;
   border: 1px solid #263143;

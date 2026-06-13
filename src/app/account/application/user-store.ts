@@ -1,7 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { AuthApi } from '../infrastructure/auth-api';
 import { UserProfile } from '../domain/model/user-profile.entity';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class UserStore {
@@ -10,10 +9,12 @@ export class UserStore {
   private readonly userSignal = signal<UserProfile | null>(null);
   private readonly loadingSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
+  private readonly updateSuccessSignal = signal<boolean>(false);
 
   readonly user = this.userSignal.asReadonly();
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
+  readonly updateSuccess = this.updateSuccessSignal.asReadonly();
   readonly isLoggedIn = computed(() => this.userSignal() !== null);
 
   login(email: string, password: string): void {
@@ -48,9 +49,20 @@ export class UserStore {
   }
 
   updateUser(user: UserProfile): void {
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+    this.updateSuccessSignal.set(false);
     this.api.updateUser(user).subscribe({
-      next: (updated) => this.userSignal.set(updated),
-      error: () => this.errorSignal.set('Error al actualizar perfil'),
+      next: (updated) => {
+        this.userSignal.set(updated);
+        localStorage.setItem('instalert_user', JSON.stringify(updated));
+        this.updateSuccessSignal.set(true);
+        this.loadingSignal.set(false);
+      },
+      error: () => {
+        this.errorSignal.set('Error al actualizar perfil');
+        this.loadingSignal.set(false);
+      },
     });
   }
 }
