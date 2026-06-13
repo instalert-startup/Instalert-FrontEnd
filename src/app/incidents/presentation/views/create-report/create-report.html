@@ -8,20 +8,64 @@
         <label>{{ 'REPORTES.TIPO_INCIDENTE' | translate }}</label>
         <div class="custom-select">
           <select [(ngModel)]="nuevoReporte.tipo" name="tipo" class="dark-select">
-            <option value="Robo / Asalto">{{ 'REPORTES.TIPO_ROBO_ASALTO' | translate }}</option>
-            <option value="Persona sospechosa">{{ 'REPORTES.TIPO_PERSONA_SOSPECHOSA' | translate }}</option>
-            <option value="Accidente Vial">{{ 'REPORTES.TIPO_ACCIDENTE_VIAL' | translate }}</option>
-            <option value="Emergencia Médica">{{ 'REPORTES.TIPO_EMERGENCIA_MEDICA' | translate }}</option>
+
+            <option value="" disabled hidden>
+              {{ 'REPORTES.SELECCIONAR_TIPO_INCIDENTE' | translate }}
+            </option>
+
+            <option value="Robo / Asalto">
+              {{ 'REPORTES.TIPO_ROBO_ASALTO' | translate }}
+            </option>
+
+            <option value="Persona sospechosa">
+              {{ 'REPORTES.TIPO_PERSONA_SOSPECHOSA' | translate }}
+            </option>
+
+            <option value="Accidente Vial">
+              {{ 'REPORTES.TIPO_ACCIDENTE_VIAL' | translate }}
+            </option>
+
+            <option value="Emergencia Médica">
+              {{ 'REPORTES.TIPO_EMERGENCIA_MEDICA' | translate }}
+            </option>
+
           </select>
         </div>
       </div>
 
       <div class="form-group">
         <label>{{ 'REPORTES.FECHA_HORA' | translate }}</label>
-        <input type="datetime-local"
-               class="dark-input"
-               [(ngModel)]="nuevoReporte.fecha"
-               name="fecha">
+        <input
+          type="datetime-local"
+          class="dark-input"
+          [(ngModel)]="nuevoReporte.fecha"
+          name="fecha">
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'REPORTES.NIVEL_RIESGO' | translate }}</label>
+
+        <div class="custom-select">
+          <select [(ngModel)]="nuevoReporte.severity" name="severity" class="dark-select">
+
+            <option value="" disabled hidden>
+              {{ 'REPORTES.SELECCIONAR_NIVEL_RIESGO' | translate }}
+            </option>
+
+            <option value="low">
+              {{ 'REPORTES.RIESGO_BAJO' | translate }}
+            </option>
+
+            <option value="medium">
+              {{ 'REPORTES.RIESGO_MEDIO' | translate }}
+            </option>
+
+            <option value="high">
+              {{ 'REPORTES.RIESGO_ALTO' | translate }}
+            </option>
+
+          </select>
+        </div>
       </div>
     </div>
 

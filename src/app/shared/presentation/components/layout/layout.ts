@@ -3,7 +3,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatListModule} from '@angular/material/list';
 import {RouterModule} from '@angular/router';
-import {LanguageSwitcher} from '../language-switcher/language-switcher';
+import { LanguageSwitcher } from '../language-switcher/language-switcher';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
@@ -12,16 +15,19 @@ import {LanguageSwitcher} from '../language-switcher/language-switcher';
     MatToolbarModule,
     MatListModule,
     RouterModule,
-    LanguageSwitcher
+    LanguageSwitcher,
+    TranslatePipe,
+    NgClass,
   ],
   templateUrl: './layout.html',
-  styleUrl: './layout.css'
+  styleUrl: './layout.css',
 })
 /**
  * Shared presentation component orchestrating the application shell.
  * It contains the sidebar, header, and router outlet.
  */
 export class Layout {
+  title = 'Botón de pánico';
 
-  title = '';
+  constructor(public router: Router) {}
 }

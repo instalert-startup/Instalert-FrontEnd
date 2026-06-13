@@ -23,6 +23,7 @@ export class CrearReporteComponent implements OnInit {
     lat: -12.1222,
     lng: -77.0298,
     fecha: '',
+    severity: '',
     estado: 'red',
     statusText: 'ACTIVA',
   };
@@ -65,8 +66,16 @@ export class CrearReporteComponent implements OnInit {
     });
   }
 
-  cambiarUbicacion() {
-    this.map.setView([-12.122, -77.028], 15);
+  async cambiarUbicacion() {
+    const center = this.map.getCenter();
+
+    this.nuevoReporte.lat = center.lat;
+    this.nuevoReporte.lng = center.lng;
+
+    this.nuevoReporte.ubicacion = await this.obtenerDireccionDesdeCoordenadas(
+      center.lat,
+      center.lng,
+    );
   }
 
   onFileSelected(event: any) {
@@ -96,7 +105,7 @@ export class CrearReporteComponent implements OnInit {
 
     const reporteFinal = {
       type: this.nuevoReporte.tipo,
-      severity: 'critical',
+      severity: this.nuevoReporte.severity,
       timeReported: 'Ahora',
       address: this.nuevoReporte.ubicacion,
       description: this.nuevoReporte.descripcion,
