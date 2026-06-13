@@ -1,88 +1,54 @@
-<div class="page">
+<div class="setup-container">
+  <div class="setup-card">
+    <div class="setup-header">
+      <h2>{{ 'CREAR_COMUNIDAD.TITULO' | translate }}</h2>
+      <p>{{ 'CREAR_COMUNIDAD.SUBTITULO' | translate }}</p>
+    </div>
 
-  <main class="content">
+    <div class="form-group">
+      <label>{{ 'CREAR_COMUNIDAD.NOMBRE' | translate }}</label>
+      <input type="text" [(ngModel)]="communityName" [placeholder]="'CREAR_COMUNIDAD.PH_NOMBRE' | translate">
+    </div>
 
-    <section class="toolbar">
-      <input placeholder="Buscar zona, dirección o lugar en Lima..." />
-      <button>Filtros</button>
-      <button>Actualizar</button>
-    </section>
+    <div class="form-group">
+      <label>{{ 'CREAR_COMUNIDAD.DESC' | translate }}</label>
+      <textarea [(ngModel)]="communityDescription" rows="4" [placeholder]="'CREAR_COMUNIDAD.PH_DESC' | translate"></textarea>
+    </div>
 
-    <section class="body">
-      <div class="map-wrapper">
-        <div id="risk-map"></div>
+    <div class="form-group checkbox-group">
+      <input type="checkbox" id="privateCheck" [(ngModel)]="isPrivate">
+      <label for="privateCheck">
+        <strong>{{ 'CREAR_COMUNIDAD.PRIVADA' | translate }}</strong> <br>
+        <small>{{ 'CREAR_COMUNIDAD.DESC_PRIVADA' | translate }}</small>
+      </label>
+    </div>
 
-        <div class="modal" *ngIf="supportSent">
-          <div class="bell">🔔</div>
-          <h2>Solicitud de ayuda enviada</h2>
-          <p>
-            Tu solicitud fue enviada a usuarios cercanos.
-            Te notificaremos cuando alguien pueda ayudarte.
-          </p>
-          <button class="primary">Ver estado de mi solicitud</button>
-          <button class="secondary" (click)="cancelRequest()">Cancelar solicitud</button>
-        </div>
+    <div class="actions">
+      <button class="btn-primary" (click)="createCommunity()">{{ 'CREAR_COMUNIDAD.BTN_CREAR' | translate }}</button>
+    </div>
+  </div>
 
-        <div class="legend">
-          <h4>NIVELES DE RIESGO</h4>
-          <p><span class="dot red-dot"></span> Alto — Peligroso</p>
-          <p><span class="dot yellow-dot"></span> Medio — Precaución</p>
-          <p><span class="dot green-dot"></span> Bajo — Seguro</p>
-          <p><span class="dot blue"></span> Ubicación del contacto</p>
-          <p><span class="dot green"></span> Usuario en emergencia</p>
-        </div>
-        <div class="contact-location">
-          📍
-          <strong>Tu ubicación</strong>
-        </div>
+  @if (misComunidades.length > 0) {
+    <div class="communities-list">
+      <h3>{{ 'CREAR_COMUNIDAD.MIS_COMUNIDADES' | translate }}</h3>
+      @for (com of misComunidades; track com.id) {
+        <div class="community-card">
+          <div class="com-header">
+            <h4>🛡️ {{ com.nombre }}</h4>
+            <span class="badge" [class.public]="!com.privada">
+              {{ com.privada ? ('CREAR_COMUNIDAD.BADGE_PRIVADA' | translate) : ('CREAR_COMUNIDAD.BADGE_PUBLICA' | translate) }}
+            </span>
+          </div>
+          <p>{{ com.descripcion }}</p>
+          <small>{{ 'CREAR_COMUNIDAD.CREADA' | translate }} {{ com.fechaCreacion | date:'mediumDate' }}</small>
 
-        <div class="emergency-user-location">
-          🚨
-          <strong>María Rodríguez</strong>
-        </div>
-      </div>
-
-      <aside class="support-panel">
-        <h3>SOLICITAR APOYO</h3>
-
-        <div class="status-card" *ngIf="supportSent">
-          <h4>✅ Tu solicitud fue enviada</h4>
-          <p>Los usuarios cercanos recibieron tu alerta y serán notificados.</p>
-          <div class="steps">
-            <span class="done">Enviada</span>
-            <span>En camino</span>
-            <span>Completada</span>
+          <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+            <button class="btn-primary" (click)="invitar(com)" style="padding: 8px 15px; font-size: 14px;">
+              {{ 'CREAR_COMUNIDAD.BTN_INVITAR' | translate }}
+            </button>
           </div>
         </div>
-
-        <h3>USUARIOS CERCANOS</h3>
-
-        <div class="nearby-user" *ngFor="let user of nearbyUsers">
-          <div>
-            <strong>{{ user.name }}</strong>
-            <p>{{ user.distance }}</p>
-          </div>
-
-          <span [class.available]="user.available" [class.unavailable]="!user.available">
-            {{ user.available ? 'Disponible' : 'No disponible' }}
-          </span>
-        </div>
-
-        <div class="security-card">
-          🛡️
-          <p>
-            <strong>Tu seguridad es lo primero</strong><br />
-            Comparte tu ubicación solo con usuarios cercanos.
-          </p>
-        </div>
-
-        <button class="request-button" (click)="sendSupportRequest()">
-          🔔 Solicitar ayuda a comunidad cercana
-        </button>
-        <div class="error-alert" *ngIf="errorMessage">
-        ⚠️ {{ errorMessage }}
-        </div>
-      </aside>
-    </section>
-  </main>
+      }
+    </div>
+  }
 </div>

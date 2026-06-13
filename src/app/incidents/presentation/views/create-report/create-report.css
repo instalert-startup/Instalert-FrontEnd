@@ -100,16 +100,30 @@
 
 .btn-outline-map {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
+  right: 12px;
+  bottom: 12px;
+  z-index: 500;
+
+  padding: 8px 14px;
+
   border: 1px solid #00ff88;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 0.75rem;
+  border-radius: 8px;
+
+  background: rgba(0, 0, 0, 0.85);
+  color: #00ff88;
+
+  font-size: 12px;
+  font-weight: 700;
+
   cursor: pointer;
-  z-index: 10;
+
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-outline-map:hover {
+  background: #00ff88;
+  color: #000;
 }
 
 /* --- MEJORA: Previsualizacion de Imagen --- */

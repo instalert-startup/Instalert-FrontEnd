@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PermissionState } from '../domain/emergency-alert.entity';
+import { PermissionState } from '../domain/entities/emergency-alert.entity';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })

@@ -1,19 +1,21 @@
-import { Component, output, OnInit, OnDestroy } from '@angular/core';
+import { Component, output, input, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-active-alert-status',
   standalone: true,
   imports: [],
   templateUrl: './active-alert-status.html',
-  styleUrl: './active-alert-status.css'
+  styleUrl: './active-alert-status.css',
 })
 export class ActiveAlertStatusComponent implements OnInit, OnDestroy {
   onCancelAlert = output<void>();
+
   currentTime = '';
   elapsedTime = '0:00';
   startTimeStr = '';
   fullDurationStr = '0 segundos';
   showCancelModal = false;
+
   private timer: any;
   private seconds = 0;
 
@@ -21,8 +23,13 @@ export class ActiveAlertStatusComponent implements OnInit, OnDestroy {
     const now = new Date();
     const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const date = now.toLocaleDateString('en-GB');
+
     this.currentTime = `${time} — ${date}`;
-    this.startTimeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    this.startTimeStr = now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
 
     this.timer = setInterval(() => {
       this.seconds++;

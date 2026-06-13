@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { PanicButtonStore } from '../../../application/state/panic-button.store';
+import { AlertHistoryListComponent } from '../../components/alert-history-list/alert-history-list';
 
 @Component({
   selector: 'app-history-view',
-  imports: [],
+  standalone: true,
+  imports: [AlertHistoryListComponent],
   templateUrl: './history-view.html',
   styleUrl: './history-view.css',
 })
-export class HistoryView {}
+export class HistoryViewComponent implements OnInit {
+  public store = inject(PanicButtonStore);
+
+  ngOnInit() {
+    this.store.loadHistory();
+  }
+}

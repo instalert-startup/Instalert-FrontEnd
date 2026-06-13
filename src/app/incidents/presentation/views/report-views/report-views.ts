@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router} from '@angular/router'; // <-- AÑADIMOS Router AQUÍ
+import { Router } from '@angular/router';
 import { ReporteService } from '../../../../shared/services/reporte.service';
 import * as L from 'leaflet';
 
@@ -14,8 +14,29 @@ import * as L from 'leaflet';
 })
 export class ReportesComponent implements OnInit, AfterViewInit {
   radioValue: number = 5.0;
+  selectedRiskLevel: string = 'all';
+
   private map: any;
+
   incidentes: any[] = [];
+  incidentesFiltrados: any[] = [];
+  riskZones: any[] = [];
+
+  get highRiskZonesCount(): number {
+    return this.incidentes.filter((inc) => inc.nivelRiesgo === 'high').length;
+  }
+
+  get mediumRiskZonesCount(): number {
+    return this.incidentes.filter((inc) => inc.nivelRiesgo === 'medium').length;
+  }
+
+  get lowRiskZonesCount(): number {
+    return this.incidentes.filter((inc) => inc.nivelRiesgo === 'low').length;
+  }
+
+  get totalRiskZoneIncidents(): number {
+    return this.incidentes.length;
+  }
 
   constructor(
     private reporteService: ReporteService,
@@ -28,6 +49,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.initMap();
     this.cargarDatos();
+    this.cargarZonasRiesgo();
   }
 
   private initMap() {
@@ -36,12 +58,14 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     }
 
     this.map = L.map('map-radar', {
-      center: [-12.1222, -77.0298],
-      zoom: 15,
+      center: [-12.105, -77.035],
+      zoom: 14,
       zoomControl: false,
     });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(this.map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+    }).addTo(this.map);
 
     setTimeout(() => {
       this.map.invalidateSize();
@@ -68,6 +92,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
               tiempo: inc.tiempo || inc.timeReported || 'Ahora',
               statusText: inc.statusText || inc.status || 'ACTIVO',
               estado: this.mapearEstadoCSS(inc.severity || inc.estado),
+              nivelRiesgo: this.mapearNivelRiesgo(inc.severity || inc.estado),
               hexColor: this.obtenerHexColor(inc.severity || inc.estado),
               coords: [lat, lng],
               esEliminable: inc.id > 104,
@@ -76,46 +101,133 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         });
 
         this.incidentes = [...listaProcesada];
+        this.aplicarFiltroRiesgo();
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error al cargar incidentes:', err),
+    });
+  }
+
+  cargarZonasRiesgo() {
+    this.reporteService.getRiskZones().subscribe({
+      next: (data) => {
+        this.riskZones = data.map((zone: any) => ({
+          ...zone,
+          hexColor: this.obtenerColorZonaRiesgo(zone.level),
+          radio: this.obtenerRadioZonaRiesgo(zone.level),
+        }));
 
         this.addMarkers();
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error al cargar:', err),
+      error: (err) => console.error('Error al cargar zonas de riesgo:', err),
     });
+  }
+
+  cambiarFiltroRiesgo(level: string) {
+    this.selectedRiskLevel = level;
+    this.aplicarFiltroRiesgo();
+  }
+
+  private aplicarFiltroRiesgo() {
+    if (this.selectedRiskLevel === 'all') {
+      this.incidentesFiltrados = [...this.incidentes];
+    } else {
+      this.incidentesFiltrados = this.incidentes.filter(
+        (inc) => inc.nivelRiesgo === this.selectedRiskLevel,
+      );
+    }
+
+    this.addMarkers();
+  }
+
+  private mapearNivelRiesgo(valor: string): string {
+    const mapa: any = {
+      high: 'high',
+      critical: 'high',
+      red: 'high',
+
+      medium: 'medium',
+      warning: 'medium',
+      orange: 'medium',
+
+      low: 'low',
+      resolved: 'low',
+      info: 'low',
+      closed: 'low',
+      green: 'low',
+    };
+
+    return mapa[valor?.toLowerCase()] || 'high';
   }
 
   private mapearEstadoCSS(valor: string): string {
     const mapa: any = {
+      high: 'red',
       critical: 'red',
       red: 'red',
+
+      medium: 'orange',
       warning: 'orange',
       orange: 'orange',
+
+      low: 'green',
       resolved: 'green',
+      info: 'green',
+      closed: 'green',
+      green: 'green',
     };
-    return mapa[valor] || 'red';
+
+    return mapa[valor?.toLowerCase()] || 'red';
   }
 
-  private obtenerHexColor(valor: string): string {
+
+  private obtenerColorZonaRiesgo(level: string): string {
     const mapa: any = {
-      critical: '#ff3333',
-      red: '#ff3333',
-      warning: '#ffaa00',
-      orange: '#ffaa00',
-      resolved: '#00ff88',
-      green: '#00ff88',
+      high: '#ff3333',
+      medium: '#ffaa00',
+      low: '#00ff88',
     };
-    return mapa[valor] || '#ff3333';
+
+    return mapa[level] || '#ff3333';
+  }
+
+  private obtenerRadioZonaRiesgo(level: string): number {
+    const mapa: any = {
+      high: 1400,
+      medium: 1000,
+      low: 700,
+    };
+
+    return mapa[level] || 700;
   }
 
   private addMarkers() {
     if (!this.map) return;
 
     this.map.eachLayer((layer: any) => {
-      if (layer instanceof L.CircleMarker) this.map.removeLayer(layer);
+      if (layer instanceof L.CircleMarker || layer instanceof L.Circle) {
+        this.map.removeLayer(layer);
+      }
     });
 
-    // 1. TU POSICIÓN
+    // 1. ZONAS DE RIESGO / HEATMAP
+    this.riskZones.forEach((zone) => {
+      L.circle([zone.coordinates.lat, zone.coordinates.lng], {
+        radius: zone.radio,
+        fillColor: zone.hexColor,
+        color: zone.hexColor,
+        weight: 2,
+        opacity: 0.6,
+        fillOpacity: 0.1,
+      })
+        .addTo(this.map)
+        .bindPopup(`<b>${zone.name}</b><br>${zone.incidentCount} incidentes`);
+    });
+
+    // 2. TU POSICIÓN
     const miPosicion: [number, number] = [-12.1222, -77.0298];
+
     L.circleMarker(miPosicion, {
       radius: 9,
       fillColor: '#00f2ff',
@@ -126,8 +238,8 @@ export class ReportesComponent implements OnInit, AfterViewInit {
       .addTo(this.map)
       .bindPopup('<b>Tú</b>');
 
-    // 2. INCIDENTES
-    this.incidentes.forEach((inc) => {
+    // 3. INCIDENTES
+    this.incidentesFiltrados.forEach((inc) => {
       L.circleMarker([inc.coords[0], inc.coords[1]], {
         radius: 7,
         fillColor: inc.hexColor,
@@ -136,10 +248,29 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         fillOpacity: 1,
       })
         .addTo(this.map)
-        .bindPopup(`<b>${inc.tipo}</b>`);
+        .bindPopup(`<b>${inc.tipo}</b><br>${inc.statusText}`);
     });
 
     this.map.panTo(miPosicion);
+  }
+
+  seleccionarIncidente(incidente: any) {
+    if (!this.map || !incidente.coords) return;
+
+    const lat = incidente.coords[0];
+    const lng = incidente.coords[1];
+
+    this.map.flyTo([lat, lng], 16, {
+      animate: true,
+      duration: 0.8,
+    });
+
+    setTimeout(() => {
+      L.popup()
+        .setLatLng([lat, lng])
+        .setContent(`<b>${incidente.tipo}</b><br>${incidente.statusText}`)
+        .openOn(this.map);
+    }, 900);
   }
 
   eliminarIncidente(id: any) {
@@ -147,7 +278,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
       this.reporteService.eliminarReporte(id).subscribe({
         next: () => {
           this.incidentes = this.incidentes.filter((inc) => inc.id !== id);
-          this.addMarkers();
+          this.aplicarFiltroRiesgo();
           this.cdr.detectChanges();
         },
       });
@@ -157,9 +288,28 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   onRadioChange(event: any) {
     this.radioValue = parseFloat((event.target as HTMLInputElement).value);
   }
+
   irACrearReporte() {
-    this.router.navigate(['/crear-reporte']);
+    this.router.navigate(['/app/crear-reporte']);
   }
 
+  private obtenerHexColor(valor: string): string {
+    const mapa: any = {
+      high: '#ff3333',
+      critical: '#ff3333',
+      red: '#ff3333',
 
+      medium: '#ffaa00',
+      warning: '#ffaa00',
+      orange: '#ffaa00',
+
+      low: '#00ff88',
+      resolved: '#00ff88',
+      info: '#00ff88',
+      closed: '#00ff88',
+      green: '#00ff88',
+    };
+
+    return mapa[valor?.toLowerCase()] || '#ff3333';
+  }
 }

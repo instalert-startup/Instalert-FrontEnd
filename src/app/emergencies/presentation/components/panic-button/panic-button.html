@@ -24,8 +24,12 @@
       </p>
 
       <div class="location-box">
-        <h4>Lima — Perú</h4>
-        <p>Lat: -17.1936 | Lon: -70.9345 | Precision: 8m</p>
+        <h4>Moquegua — Perú</h4>
+        @if (location()) {
+          <p>Lat: {{ location()!.latitude }} | Lon: {{ location()!.longitude }} | Precision: ±{{ location()!.accuracy }}m</p>
+        } @else {
+          <p>Obteniendo ubicación exacta...</p>
+        }
         <span class="badge-green">GPS capturado automáticamente</span>
       </div>
 

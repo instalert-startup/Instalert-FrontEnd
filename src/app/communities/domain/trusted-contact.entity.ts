@@ -1,9 +1,17 @@
 export interface TrustedContact {
   id: number;
-  userId: number;
   name: string;
-  relationship: string;
-  phone: string;
   email: string;
-  notifyOnAlert: boolean;
+  role: string;
+  currentLocation: string;
+  phone: string;
+  avatar?: string;
+}
+
+export interface ChatMessage {
+  id: number;
+  senderId: number;
+  receiverId: number;
+  content: string;
+  timestamp: string;
 }

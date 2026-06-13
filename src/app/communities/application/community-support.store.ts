@@ -1,45 +1,47 @@
-import { Injectable, inject, signal } from '@angular/core';
-import { CommunityApi } from '../infrastructure/community-api';
+import { Injectable, signal, computed } from '@angular/core';
 import { SupportRequest } from '../domain/support-request.entity';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class CommunitySupportStore {
-  private api = inject(CommunityApi);
 
-  private readonly requestsSignal = signal<SupportRequest[]>([]);
-  private readonly loadingSignal = signal<boolean>(false);
-  private readonly errorSignal = signal<string | null>(null);
+  private readonly alertsSignal = signal<SupportRequest[]>([]);
 
-  readonly requests = this.requestsSignal.asReadonly();
-  readonly loading = this.loadingSignal.asReadonly();
-  readonly error = this.errorSignal.asReadonly();
+
+  readonly alerts = this.alertsSignal.asReadonly();
+  readonly activeAlertsCount = computed(
+    () => this.alertsSignal().filter((a) => a.status === 'Activa').length,
+  );
 
   constructor() {
-    this.loadRequests();
+    this.loadFromStorage();
   }
 
-  loadRequests(): void {
-    this.loadingSignal.set(true);
-    this.api
-      .getSupportRequests()
-      .pipe(takeUntilDestroyed())
-      .subscribe({
-        next: (data) => {
-          this.requestsSignal.set(data);
-          this.loadingSignal.set(false);
-        },
-        error: () => {
-          this.errorSignal.set('Error al cargar solicitudes');
-          this.loadingSignal.set(false);
-        },
-      });
+  private loadFromStorage() {
+    const saved = localStorage.getItem('instalert_alerts_db');
+    if (saved) {
+      this.alertsSignal.set(JSON.parse(saved));
+    }
   }
 
-  createRequest(request: Omit<SupportRequest, 'id'>): void {
-    this.api.createSupportRequest(request).subscribe({
-      next: (created) => this.requestsSignal.update((list) => [...list, created]),
-      error: () => this.errorSignal.set('Error al crear solicitud'),
-    });
+  createAlert(alertData: Omit<SupportRequest, 'id' | 'timestamp' | 'status'>) {
+    const currentAlerts = this.alertsSignal();
+    const newAlert: SupportRequest = {
+      ...alertData,
+      id: Date.now(),
+      timestamp: new Date().toISOString(),
+      status: 'Activa',
+    };
+
+    const updatedAlerts = [newAlert, ...currentAlerts];
+    this.alertsSignal.set(updatedAlerts);
+    localStorage.setItem('instalert_alerts_db', JSON.stringify(updatedAlerts));
+  }
+
+  markAsAttended(alertId: number) {
+    const updatedAlerts = this.alertsSignal().map((alert) =>
+      alert.id === alertId ? { ...alert, status: 'Atendida' as const } : alert,
+    );
+    this.alertsSignal.set(updatedAlerts);
+    localStorage.setItem('instalert_alerts_db', JSON.stringify(updatedAlerts));
   }
 }

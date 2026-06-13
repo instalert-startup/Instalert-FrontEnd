@@ -28,16 +28,14 @@ export const routes: Routes = [
       {
         path: 'comunidades',
         loadComponent: () =>
-          import('./communities/presentation/views/community-alerts-view/community-alerts-view').then(
-            (m) => m.CommunityAlertsView,
+          import('./communities/presentation/views/monitoring-panel-view/monitoring-panel-view').then(
+            (m) => m.MonitoringPanelView,
           ),
       },
       {
         path: 'mapa-riesgo',
-        loadComponent: () =>
-          import('./incidents/presentation/views/risk-map-view/risk-map-view').then(
-            (m) => m.RiskMapViewComponent,
-          ),
+        redirectTo: 'reportes',
+        pathMatch: 'full',
       },
       {
         path: 'reportes',

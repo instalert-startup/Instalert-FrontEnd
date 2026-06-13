@@ -1,60 +1,84 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { CommunityApi } from '../infrastructure/community-api';
-import { TrustedContact } from '../domain/trusted-contact.entity';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TrustedContact, ChatMessage } from '../domain/trusted-contact.entity';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class ContactManagementStore {
-  private api = inject(CommunityApi);
+  private communityApi = inject(CommunityApi);
 
-  private readonly contactsSignal = signal<TrustedContact[]>([]);
-  private readonly loadingSignal = signal<boolean>(false);
-  private readonly errorSignal = signal<string | null>(null);
+  private contactsSubject = new BehaviorSubject<TrustedContact[]>([]);
+  contacts$ = this.contactsSubject.asObservable();
 
-  readonly contacts = this.contactsSignal.asReadonly();
-  readonly loading = this.loadingSignal.asReadonly();
-  readonly error = this.errorSignal.asReadonly();
+  private messagesSubject = new BehaviorSubject<ChatMessage[]>([]);
+  messages$ = this.messagesSubject.asObservable();
 
   constructor() {
-    this.loadContacts();
+    this.loadMessagesFromStorage();
   }
 
-  loadContacts(): void {
-    this.loadingSignal.set(true);
-    this.api
-      .getContacts()
-      .pipe(takeUntilDestroyed())
-      .subscribe({
-        next: (data) => {
-          this.contactsSignal.set(data);
-          this.loadingSignal.set(false);
-        },
-        error: () => {
-          this.errorSignal.set('Error al cargar contactos');
-          this.loadingSignal.set(false);
-        },
-      });
-  }
+  loadContacts(currentUserId: number) {
+    this.communityApi.getUsers().subscribe((users) => {
 
-  addContact(contact: Omit<TrustedContact, 'id'>): void {
-    this.api.createContact(contact).subscribe({
-      next: (created) => this.contactsSignal.update((list) => [...list, created]),
-      error: () => this.errorSignal.set('Error al agregar contacto'),
+      const filtered = users.filter((u) => u.id !== currentUserId);
+
+
+      const keyGruposUsuario = `instalert_grupos_${currentUserId}`;
+      const misGrupos = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
+
+
+      this.contactsSubject.next([...filtered, ...misGrupos]);
     });
   }
 
-  updateContact(contact: TrustedContact): void {
-    this.api.updateContact(contact).subscribe({
-      next: (updated) =>
-        this.contactsSignal.update((list) => list.map((c) => (c.id === updated.id ? updated : c))),
-      error: () => this.errorSignal.set('Error al actualizar contacto'),
-    });
+  private loadMessagesFromStorage() {
+    const stored = localStorage.getItem('instalert_chat_db');
+    this.messagesSubject.next(stored ? JSON.parse(stored) : []);
   }
 
-  deleteContact(id: number): void {
-    this.api.deleteContact(id).subscribe({
-      next: () => this.contactsSignal.update((list) => list.filter((c) => c.id !== id)),
-      error: () => this.errorSignal.set('Error al eliminar contacto'),
-    });
+  sendMessage(senderId: number, receiverId: number, content: string) {
+    const currentMessages = this.messagesSubject.value;
+    const newMsg: ChatMessage = {
+      id: currentMessages.length + 1,
+      senderId,
+      receiverId,
+      content,
+      timestamp: new Date().toISOString(),
+    };
+
+    const updatedMessages = [...currentMessages, newMsg];
+    this.messagesSubject.next(updatedMessages);
+
+    localStorage.setItem('instalert_chat_db', JSON.stringify(updatedMessages));
+  }
+
+  addCommunityChat(community: any) {
+    const currentContacts = this.contactsSubject.value;
+
+
+    if (currentContacts.find((c) => c.id === community.id)) return;
+
+    const newGroupChat = {
+      id: Number(community.id),
+      name: `🛡️ ${community.nombre}`,
+      role: 'Grupo Vecinal',
+      currentLocation: community.privada ? 'Privado' : 'Público',
+    } as TrustedContact;
+
+
+    const updatedContacts = [...currentContacts, newGroupChat];
+    this.contactsSubject.next(updatedContacts);
+
+
+    const currentUser = JSON.parse(localStorage.getItem('instalert_user') || '{}');
+    if (currentUser.id) {
+      const keyGruposUsuario = `instalert_grupos_${currentUser.id}`;
+      const misGruposGuardados = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
+
+      misGruposGuardados.push(newGroupChat);
+      localStorage.setItem(keyGruposUsuario, JSON.stringify(misGruposGuardados));
+    }
   }
 }

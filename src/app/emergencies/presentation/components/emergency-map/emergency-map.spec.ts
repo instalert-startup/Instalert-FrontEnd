@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RiskMapView } from './risk-map-view';
+import { EmergencyMap } from './emergency-map';
 
-describe('RiskMapView', () => {
-  let component: RiskMapView;
-  let fixture: ComponentFixture<RiskMapView>;
+describe('EmergencyMap', () => {
+  let component: EmergencyMap;
+  let fixture: ComponentFixture<EmergencyMap>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RiskMapView],
+      imports: [EmergencyMap],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RiskMapView);
+    fixture = TestBed.createComponent(EmergencyMap);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
