@@ -1,12 +1,11 @@
-import {Component} from '@angular/core';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatListModule} from '@angular/material/list';
-import {RouterModule} from '@angular/router';
-import { LanguageSwitcher } from '../language-switcher/language-switcher';
-import { TranslatePipe } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 @Component({
   selector: 'app-layout',
@@ -27,7 +26,7 @@ import { NgClass } from '@angular/common';
  * It contains the sidebar, header, and router outlet.
  */
 export class Layout {
-  title = 'Botón de pánico';
+  title = '';
 
   constructor(public router: Router) {}
 }

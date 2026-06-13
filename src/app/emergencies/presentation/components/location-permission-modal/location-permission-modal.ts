@@ -5,7 +5,7 @@ import { Component, input, output } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './location-permission-modal.html',
-  styleUrl: './location-permission-modal.css'
+  styleUrl: './location-permission-modal.css',
 })
 export class LocationPermissionModal {
   modalState = input<'request' | 'denied'>('request');

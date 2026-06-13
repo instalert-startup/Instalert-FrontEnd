@@ -5,6 +5,8 @@ import { GpsConfirmationComponent } from '../../components/gps-confirmation/gps-
 import { PanicButtonComponent } from '../../components/panic-button/panic-button';
 import { ActiveAlertStatusComponent } from '../../components/active-alert-status/active-alert-status';
 import { AlertHistoryListComponent } from '../../components/alert-history-list/alert-history-list';
+import { EmergencyMapComponent } from '../../components/emergency-map/emergency-map';
+
 @Component({
   selector: 'app-emergencies-view',
   standalone: true,
@@ -14,6 +16,7 @@ import { AlertHistoryListComponent } from '../../components/alert-history-list/a
     PanicButtonComponent,
     ActiveAlertStatusComponent,
     AlertHistoryListComponent,
+    EmergencyMapComponent,
   ],
   templateUrl: './emergencies-view.html',
   styleUrl: './emergencies-view.css',
@@ -24,8 +27,7 @@ export class EmergenciesViewComponent implements OnInit {
 
   ngOnInit() {
     this.store.loadHistory();
-
-    if (this.store.permissionState() === 'granted' && !this.store.locationConfirmed()) {
+    if (this.store.permissionState() === 'granted') {
       this.fetchLocation();
     }
   }
