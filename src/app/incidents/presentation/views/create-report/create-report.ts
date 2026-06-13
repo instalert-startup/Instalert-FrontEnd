@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
@@ -15,7 +15,6 @@ import * as L from 'leaflet';
   styleUrls: ['./create-report.css'],
 })
 export class CrearReporteComponent implements OnInit {
-  // 1. Objeto inicial unificado para evitar errores de TypeScript
   nuevoReporte = {
     tipo: '',
     ubicacion: '',
@@ -30,6 +29,7 @@ export class CrearReporteComponent implements OnInit {
 
   previewUrl: string | null = null;
   private map: any;
+  private marker: any;
 
   constructor(
     private reporteService: ReporteService,
@@ -38,8 +38,8 @@ export class CrearReporteComponent implements OnInit {
 
   ngOnInit() {
     this.nuevoReporte.ubicacion = `Lat: ${this.nuevoReporte.lat.toFixed(4)}, Lng: ${this.nuevoReporte.lng.toFixed(4)}`;
-
     this.initMap();
+    this.obtenerUbicacionActual();
   }
 
   private initMap() {
@@ -49,21 +49,46 @@ export class CrearReporteComponent implements OnInit {
       attribution: '© OpenStreetMap contributors',
     }).addTo(this.map);
 
-    const marker = L.marker([this.nuevoReporte.lat, this.nuevoReporte.lng], {
+    this.marker = L.marker([this.nuevoReporte.lat, this.nuevoReporte.lng], {
       draggable: true,
     }).addTo(this.map);
 
-    // 2. Actualización de coordenadas al arrastrar el marcador
-    marker.on('dragend', () => {
-      const position = marker.getLatLng();
+    this.marker.on('dragend', () => {
+      const position = this.marker.getLatLng();
 
-      // Actualizamos las variables individuales para que publicarReporte() las encuentre
       this.nuevoReporte.lat = position.lat;
       this.nuevoReporte.lng = position.lng;
-
-      // Actualizamos el texto que se ve en el badge del mapa
       this.nuevoReporte.ubicacion = `Lat: ${position.lat.toFixed(4)}, Lng: ${position.lng.toFixed(4)}`;
     });
+  }
+
+  private obtenerUbicacionActual() {
+    if (!navigator.geolocation) {
+      console.warn('Geolocalización no soportada por este navegador.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        this.nuevoReporte.lat = lat;
+        this.nuevoReporte.lng = lng;
+        this.nuevoReporte.ubicacion = `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+
+        this.map.setView([lat, lng], 16);
+        this.marker.setLatLng([lat, lng]);
+      },
+      (error) => {
+        console.warn('No se pudo obtener la ubicación actual:', error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      },
+    );
   }
 
   async cambiarUbicacion() {
@@ -71,6 +96,8 @@ export class CrearReporteComponent implements OnInit {
 
     this.nuevoReporte.lat = center.lat;
     this.nuevoReporte.lng = center.lng;
+
+    this.marker.setLatLng([center.lat, center.lng]);
 
     this.nuevoReporte.ubicacion = await this.obtenerDireccionDesdeCoordenadas(
       center.lat,
@@ -88,8 +115,6 @@ export class CrearReporteComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-
-  // 3. Función de publicación corregida
 
   async publicarReporte() {
     if (!this.nuevoReporte.fecha) {
@@ -132,13 +157,10 @@ export class CrearReporteComponent implements OnInit {
       );
 
       const data = await response.json();
-
       const address = data.address || {};
 
       const calle = address.road || address.pedestrian || address.footway || '';
-
       const numero = address.house_number || '';
-
       const distrito = address.suburb || address.neighbourhood || address.city_district || '';
 
       const direccionFormateada = [`${calle} ${numero}`.trim(), distrito]

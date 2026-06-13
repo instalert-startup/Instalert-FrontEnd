@@ -17,6 +17,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   selectedRiskLevel: string = 'all';
 
   private map: any;
+  private userPosition: [number, number] = [-12.1222, -77.0298];
 
   incidentes: any[] = [];
   incidentesFiltrados: any[] = [];
@@ -48,6 +49,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.initMap();
+    this.obtenerUbicacionActual();
     this.cargarDatos();
     this.cargarZonasRiesgo();
   }
@@ -58,7 +60,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     }
 
     this.map = L.map('map-radar', {
-      center: [-12.105, -77.035],
+      center: this.userPosition,
       zoom: 14,
       zoomControl: false,
     });
@@ -70,6 +72,35 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.map.invalidateSize();
     }, 400);
+  }
+
+  private obtenerUbicacionActual() {
+    if (!navigator.geolocation) {
+      console.warn('Geolocalización no soportada por este navegador.');
+      this.addMarkers();
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.userPosition = [position.coords.latitude, position.coords.longitude];
+
+        if (this.map) {
+          this.map.setView(this.userPosition, 15);
+        }
+
+        this.addMarkers();
+      },
+      (error) => {
+        console.warn('No se pudo obtener la ubicación actual:', error);
+        this.addMarkers();
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      },
+    );
   }
 
   cargarDatos() {
@@ -181,7 +212,6 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     return mapa[valor?.toLowerCase()] || 'red';
   }
 
-
   private obtenerColorZonaRiesgo(level: string): string {
     const mapa: any = {
       high: '#ff3333',
@@ -211,7 +241,6 @@ export class ReportesComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // 1. ZONAS DE RIESGO / HEATMAP
     this.riskZones.forEach((zone) => {
       L.circle([zone.coordinates.lat, zone.coordinates.lng], {
         radius: zone.radio,
@@ -225,10 +254,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         .bindPopup(`<b>${zone.name}</b><br>${zone.incidentCount} incidentes`);
     });
 
-    // 2. TU POSICIÓN
-    const miPosicion: [number, number] = [-12.1222, -77.0298];
-
-    L.circleMarker(miPosicion, {
+    L.circleMarker(this.userPosition, {
       radius: 9,
       fillColor: '#00f2ff',
       color: '#ffffff',
@@ -238,7 +264,6 @@ export class ReportesComponent implements OnInit, AfterViewInit {
       .addTo(this.map)
       .bindPopup('<b>Tú</b>');
 
-    // 3. INCIDENTES
     this.incidentesFiltrados.forEach((inc) => {
       L.circleMarker([inc.coords[0], inc.coords[1]], {
         radius: 7,
@@ -251,7 +276,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         .bindPopup(`<b>${inc.tipo}</b><br>${inc.statusText}`);
     });
 
-    this.map.panTo(miPosicion);
+    this.map.panTo(this.userPosition);
   }
 
   seleccionarIncidente(incidente: any) {
