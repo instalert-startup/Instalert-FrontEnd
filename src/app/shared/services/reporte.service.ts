@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReporteService {
-  private incidentsUrl = 'http://localhost:3000/incidents';
-  private riskZonesUrl = 'http://localhost:3000/risk-zones';
+  private incidentsUrl = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.incidentsEndpointPath}`;
+  private riskZonesUrl = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.riskZonesEndpointPath}`;
 
   constructor(private http: HttpClient) {}
 
