@@ -3,34 +3,38 @@
   <main class="content">
 
     <section class="container">
-      <div class="success-alert" *ngIf="showSuccessMessage">
+      <div class="success-alert" *ngIf="success()">
         <div>
-          <strong>✅ Perfil actualizado correctamente</strong>
-          <p>Los cambios se guardaron exitosamente.</p>
+          <strong>✅ {{ success() }}</strong>
         </div>
-        <button (click)="closeSuccessMessage()">×</button>
+        <button (click)="dismissMessage()">×</button>
+      </div>
+
+      <div class="error-alert" *ngIf="error()">
+        <div>
+          <strong>⚠️ {{ error() }}</strong>
+        </div>
+        <button (click)="dismissMessage()">×</button>
       </div>
 
       <section class="card personal-card">
         <h3>Información personal</h3>
-        <p>Actualiza tus datos personales.</p>
+        <p>Puedes actualizar tu teléfono y correo. El resto de tus datos no se puede modificar por ahora.</p>
 
         <div class="personal-grid">
           <div class="photo-section">
-            <div class="avatar-large">MR</div>
-            <button>Cambiar foto</button>
-            <small>JPG, PNG. Máx 2MB</small>
+            <div class="avatar-large">{{ initials }}</div>
           </div>
 
           <div class="form-grid">
             <label>
               Nombres
-              <input [(ngModel)]="firstName" />
+              <input [value]="firstName" disabled />
             </label>
 
             <label>
               Apellidos
-              <input [(ngModel)]="lastName" />
+              <input [value]="lastName" disabled />
             </label>
 
             <label>
@@ -40,17 +44,19 @@
 
             <label>
               Correo electrónico
-              <input [(ngModel)]="email" />
+              <input [(ngModel)]="email" type="email" />
             </label>
 
             <label>
               Fecha de nacimiento
-              <input [(ngModel)]="birthDate" />
+              <input [(ngModel)]="birthDate" type="date" />
             </label>
+
 
             <label>
               Género
               <select [(ngModel)]="gender">
+                <option value="">Selecciona</option>
                 <option>Femenino</option>
                 <option>Masculino</option>
                 <option>Otro</option>
@@ -64,13 +70,35 @@
         <h3>Seguridad</h3>
         <p>Gestiona tu contraseña.</p>
 
-        <div class="security-row">
+        <div class="security-row" *ngIf="!showPasswordForm">
           <div class="password-box">
             <strong>Contraseña</strong>
             <span>************</span>
           </div>
 
-          <button class="outline-button">🔒 Cambiar contraseña</button>
+          <button class="outline-button" (click)="togglePasswordForm()">🔒 Cambiar contraseña</button>
+        </div>
+
+        <div class="password-form" *ngIf="showPasswordForm">
+          <label>
+            Contraseña actual
+            <input [(ngModel)]="currentPassword" type="password" />
+          </label>
+          <label>
+            Nueva contraseña
+            <input [(ngModel)]="newPassword" type="password" />
+          </label>
+          <label>
+            Confirmar nueva contraseña
+            <input [(ngModel)]="confirmPassword" type="password" />
+          </label>
+
+          <p class="error-text" *ngIf="passwordError">{{ passwordError }}</p>
+
+          <div class="password-actions">
+            <button class="cancel" (click)="togglePasswordForm()">Cancelar</button>
+            <button class="save" (click)="changePassword()">Guardar contraseña</button>
+          </div>
         </div>
       </section>
 
@@ -89,8 +117,9 @@
 
       <div class="actions">
         <button class="cancel" (click)="cancel()">Cancelar</button>
-        <button class="save" (click)="saveChanges()">💾 Guardar cambios</button>
+        <button class="save" (click)="saveChanges()">Guardar cambios</button>
       </div>
     </section>
   </main>
 </div>
+

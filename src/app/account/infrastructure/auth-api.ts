@@ -17,7 +17,14 @@ export class AuthApi {
     return this.http.get<UserProfile>(`${this.url}/${id}`);
   }
 
-  updateUser(user: UserProfile): Observable<UserProfile> {
-    return this.http.put<UserProfile>(`${this.url}/${user.id}`, user);
+  updateUser(
+    id: number,
+    data: { email: string; phone: string; birthDate: string; gender: string },
+  ): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.url}/${id}`, data);
+  }
+
+  changePassword(id: number, currentPassword: string, newPassword: string): Observable<void> {
+    return this.http.put<void>(`${this.url}/${id}/password`, { currentPassword, newPassword });
   }
 }

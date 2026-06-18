@@ -7,4 +7,6 @@ export interface UserProfile {
   currentLocation: string;
   avatar: string;
   phone: string;
+  birthDate?: string;
+  gender?: string;
 }

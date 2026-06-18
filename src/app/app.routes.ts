@@ -65,13 +65,6 @@ export const routes: Routes = [
             (m) => m.ProfileSettingsView,
           ),
       },
-      {
-        path: 'configuracion',
-        loadComponent: () =>
-          import('./account/presentation/views/setting-view/setting-view').then(
-            (m) => m.SettingsViewComponent,
-          ),
-      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
