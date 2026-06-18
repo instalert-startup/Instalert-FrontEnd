@@ -129,17 +129,15 @@ export class CrearReporteComponent implements OnInit {
     this.nuevoReporte.ubicacion = direccion;
 
     const reporteFinal = {
+      userId: 1,
       type: this.nuevoReporte.tipo,
       severity: this.nuevoReporte.severity,
-      timeReported: 'Ahora',
+      timeReported: this.nuevoReporte.fecha,
       address: this.nuevoReporte.ubicacion,
       description: this.nuevoReporte.descripcion,
       status: 'ACTIVA',
-      coordinates: {
-        lat: this.nuevoReporte.lat,
-        lng: this.nuevoReporte.lng,
-      },
-      fecha: this.nuevoReporte.fecha,
+      latitude: this.nuevoReporte.lat,
+      longitude: this.nuevoReporte.lng,
     };
 
     this.reporteService.crearReporte(reporteFinal).subscribe({
