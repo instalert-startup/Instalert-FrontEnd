@@ -7,6 +7,13 @@ export const routes: Routes = [
       import('./account/presentation/views/login-view/login-view').then((m) => m.LoginView),
   },
   {
+    path: 'register',
+    loadComponent: () =>
+      import('./account/presentation/views/register-view/register-view').then(
+        (m) => m.RegisterView,
+      ),
+  },
+  {
     path: 'app',
     loadComponent: () =>
       import('./shared/presentation/components/layout/layout').then((m) => m.Layout),

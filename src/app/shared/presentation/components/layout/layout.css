@@ -162,3 +162,22 @@
   padding: 24px;
   overflow-y: auto;
 }
+.logout-btn {
+  background: transparent;
+  border: 1px solid #2a3a50;
+  border-radius: 8px;
+  color: #6b7280;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.logout-btn:hover {
+  border-color: #ef3b3b;
+  color: #ef3b3b;
+}
