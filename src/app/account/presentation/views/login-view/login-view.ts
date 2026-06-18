@@ -33,4 +33,8 @@ export class LoginView {
     if (!this.email || !this.password) return;
     this.userStore.login(this.email, this.password);
   }
+  goToRegister(): void {
+    this.router.navigate(['/register']);
+  }
 }
+

@@ -50,11 +50,14 @@
     <span class="spacer"></span>
 
     <div class="user-profile">
-      <div class="avatar">MR</div>
+      <div class="avatar">{{ initials }}</div>
       <div class="user-details">
-        <span class="name">María Rodríguez</span>
-        <span class="role">{{ 'SIDEBAR.VERIFIED_CITIZEN' | translate }}</span>
+        <span class="name">{{ user()?.name || 'Usuario' }}</span>
+        <span class="role">{{ user()?.role || 'Ciudadano' }}</span>
       </div>
+      <button class="logout-btn" (click)="logout()">
+        <span>⏻</span>
+      </button>
     </div>
 
   </mat-sidenav>
