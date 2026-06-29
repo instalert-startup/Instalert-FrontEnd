@@ -23,12 +23,16 @@ export class LoginView {
 
   constructor() {
     effect(() => {
-      if (this.userStore.user()) {
-        this.router.navigate(['/app/dashboard']);
+      const user = this.userStore.user();
+      if (user) {
+        if (user.role === 'Admin') {
+          this.router.navigate(['/admin']);
+        } else {
+          this.router.navigate(['/app/dashboard']);
+        }
       }
     });
   }
-
   login(): void {
     if (!this.email || !this.password) return;
     this.userStore.login(this.email, this.password);
