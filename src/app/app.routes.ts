@@ -6,11 +6,19 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./account/presentation/views/login-view/login-view').then((m) => m.LoginView),
   },
+
   {
     path: 'register',
     loadComponent: () =>
       import('./account/presentation/views/register-view/register-view').then(
         (m) => m.RegisterView,
+      ),
+  },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./admin/presentation/views/admin-dashboard/admin-dashboard').then(
+        (m) => m.AdminDashboardComponent,
       ),
   },
   {
@@ -58,6 +66,7 @@ export const routes: Routes = [
             (m) => m.CrearReporteComponent,
           ),
       },
+
       {
         path: 'perfil',
         loadComponent: () =>
