@@ -1,0 +1,67 @@
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <span class="shield">!</span>
+      <div>
+        <h2>InstAlert</h2>
+        <span>Panel Admin</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button [class.active]="activeSection() === 'users'" (click)="activeSection.set('users')">
+        👥 Usuarios
+      </button>
+      <button [class.active]="activeSection() === 'stats'" (click)="activeSection.set('stats')">
+        📊 Estadísticas
+      </button>
+    </nav>
+
+    <button class="logout-btn" (click)="logout()">⏻ Cerrar sesión</button>
+  </aside>
+
+  <!-- Main content -->
+  <main class="admin-main">
+
+    <!-- Stats cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-number">{{ totalUsers }}</span>
+        <span class="stat-label">Total usuarios</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number admin">{{ totalAdmins }}</span>
+        <span class="stat-label">Admins</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number citizen">{{ totalCitizens }}</span>
+        <span class="stat-label">Ciudadanos</span>
+      </div>
+    </div>
+
+    <!-- Users section -->
+    <div class="section-card" *ngIf="activeSection() === 'users'">
+      <div class="section-header">
+        <h3>Gestión de Usuarios</h3>
+        <button class="refresh-btn" (click)="loadUsers()">↻ Actualizar</button>
+      </div>
+
+      <table class="users-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users()">
+          <td>{{ user.id }}</td>
+          <td>
+            <div class="user-cell">
+              <div class="avatar">{{ user.name.slice(0,2).toUpperCase()
