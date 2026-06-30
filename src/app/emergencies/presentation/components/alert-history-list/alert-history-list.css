@@ -48,3 +48,18 @@
   background-color: rgba(0, 200, 83, 0.1);
   color: #00C853;
 }
+.btn-cancel-small {
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid #ef3b3b;
+  border-radius: 6px;
+  color: #ef3b3b;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-small:hover {
+  background: #ef3b3b;
+  color: white;
+}
