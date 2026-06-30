@@ -87,19 +87,26 @@
           *ngFor="let item of incidentesFiltrados"class="card"[ngClass]="'border-' + item.estado"(click)="seleccionarIncidente(item)">
           <div class="card-top">
             <span [ngClass]="'text-' + item.estado">{{ item.tipo }}</span>
-
-            <button
-              *ngIf="item.esEliminable"
-              (click)="eliminarIncidente(item.id)"
-              class="btn-delete">
-              {{ 'REPORTES.ELIMINAR' | translate }}
-            </button>
-
             <span class="time">{{ item.tiempo }}</span>
           </div>
 
           <p class="address">{{ item.direccion }}</p>
           <p class="desc" *ngIf="item.description">{{ item.description }}</p>
+
+          <div class="card-actions">
+            <button
+              (click)="cambiarEstado(item, $event)"
+              class="btn-action btn-resolve">
+              {{ item.statusText === 'ACTIVE' ? '✓ Marcar resuelto' : '↺ Reactivar' }}
+            </button>
+
+            <button
+              *ngIf="item.esEliminable"
+              (click)="eliminarIncidente(item.id)"
+              class="btn-action btn-delete">
+              🗑 Eliminar
+            </button>
+          </div>
 
           <div class="card-bottom">
             <div class="icons" *ngIf="item.estado === 'red'">🔴 🛡️</div>

@@ -309,6 +309,20 @@ export class ReportesComponent implements OnInit, AfterViewInit {
       });
     }
   }
+  cambiarEstado(item: any, event: Event) {
+    event.stopPropagation();
+    const nuevoStatus = item.statusText === 'ACTIVE' ? 'RESOLVED' : 'ACTIVE';
+
+    this.reporteService.actualizarEstado(item.id, nuevoStatus).subscribe({
+      next: (updated) => {
+        item.statusText = updated.status;
+        item.estado = this.mapearEstadoCSS(updated.status);
+        item.nivelRiesgo = this.mapearNivelRiesgo(updated.status);
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error al actualizar estado:', err),
+    });
+  }
 
   onRadioChange(event: any) {
     this.radioValue = parseFloat((event.target as HTMLInputElement).value);

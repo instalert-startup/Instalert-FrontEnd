@@ -27,4 +27,8 @@ export class ReporteService {
   eliminarReporte(id: string | number) {
     return this.http.delete(`${this.incidentsUrl}/${id}`);
   }
+
+  actualizarEstado(id: string | number, status: string): Observable<any> {
+    return this.http.put<any>(`${this.incidentsUrl}/${id}/status`, { status });
+  }
 }

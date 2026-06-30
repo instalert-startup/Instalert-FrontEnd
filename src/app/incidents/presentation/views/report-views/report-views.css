@@ -372,16 +372,38 @@
   border-radius: 8px;
 }
 
+.card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.btn-action {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.btn-resolve {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.btn-resolve:hover {
+  background: #3b82f6;
+  color: white;
+}
+
 .btn-delete {
   background: rgba(255, 51, 51, 0.1);
   color: #ff3333;
-  border: 1px solid #ff3333;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: all 0.2s;
+  border-color: #ff3333;
 }
 
 .btn-delete:hover {
