@@ -22,6 +22,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
   incidentes: any[] = [];
   incidentesFiltrados: any[] = [];
   riskZones: any[] = [];
+  emergencias: any[] = [];
 
   get highRiskZonesCount(): number {
     return this.incidentes.filter((inc) => inc.nivelRiesgo === 'high').length;
@@ -52,6 +53,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
     this.obtenerUbicacionActual();
     this.cargarDatos();
     this.cargarZonasRiesgo();
+    this.cargarEmergencias();
   }
 
   private initMap() {
@@ -152,6 +154,16 @@ export class ReportesComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error al cargar zonas de riesgo:', err),
+    });
+  }
+
+  cargarEmergencias() {
+    this.reporteService.getEmergencies().subscribe({
+      next: (data) => {
+        this.emergencias = data.filter((e: any) => e.status === 'Activa');
+        this.addMarkers();
+      },
+      error: (err) => console.error('Error al cargar emergencias:', err),
     });
   }
 
@@ -274,6 +286,27 @@ export class ReportesComponent implements OnInit, AfterViewInit {
       })
         .addTo(this.map)
         .bindPopup(`<b>${inc.tipo}</b><br>${inc.statusText}`);
+    });
+
+    this.emergencias.forEach((em) => {
+      if (em.location) {
+        const match = em.location.match(/Lat:\s*([-\d.]+)\s*\|\s*Lon:\s*([-\d.]+)/);
+        if (match) {
+          const lat = parseFloat(match[1]);
+          const lng = parseFloat(match[2]);
+
+          const emergIcon = L.divIcon({
+            className: '',
+            html: `<div style="width:18px;height:18px;background:#ef3b3b;border:3px solid white;border-radius:50%;box-shadow:0 0 12px rgba(239,59,59,0.9);"></div>`,
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+          });
+
+          L.marker([lat, lng], { icon: emergIcon })
+            .addTo(this.map)
+            .bindPopup(`<b>🚨 Emergencia activa</b><br>${em.type}`);
+        }
+      }
     });
 
     this.map.panTo(this.userPosition);
