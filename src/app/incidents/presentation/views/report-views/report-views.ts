@@ -113,8 +113,8 @@ export class ReportesComponent implements OnInit, AfterViewInit {
           if (!idsVistos.has(inc.id)) {
             idsVistos.add(inc.id);
 
-            const lat = inc.coords ? inc.coords[0] : inc.coordinates?.lat || -12.1222;
-            const lng = inc.coords ? inc.coords[1] : inc.coordinates?.lng || -77.0298;
+            const lat = inc.latitude ?? inc.coords?.[0] ?? inc.coordinates?.lat ?? -12.1222;
+            const lng = inc.longitude ?? inc.coords?.[1] ?? inc.coordinates?.lng ?? -77.0298;
 
             listaProcesada.push({
               ...inc,
@@ -126,7 +126,7 @@ export class ReportesComponent implements OnInit, AfterViewInit {
               nivelRiesgo: this.mapearNivelRiesgo(inc.severity || inc.estado),
               hexColor: this.obtenerHexColor(inc.severity || inc.estado),
               coords: [lat, lng],
-              esEliminable: inc.id > 104,
+              esEliminable: true,
             });
           }
         });

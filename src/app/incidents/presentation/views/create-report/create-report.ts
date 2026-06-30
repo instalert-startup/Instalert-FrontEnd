@@ -131,11 +131,11 @@ export class CrearReporteComponent implements OnInit {
     const reporteFinal = {
       userId: 1,
       type: this.nuevoReporte.tipo,
-      severity: this.nuevoReporte.severity,
+      severity: this.nuevoReporte.severity.toUpperCase(),
       timeReported: this.nuevoReporte.fecha,
       address: this.nuevoReporte.ubicacion,
       description: this.nuevoReporte.descripcion,
-      status: 'ACTIVA',
+      status: 'ACTIVE',
       latitude: this.nuevoReporte.lat,
       longitude: this.nuevoReporte.lng,
     };
