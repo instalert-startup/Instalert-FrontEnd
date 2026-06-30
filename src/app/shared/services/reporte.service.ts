@@ -20,6 +20,12 @@ export class ReporteService {
     return this.http.get<any[]>(this.riskZonesUrl);
   }
 
+  getEmergencies(): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${environment.serverBaseUrl}${environment.apiBasePath}/emergencies`,
+    );
+  }
+
   crearReporte(reporte: any): Observable<any> {
     return this.http.post<any>(this.incidentsUrl, reporte);
   }
