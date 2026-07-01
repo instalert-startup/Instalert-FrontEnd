@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverBaseUrl: 'https://instalert-api-zdxk.onrender.com',
+  serverBaseUrl: 'https://instalert-backend-production.up.railway.app',
   apiBasePath: '/api/v1',
   usersEndpointPath: '/users',
   incidentsEndpointPath: '/incidents',
