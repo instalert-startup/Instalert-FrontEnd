@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-register-view',
   standalone: true,
-  imports: [FormsModule, NgIf, RouterModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './register-view.html',
   styleUrl: './register-view.css',
 })
