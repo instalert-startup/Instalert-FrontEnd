@@ -18,7 +18,9 @@
   width: 250px;
   background-color: #1A1E24 !important;
   border-right: none;
+  box-sizing: border-box; /* no cambia nada aquí */
 }
+
 
 ::ng-deep .sidebar .mat-drawer-inner-container {
   display: flex;
