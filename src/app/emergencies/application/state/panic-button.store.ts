@@ -33,7 +33,7 @@ export class PanicButtonStore {
       const history = await firstValueFrom(this.httpAdapter.getHistory());
       this.alertHistory.set(history.reverse());
     } catch (error) {
-      this.alertHistory.set([]);
+      console.error("Error al cargar historial desde la BD", error);
     }
   }
 
@@ -64,7 +64,6 @@ export class PanicButtonStore {
     const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const newEmergency: Partial<AlertHistory> = {
-      id: Date.now(),
       userId: 1,
       type: 'Botón de pánico (Emergencia)',
       location: this.currentLocation() ? this.currentLocation()!.format() : 'Ubicación desconocida',
@@ -78,12 +77,11 @@ export class PanicButtonStore {
       const savedEmergency = await firstValueFrom(this.httpAdapter.saveEmergency(newEmergency));
       this.activeAlertId.set(savedEmergency.id);
       this.alertHistory.update((history) => [savedEmergency, ...history]);
+      this.dashboardState.set('active');
     } catch (error) {
-      this.activeAlertId.set(newEmergency.id as number);
-      this.alertHistory.update((history) => [newEmergency as AlertHistory, ...history]);
+      console.error("El backend no pudo guardar la emergencia", error);
+      alert("Error de conexión con el servidor. No se pudo emitir la alerta.");
     }
-
-    this.dashboardState.set('active');
   }
 
   async cancelAlert() {
@@ -106,18 +104,11 @@ export class PanicButtonStore {
       this.alertHistory.update((history) =>
         history.map((alert) => (alert.id === currentId ? updatedEmergency : alert)),
       );
+      this.activeAlertId.set(null);
+      this.dashboardState.set('canceled');
     } catch (error) {
-      this.alertHistory.update((history) =>
-        history.map((alert) =>
-          alert.id === currentId
-            ? { ...alert, status: 'Cancelada', statusClass: 'badge-canceled' }
-            : alert,
-        ),
-      );
+      console.error("Error cancelando en BD", error);
     }
-
-    this.activeAlertId.set(null);
-    this.dashboardState.set('canceled');
   }
 
   resetToIdle() {
