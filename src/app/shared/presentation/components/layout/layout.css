@@ -14,6 +14,13 @@
   font-family: 'Inter', Roboto, sans-serif;
 }
 
+.content-area {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  min-height: 0; /* normalmente no altera nada */
+}
+
 .logo-text h2 {
   color: #FFFFFF;
   margin: 0;
