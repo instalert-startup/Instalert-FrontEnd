@@ -19,10 +19,6 @@
   font-weight: 600;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
 .logo-container {
   padding: 24px 20px;
   display: flex;
