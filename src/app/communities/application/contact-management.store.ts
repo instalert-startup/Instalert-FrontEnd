@@ -81,4 +81,22 @@ export class ContactManagementStore {
       localStorage.setItem(keyGruposUsuario, JSON.stringify(misGruposGuardados));
     }
   }
+
+  removeCommunityChat(communityId: number) {
+
+    const currentContacts = this.contactsSubject.value;
+    const updatedContacts = currentContacts.filter((c) => c.id !== communityId);
+    this.contactsSubject.next(updatedContacts);
+
+
+    const currentUser = JSON.parse(localStorage.getItem('instalert_user') || '{}');
+    if (currentUser.id) {
+      const keyGruposUsuario = `instalert_grupos_${currentUser.id}`;
+      const misGruposGuardados = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
+
+      const gruposActualizados = misGruposGuardados.filter((g: any) => g.id !== communityId);
+      localStorage.setItem(keyGruposUsuario, JSON.stringify(gruposActualizados));
+    }
+  }
+
 }
