@@ -14,35 +14,10 @@
   font-family: 'Inter', Roboto, sans-serif;
 }
 
-.content-area {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-  min-height: 0; /* normalmente no altera nada */
-}
-
-.logo-text h2 {
-  color: #FFFFFF;
-  margin: 0;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0; /* valor por defecto */
-}
-
 .sidebar {
   width: 250px;
   background-color: #1A1E24 !important;
   border-right: none;
-  box-sizing: border-box; /* no cambia nada aquí */
-}
-
-::ng-deep .mat-mdc-nav-list .mdc-list-item {
-  padding: 0 20px !important;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  border-left: 6px solid transparent !important;
-  cursor: pointer;
-  outline: none; /* efecto nulo en este contexto */
 }
 
 ::ng-deep .sidebar .mat-drawer-inner-container {
