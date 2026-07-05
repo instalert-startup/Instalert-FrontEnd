@@ -17,6 +17,10 @@ export class AuthApi {
     return this.http.get<UserProfile>(`${this.url}/${id}`);
   }
 
+  login(email: string, password: string): Observable<UserProfile> {
+    return this.http.post<UserProfile>(`${this.url}/login`, { email, password });
+  }
+
   updateUser(
     id: number,
     data: { email: string; phone: string; birthDate: string; gender: string },

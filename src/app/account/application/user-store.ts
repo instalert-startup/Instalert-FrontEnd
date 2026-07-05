@@ -20,19 +20,19 @@ export class UserStore {
   login(email: string, password: string): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
-    this.api.getUsers().subscribe({
-      next: (users) => {
-        const found = users.find((u) => u.email === email && (u as any).password === password);
-        if (found) {
-          this.userSignal.set(found);
-          localStorage.setItem('instalert_user', JSON.stringify(found));
-        } else {
-          this.errorSignal.set('Correo o contraseña incorrectos');
-        }
+
+    this.api.login(email, password).subscribe({
+      next: (user) => {
+        this.userSignal.set(user);
+        localStorage.setItem('instalert_user', JSON.stringify(user));
         this.loadingSignal.set(false);
       },
-      error: () => {
-        this.errorSignal.set('Error al conectar con el servidor');
+      error: (err) => {
+        if (err.status === 401) {
+          this.errorSignal.set('Correo o contraseña incorrectos');
+        } else {
+          this.errorSignal.set('Error al conectar con el servidor');
+        }
         this.loadingSignal.set(false);
       },
     });
