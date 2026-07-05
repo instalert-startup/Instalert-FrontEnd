@@ -24,22 +24,22 @@
         </app-panic-button>
 
         <div class="location-card">
-          <h3>Moquegua, Perú</h3>
+          <h3>Tu ubicación actual</h3>
           <div class="loc-details">Lat: {{ store.currentLocation()?.latitude }} | Lon: {{ store.currentLocation()?.longitude }} | Precision: ±{{ store.currentLocation()?.accuracy }}m</div>
           <div class="loc-badge">GPS capturado automáticamente</div>
         </div>
 
         <div class="stats-grid">
           <div class="stat-card">
-            <span class="stat-value text-red">2</span>
+            <span class="stat-value text-red">{{ activeIncidentsCount }}</span>
             <span class="stat-label">Alertas<br>Activas</span>
           </div>
           <div class="stat-card">
-            <span class="stat-value text-orange">14</span>
-            <span class="stat-label">Usuarios<br>en Zona</span>
+            <span class="stat-value text-orange">{{ totalUsersCount }}</span>
+            <span class="stat-label">Usuarios<br>Registrados</span>
           </div>
           <div class="stat-card">
-            <span class="stat-value text-green">98%</span>
+            <span class="stat-value text-green">{{ store.currentLocation()?.accuracy ? '98%' : '—' }}</span>
             <span class="stat-label">GPS<br>Precisión</span>
           </div>
           <div class="stat-card">
@@ -57,8 +57,8 @@
       <div class="right-column">
         <div class="radar-panel">
           <div class="radar-header">
-            <span class="radar-badge dark">Moquegua, PE</span>
-            <span class="radar-badge alert">⚠️ Mapa en tiempo real</span>
+            <span class="radar-badge dark">Mapa en vivo</span>
+            <span class="radar-badge alert">Mapa en tiempo real</span>
           </div>
 
           <div class="radar-map" style="padding: 0; height: 350px; overflow: hidden; border-radius: 0 0 12px 12px;">
@@ -76,30 +76,23 @@
         <div class="active-alerts-section">
           <div class="section-header">ALERTAS ACTIVAS EN ZONA</div>
           <div class="alerts-list">
-            <div class="alert-item">
-              <div class="alert-icon bg-red"></div>
-              <div class="alert-info">
-                <h4>Robo a mano armada</h4>
-                <p>Jr. Moquegua 240 • A 320m • Hace 4 min</p>
+            @for (incident of nearbyIncidents; track incident.id) {
+              <div class="alert-item">
+                <div class="alert-icon" [class]="incident.status === 'ACTIVE' ? 'bg-red' : 'bg-green'">
+                  {{ incident.status === 'ACTIVE' ? '' : '✓' }}
+                </div>
+                <div class="alert-info">
+                  <h4>{{ incident.type }}</h4>
+                  <p>{{ incident.address }} • {{ timeAgo(incident.timeReported) }}</p>
+                </div>
+                <div class="alert-status" [class]="incident.status === 'ACTIVE' ? 'st-red' : 'st-green'">
+                  {{ incident.status === 'ACTIVE' ? 'Activa' : 'Resuelta' }}
+                </div>
               </div>
-              <div class="alert-status st-red">Activa</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon bg-yellow">!</div>
-              <div class="alert-info">
-                <h4>Persona sospechosa</h4>
-                <p>Av. Ejército 140 • A 680m • Hace 12 min</p>
-              </div>
-              <div class="alert-status st-yellow">En revisión</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon bg-green">✓</div>
-              <div class="alert-info">
-                <h4>Zona despejada — Centro</h4>
-                <p>Plaza de Armas • A 1.2km • Hace 28 min</p>
-              </div>
-              <div class="alert-status st-green">Resuelta</div>
-            </div>
+            }
+            @if (nearbyIncidents.length === 0) {
+              <p style="color:#6b7280; font-size:13px; padding: 12px;">No hay incidentes reportados.</p>
+            }
           </div>
         </div>
       </div>
@@ -127,9 +120,7 @@
             <div class="notifications-box">
               <h4 class="box-header">NOTIFICACIONES DE CANCELACION</h4>
               <ul class="notifications-list">
-                <li>14 usuarios notificados de cancelacion</li>
-                <li>Comisaria de Moquegua informada</li>
-                <li>Serenazgo Municipal informado</li>
+                <li>Notificación de cancelación enviada</li>
                 <li>Registrada como Cancelada en historial</li>
               </ul>
             </div>

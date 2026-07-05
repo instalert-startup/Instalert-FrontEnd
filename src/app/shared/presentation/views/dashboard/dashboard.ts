@@ -1,7 +1,25 @@
-import { Component, inject, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, inject, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { PanicButtonStore } from '../../../../emergencies/application/state/panic-button.store';
+import { environment } from '../../../../../environments/environment';
 import * as L from 'leaflet';
+
+interface UserSummary {
+  id: number;
+  name: string;
+  role: string;
+  phone: string;
+}
+
+interface IncidentSummary {
+  id: number;
+  type: string;
+  address: string;
+  severity: string;
+  timeReported: string;
+  status: string;
+}
 
 @Component({
   selector: 'app-dashboard-view',
@@ -12,46 +30,106 @@ import * as L from 'leaflet';
 })
 export class DashboardViewComponent implements AfterViewInit, OnDestroy {
   public store = inject(PanicButtonStore);
+  private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
 
   riskLevel: 'safe' | 'warning' | 'danger' = 'warning';
   private map!: L.Map;
 
-  connectedContacts = [
-    { id: 1, name: 'Juan Pérez', distance: '0.8 km', risk: 'high', avatar: 'JP' },
-    { id: 2, name: 'María López', distance: '1.5 km', risk: 'medium', avatar: 'ML' },
-    { id: 3, name: 'Ricardo Díaz', distance: '3.2 km', risk: 'low', avatar: 'RD' },
-  ];
+  totalCitizens = 0;
+  resolvedReportsCount = 0;
+  totalCommunities = 0;
 
-  recentReports = [
-    {
-      id: 1,
-      type: 'Actividad sospechosa',
-      location: 'Av. Simón Bolívar 450',
-      time: 'Hace 12 min',
-      severity: 'medium',
-    },
-    {
-      id: 2,
-      type: 'Robo a transeúnte',
-      location: 'Calle Tacna 120',
-      time: 'Hace 45 min',
-      severity: 'high',
-    },
-    {
-      id: 3,
-      type: 'Alumbrado público fallado',
-      location: 'Parque de la Juventud',
-      time: 'Hace 2 horas',
-      severity: 'low',
-    },
-  ];
+  recentReports: { id: number; type: string; location: string; time: string; severity: string }[] =
+    [];
+  nearbyContacts: { id: number; name: string; avatar: string; role: string }[] = [];
 
   ngAfterViewInit(): void {
     this.initMap();
+    this.loadUsersSummary();
+    this.loadRecentReports();
+    this.loadCommunitiesCount();
   }
 
   ngOnDestroy(): void {
     if (this.map) this.map.remove();
+  }
+
+  private loadUsersSummary(): void {
+    const url = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.usersEndpointPath}`;
+    this.http.get<UserSummary[]>(url).subscribe({
+      next: (users) => {
+        this.totalCitizens = users.length;
+
+        const currentUser = JSON.parse(localStorage.getItem('instalert_user') || '{}');
+        this.nearbyContacts = users
+          .filter((u) => u.id !== currentUser.id)
+          .slice(0, 3)
+          .map((u) => ({
+            id: u.id,
+            name: u.name,
+            avatar: (u.name || '')
+              .split(' ')
+              .map((n) => n[0])
+              .join('')
+              .toUpperCase()
+              .slice(0, 2),
+            role: u.role,
+          }));
+
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error cargando usuarios', err),
+    });
+  }
+
+  private loadCommunitiesCount(): void {
+    const url = `${environment.serverBaseUrl}${environment.apiBasePath}/communities`;
+    this.http.get<any[]>(url).subscribe({
+      next: (communities) => {
+        this.totalCommunities = communities.length;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error cargando comunidades', err),
+    });
+  }
+
+  private loadRecentReports(): void {
+    const url = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.incidentsEndpointPath}`;
+    this.http.get<IncidentSummary[]>(url).subscribe({
+      next: (incidents) => {
+        this.resolvedReportsCount = incidents.filter((i) => i.status === 'RESOLVED').length;
+
+        this.recentReports = incidents
+          .slice()
+          .reverse()
+          .slice(0, 3)
+          .map((i) => ({
+            id: i.id,
+            type: i.type,
+            location: i.address,
+            time: this.timeAgo(i.timeReported),
+            severity: (i.severity || 'medium').toLowerCase(),
+          }));
+
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error cargando reportes', err),
+    });
+  }
+
+  private timeAgo(dateStr: string): string {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const diffMs = Date.now() - date.getTime();
+    const diffMin = Math.floor(diffMs / 60000);
+
+    if (diffMin < 1) return 'Ahora mismo';
+    if (diffMin < 60) return `Hace ${diffMin} min`;
+    const diffHrs = Math.floor(diffMin / 60);
+    if (diffHrs < 24) return `Hace ${diffHrs} h`;
+    const diffDays = Math.floor(diffHrs / 24);
+    return `Hace ${diffDays} d`;
   }
 
   private initMap(): void {
