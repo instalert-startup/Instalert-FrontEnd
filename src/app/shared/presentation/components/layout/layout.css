@@ -21,6 +21,13 @@
   box-sizing: border-box; /* no cambia nada aquí */
 }
 
+::ng-deep .mat-mdc-nav-list .mdc-list-item {
+  padding: 0 20px !important;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-left: 6px solid transparent !important;
+  cursor: pointer;
+  outline: none; /* efecto nulo en este contexto */
+}
 
 ::ng-deep .sidebar .mat-drawer-inner-container {
   display: flex;
