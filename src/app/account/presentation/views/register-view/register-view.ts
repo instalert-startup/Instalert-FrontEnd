@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, effect } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../environments/environment';
+import { UserStore } from '../../../application/user-store';
 
 @Component({
   selector: 'app-register-view',
@@ -12,7 +11,7 @@ import { environment } from '../../../../../environments/environment';
   styleUrl: './register-view.css',
 })
 export class RegisterView {
-  private http = inject(HttpClient);
+  private userStore = inject(UserStore);
   private router = inject(Router);
 
   name = '';
@@ -22,27 +21,26 @@ export class RegisterView {
   birthDate = '';
   errorMessage = '';
 
+  readonly error = this.userStore.error;
+  readonly loading = this.userStore.loading;
+
+  constructor() {
+    effect(() => {
+      if (this.userStore.user()) {
+        this.router.navigate(['/app/dashboard']);
+      }
+    });
+  }
+
   register(): void {
     if (!this.name || !this.lastName || !this.email || !this.password) {
       this.errorMessage = 'Completa todos los campos.';
       return;
     }
 
-    const newUser = {
-      name: `${this.name} ${this.lastName}`,
-      email: this.email,
-      password: this.password,
-      role: 'Ciudadano verificado',
-      currentLocation: '',
-      avatar: '',
-      phone: '',
-    };
+    this.errorMessage = '';
+    const fullName = `${this.name} ${this.lastName}`;
 
-    const url = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.usersEndpointPath}`;
-
-    this.http.post(url, newUser).subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: () => (this.errorMessage = 'Error al registrarse. Intenta de nuevo.'),
-    });
+    this.userStore.register(fullName, this.email, this.password, '', this.birthDate, '');
   }
 }

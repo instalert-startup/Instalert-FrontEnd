@@ -45,8 +45,13 @@
         @if (errorMessage) {
           <p class="error">{{ errorMessage }}</p>
         }
+        @if (error()) {
+          <p class="error">{{ error() }}</p>
+        }
 
-        <button (click)="register()">Crear cuenta</button>
+        <button (click)="register()" [disabled]="loading()">
+          {{ loading() ? 'Creando cuenta...' : 'Crear cuenta' }}
+        </button>
 
         <div class="links">
           <a routerLink="/login">¿Ya tienes cuenta? <span>Inicia sesión</span></a>
