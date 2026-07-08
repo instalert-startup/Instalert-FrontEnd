@@ -21,15 +21,30 @@ export class ContactManagementStore {
 
   loadContacts(currentUserId: number) {
     this.communityApi.getUsers().subscribe((users) => {
-
       const filtered = users.filter((u) => u.id !== currentUserId);
 
+      this.communityApi.getCommunities().subscribe({
+        next: (communities) => {
+          const visibleCommunities = communities.filter(
+            (c: any) => !c.isPrivate || c.ownerId === currentUserId,
+          );
 
-      const keyGruposUsuario = `instalert_grupos_${currentUserId}`;
-      const misGrupos = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
+          const groupChats = visibleCommunities.map(
+            (c: any) =>
+              ({
+                id: c.id,
+                name: `🛡️ ${c.name}`,
+                role: 'Grupo Vecinal',
+                currentLocation: c.isPrivate ? 'Privado' : 'Público',
+              }) as TrustedContact,
+          );
 
-
-      this.contactsSubject.next([...filtered, ...misGrupos]);
+          this.contactsSubject.next([...filtered, ...groupChats]);
+        },
+        error: () => {
+          this.contactsSubject.next([...filtered]);
+        },
+      });
     });
   }
 
@@ -54,49 +69,9 @@ export class ContactManagementStore {
     localStorage.setItem('instalert_chat_db', JSON.stringify(updatedMessages));
   }
 
-  addCommunityChat(community: any) {
-    const currentContacts = this.contactsSubject.value;
-
-
-    if (currentContacts.find((c) => c.id === community.id)) return;
-
-    const newGroupChat = {
-      id: Number(community.id),
-      name: `🛡️ ${community.nombre}`,
-      role: 'Grupo Vecinal',
-      currentLocation: community.privada ? 'Privado' : 'Público',
-    } as TrustedContact;
-
-
-    const updatedContacts = [...currentContacts, newGroupChat];
-    this.contactsSubject.next(updatedContacts);
-
-
-    const currentUser = JSON.parse(localStorage.getItem('instalert_user') || '{}');
-    if (currentUser.id) {
-      const keyGruposUsuario = `instalert_grupos_${currentUser.id}`;
-      const misGruposGuardados = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
-
-      misGruposGuardados.push(newGroupChat);
-      localStorage.setItem(keyGruposUsuario, JSON.stringify(misGruposGuardados));
-    }
-  }
-
   removeCommunityChat(communityId: number) {
-
     const currentContacts = this.contactsSubject.value;
     const updatedContacts = currentContacts.filter((c) => c.id !== communityId);
     this.contactsSubject.next(updatedContacts);
-
-
-    const currentUser = JSON.parse(localStorage.getItem('instalert_user') || '{}');
-    if (currentUser.id) {
-      const keyGruposUsuario = `instalert_grupos_${currentUser.id}`;
-      const misGruposGuardados = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
-
-      const gruposActualizados = misGruposGuardados.filter((g: any) => g.id !== communityId);
-      localStorage.setItem(keyGruposUsuario, JSON.stringify(gruposActualizados));
-    }
   }
-
 }

@@ -35,7 +35,21 @@ export class InvitationResponseView implements OnInit {
   aceptar() {
     if (!this.comunidadAInvitar) return;
 
-    this.contactStore.addCommunityChat(this.comunidadAInvitar);
+    const keyGruposUsuario = `instalert_grupos_${this.currentUser.id}`;
+    const misGrupos = JSON.parse(localStorage.getItem(keyGruposUsuario) || '[]');
+
+    const yaExiste = misGrupos.find((g: any) => g.id === this.comunidadAInvitar.id);
+    if (!yaExiste) {
+      const groupChat = {
+        id: Number(this.comunidadAInvitar.id),
+        name: `🛡️ ${this.comunidadAInvitar.nombre}`,
+        role: 'Grupo Vecinal',
+        currentLocation: this.comunidadAInvitar.privada ? 'Privado' : 'Público',
+      };
+      misGrupos.push(groupChat);
+      localStorage.setItem(keyGruposUsuario, JSON.stringify(misGrupos));
+    }
+
     this.finalizarProceso();
   }
 

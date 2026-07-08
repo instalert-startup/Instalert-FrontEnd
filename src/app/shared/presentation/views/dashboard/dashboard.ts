@@ -21,6 +21,13 @@ interface IncidentSummary {
   status: string;
 }
 
+interface EmergencySummary {
+  id: number;
+  type: string;
+  location: string;
+  status: string;
+}
+
 @Component({
   selector: 'app-dashboard-view',
   standalone: true,
@@ -33,12 +40,13 @@ export class DashboardViewComponent implements AfterViewInit, OnDestroy {
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
 
-  riskLevel: 'safe' | 'warning' | 'danger' = 'warning';
+  riskLevel: 'safe' | 'warning' | 'danger' = 'safe';
   private map!: L.Map;
 
   totalCitizens = 0;
   resolvedReportsCount = 0;
   totalCommunities = 0;
+  activeEmergenciesCount = 0;
 
   recentReports: { id: number; type: string; location: string; time: string; severity: string }[] =
     [];
@@ -49,6 +57,7 @@ export class DashboardViewComponent implements AfterViewInit, OnDestroy {
     this.loadUsersSummary();
     this.loadRecentReports();
     this.loadCommunitiesCount();
+    this.loadActiveEmergencies();
   }
 
   ngOnDestroy(): void {
@@ -91,6 +100,27 @@ export class DashboardViewComponent implements AfterViewInit, OnDestroy {
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error cargando comunidades', err),
+    });
+  }
+
+  private loadActiveEmergencies(): void {
+    const url = `${environment.serverBaseUrl}${environment.apiBasePath}/emergencies`;
+    this.http.get<EmergencySummary[]>(url).subscribe({
+      next: (emergencies) => {
+        const active = emergencies.filter((e) => e.status === 'Activa');
+        this.activeEmergenciesCount = active.length;
+
+        if (active.length >= 2) {
+          this.riskLevel = 'danger';
+        } else if (active.length === 1) {
+          this.riskLevel = 'warning';
+        } else {
+          this.riskLevel = 'safe';
+        }
+
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error cargando emergencias', err),
     });
   }
 

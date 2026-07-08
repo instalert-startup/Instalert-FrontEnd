@@ -12,13 +12,19 @@
 
     <nav class="sidebar-nav">
       <button [class.active]="activeSection() === 'users'" (click)="activeSection.set('users')">
-        👥 Usuarios
+         Usuarios
       </button>
       <button [class.active]="activeSection() === 'incidents'" (click)="activeSection.set('incidents')">
-        🚨 Incidentes
+         Incidentes
+      </button>
+      <button [class.active]="activeSection() === 'emergencies'" (click)="activeSection.set('emergencies')">
+         Emergencias
+      </button>
+      <button [class.active]="activeSection() === 'communities'" (click)="activeSection.set('communities')">
+         Comunidades
       </button>
       <button [class.active]="activeSection() === 'stats'" (click)="activeSection.set('stats')">
-        📊 Estadísticas
+         Estadísticas
       </button>
     </nav>
 
@@ -27,67 +33,6 @@
 
   <!-- Main content -->
   <main class="admin-main">
-
-    <!-- Stats cards -->
-    <!-- Stats section -->
-    <div class="section-card" *ngIf="activeSection() === 'stats'">
-      <h3>Estadísticas Generales</h3>
-      <div class="stats-grid">
-        <div class="big-stat">
-          <span class="big-number">{{ totalUsers }}</span>
-          <span>Usuarios registrados</span>
-        </div>
-        <div class="big-stat">
-          <span class="big-number admin">{{ totalAdmins }}</span>
-          <span>Administradores</span>
-        </div>
-        <div class="big-stat">
-          <span class="big-number citizen">{{ totalCitizens }}</span>
-          <span>Ciudadanos</span>
-        </div>
-      </div>
-
-      <div class="charts-row">
-        <div class="chart-card">
-          <h4 class="chart-title">Usuarios por rol</h4>
-          <div class="bar-chart">
-            <div class="bar-row" *ngFor="let item of roleBreakdown">
-              <span class="bar-label">{{ item.label }}</span>
-              <div class="bar-track">
-                <div class="bar-fill" [style.width.%]="item.pct" [style.background]="item.color"></div>
-              </div>
-              <span class="bar-value">{{ item.count }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="chart-card">
-          <h4 class="chart-title">Incidentes por severidad</h4>
-          <div class="bar-chart">
-            <div class="bar-row" *ngFor="let item of severityBreakdown">
-              <span class="bar-label">{{ item.label }}</span>
-              <div class="bar-track">
-                <div class="bar-fill" [style.width.%]="item.pct" [style.background]="item.color"></div>
-              </div>
-              <span class="bar-value">{{ item.count }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="chart-card">
-          <h4 class="chart-title">Incidentes por estado</h4>
-          <div class="bar-chart">
-            <div class="bar-row" *ngFor="let item of statusBreakdown">
-              <span class="bar-label">{{ item.label }}</span>
-              <div class="bar-track">
-                <div class="bar-fill" [style.width.%]="item.pct" [style.background]="item.color"></div>
-              </div>
-              <span class="bar-value">{{ item.count }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Users section -->
     <div class="section-card" *ngIf="activeSection() === 'users'">
@@ -160,15 +105,15 @@
           <td>{{ incident.id }}</td>
           <td>{{ incident.type }}</td>
           <td>
-        <span class="role-badge" [class.admin]="incident.severity === 'HIGH'">
-          {{ incident.severity }}
-        </span>
+            <span class="role-badge" [class.admin]="incident.severity === 'HIGH'">
+              {{ incident.severity }}
+            </span>
           </td>
           <td>{{ incident.address }}</td>
           <td>
-        <span class="role-badge" [class.admin]="incident.status === 'ACTIVE'">
-          {{ incident.status }}
-        </span>
+            <span class="role-badge" [class.admin]="incident.status === 'ACTIVE'">
+              {{ incident.status }}
+            </span>
           </td>
           <td>
             <div class="action-btns">
@@ -181,6 +126,98 @@
         </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Emergencies section -->
+    <div class="section-card" *ngIf="activeSection() === 'emergencies'">
+      <div class="section-header">
+        <h3>Gestión de Emergencias</h3>
+        <button class="refresh-btn" (click)="loadEmergencies()">↻ Actualizar</button>
+      </div>
+
+      <table class="users-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Tipo</th>
+          <th>Ubicación</th>
+          <th>Hora</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let emergency of emergencies()">
+          <td>{{ emergency.id }}</td>
+          <td>{{ emergency.userId }}</td>
+          <td>{{ emergency.type }}</td>
+          <td>{{ emergency.location }}</td>
+          <td>{{ emergency.time }}</td>
+          <td>
+            <span class="role-badge" [class.admin]="emergency.status === 'Activa'">
+              {{ emergency.status }}
+            </span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button
+                class="btn-role"
+                *ngIf="emergency.status === 'Activa'"
+                (click)="cancelEmergency(emergency)">
+                ✓ Cancelar
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="emergencies().length === 0" style="color:#6b7280; font-size:13px; padding: 12px;">
+        No hay emergencias registradas.
+      </p>
+    </div>
+    <!-- Communities section -->
+    <div class="section-card" *ngIf="activeSection() === 'communities'">
+      <div class="section-header">
+        <h3>Gestión de Comunidades</h3>
+        <button class="refresh-btn" (click)="loadCommunities()">↻ Actualizar</button>
+      </div>
+
+      <table class="users-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Visibilidad</th>
+          <th>Creador (ID)</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let community of communities()">
+          <td>{{ community.id }}</td>
+          <td>{{ community.name }}</td>
+          <td>{{ community.description || '—' }}</td>
+          <td>
+        <span class="role-badge" [class.admin]="community.isPrivate">
+          {{ community.isPrivate ? 'Privada' : 'Pública' }}
+        </span>
+          </td>
+          <td>{{ community.ownerId }}</td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-delete" (click)="deleteCommunity(community.id)">🗑️ Borrar</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="communities().length === 0" style="color:#6b7280; font-size:13px; padding: 12px;">
+        No hay comunidades registradas.
+      </p>
     </div>
 
 
@@ -217,7 +254,80 @@
           <span>Resueltos</span>
         </div>
       </div>
+
+      <h3 style="margin-top: 32px;">Emergencias</h3>
+      <div class="stats-grid">
+        <div class="big-stat">
+          <span class="big-number">{{ totalEmergencies }}</span>
+          <span>Total registradas</span>
+        </div>
+        <div class="big-stat">
+          <span class="big-number admin">{{ activeEmergencies }}</span>
+          <span>Activas</span>
+        </div>
+        <div class="big-stat">
+          <span class="big-number citizen">{{ canceledEmergencies }}</span>
+          <span>Canceladas</span>
+        </div>
+      </div>
+      <h3 style="margin-top: 32px;">Comunidades</h3>
+      <div class="stats-grid">
+        <div class="big-stat">
+          <span class="big-number">{{ totalCommunities }}</span>
+          <span>Total registradas</span>
+        </div>
+        <div class="big-stat">
+          <span class="big-number admin">{{ privateCommunities }}</span>
+          <span>Privadas</span>
+        </div>
+        <div class="big-stat">
+          <span class="big-number citizen">{{ publicCommunities }}</span>
+          <span>Públicas</span>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <h4 class="chart-title">Usuarios por rol</h4>
+          <div class="bar-chart">
+            <div class="bar-row" *ngFor="let item of roleBreakdown">
+              <span class="bar-label">{{ item.label }}</span>
+              <div class="bar-track">
+                <div class="bar-fill" [style.width.%]="item.pct" [style.background]="item.color"></div>
+              </div>
+              <span class="bar-value">{{ item.count }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h4 class="chart-title">Incidentes por severidad</h4>
+          <div class="bar-chart">
+            <div class="bar-row" *ngFor="let item of severityBreakdown">
+              <span class="bar-label">{{ item.label }}</span>
+              <div class="bar-track">
+                <div class="bar-fill" [style.width.%]="item.pct" [style.background]="item.color"></div>
+              </div>
+              <span class="bar-value">{{ item.count }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h4 class="chart-title">Incidentes por estado</h4>
+          <div class="bar-chart">
+            <div class="bar-row" *ngFor="let item of statusBreakdown">
+              <span class="bar-label">{{ item.label }}</span>
+              <div class="bar-track">
+                <div class="bar-fill" [style.width.%]="item.pct" [style.background]="item.color"></div>
+              </div>
+              <span class="bar-value">{{ item.count }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
     <!-- Edit user modal -->
     <div class="modal-overlay" *ngIf="editingUser()">
       <div class="modal-box">

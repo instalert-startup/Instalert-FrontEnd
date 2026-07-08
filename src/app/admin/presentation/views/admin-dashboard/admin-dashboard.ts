@@ -26,6 +26,24 @@ interface IncidentAdmin {
   timeReported: string;
 }
 
+interface EmergencyAdmin {
+  id: number;
+  userId: number;
+  type: string;
+  location: string;
+  time: string;
+  status: string;
+  statusClass: string;
+}
+
+interface CommunityAdmin {
+  id: number;
+  name: string;
+  description: string;
+  isPrivate: boolean;
+  ownerId: number;
+}
+
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -40,7 +58,9 @@ export class AdminDashboardComponent implements OnInit {
 
   users = signal<UserAdmin[]>([]);
   incidents = signal<IncidentAdmin[]>([]);
-  activeSection = signal<'users' | 'incidents' | 'stats'>('users');
+  emergencies = signal<EmergencyAdmin[]>([]);
+  communities = signal<CommunityAdmin[]>([]);
+  activeSection = signal<'users' | 'incidents' | 'emergencies' | 'communities' | 'stats'>('users');
 
   editingUser = signal<UserAdmin | null>(null);
   editEmail = '';
@@ -68,14 +88,34 @@ export class AdminDashboardComponent implements OnInit {
     return this.incidents().filter((i) => i.status === 'RESOLVED').length;
   }
 
+  get totalEmergencies() {
+    return this.emergencies().length;
+  }
+  get activeEmergencies() {
+    return this.emergencies().filter((e) => e.status === 'Activa').length;
+  }
+  get canceledEmergencies() {
+    return this.emergencies().filter((e) => e.status === 'Cancelada').length;
+  }
+
+  get totalCommunities() {
+    return this.communities().length;
+  }
+  get privateCommunities() {
+    return this.communities().filter((c) => c.isPrivate).length;
+  }
+  get publicCommunities() {
+    return this.communities().filter((c) => !c.isPrivate).length;
+  }
+
   get severityBreakdown() {
     const total = this.incidents().length || 1;
     const high = this.incidents().filter((i) => i.severity === 'HIGH').length;
     const medium = this.incidents().filter((i) => i.severity === 'MEDIUM').length;
     const low = this.incidents().filter((i) => i.severity === 'LOW').length;
     return [
-      { label: 'Alta', count: high, pct: Math.round((high / total) * 100), color: '#ef3b3b' },
-      { label: 'Media', count: medium, pct: Math.round((medium / total) * 100), color: '#f59e0b' },
+      { label: 'Alta', count: high, pct: Math.round((high / total) * 100), color: '#6366f1' },
+      { label: 'Media', count: medium, pct: Math.round((medium / total) * 100), color: '#38bdf8' },
       { label: 'Baja', count: low, pct: Math.round((low / total) * 100), color: '#10b981' },
     ];
   }
@@ -87,13 +127,13 @@ export class AdminDashboardComponent implements OnInit {
         label: 'Admins',
         count: this.totalAdmins,
         pct: Math.round((this.totalAdmins / total) * 100),
-        color: '#ef3b3b',
+        color: '#6366f1',
       },
       {
         label: 'Ciudadanos',
         count: this.totalCitizens,
         pct: Math.round((this.totalCitizens / total) * 100),
-        color: '#3b82f6',
+        color: '#38bdf8',
       },
     ];
   }
@@ -105,7 +145,7 @@ export class AdminDashboardComponent implements OnInit {
         label: 'Activos',
         count: this.activeIncidents,
         pct: Math.round((this.activeIncidents / total) * 100),
-        color: '#ef3b3b',
+        color: '#6366f1',
       },
       {
         label: 'Resueltos',
@@ -118,10 +158,14 @@ export class AdminDashboardComponent implements OnInit {
 
   private usersUrl = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.usersEndpointPath}`;
   private incidentsUrl = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.incidentsEndpointPath}`;
+  private emergenciesUrl = `${environment.serverBaseUrl}${environment.apiBasePath}${environment.emergenciesEndpointPath}`;
+  private communitiesUrl = `${environment.serverBaseUrl}${environment.apiBasePath}/communities`;
 
   ngOnInit(): void {
     this.loadUsers();
     this.loadIncidents();
+    this.loadEmergencies();
+    this.loadCommunities();
   }
 
   loadUsers(): void {
@@ -135,6 +179,20 @@ export class AdminDashboardComponent implements OnInit {
     this.http.get<IncidentAdmin[]>(this.incidentsUrl).subscribe({
       next: (data) => this.incidents.set(data),
       error: () => console.error('Error cargando incidentes'),
+    });
+  }
+
+  loadEmergencies(): void {
+    this.http.get<EmergencyAdmin[]>(this.emergenciesUrl).subscribe({
+      next: (data) => this.emergencies.set(data.reverse()),
+      error: () => console.error('Error cargando emergencias'),
+    });
+  }
+
+  loadCommunities(): void {
+    this.http.get<CommunityAdmin[]>(this.communitiesUrl).subscribe({
+      next: (data) => this.communities.set(data),
+      error: () => console.error('Error cargando comunidades'),
     });
   }
 
@@ -199,6 +257,26 @@ export class AdminDashboardComponent implements OnInit {
     this.http.delete(`${this.incidentsUrl}/${id}`).subscribe({
       next: () => this.loadIncidents(),
       error: () => console.error('Error eliminando incidente'),
+    });
+  }
+
+  cancelEmergency(emergency: EmergencyAdmin): void {
+    this.http
+      .patch(`${this.emergenciesUrl}/${emergency.id}`, {
+        status: 'Cancelada',
+        statusClass: 'badge-canceled',
+      })
+      .subscribe({
+        next: () => this.loadEmergencies(),
+        error: () => console.error('Error cancelando emergencia'),
+      });
+  }
+
+  deleteCommunity(id: number): void {
+    if (!confirm('¿Estás seguro de eliminar esta comunidad?')) return;
+    this.http.delete(`${this.communitiesUrl}/${id}`).subscribe({
+      next: () => this.loadCommunities(),
+      error: () => console.error('Error eliminando comunidad'),
     });
   }
 
